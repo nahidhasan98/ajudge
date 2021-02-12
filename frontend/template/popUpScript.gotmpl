@@ -1,0 +1,167 @@
+{{ define "popUpScript" }}
+
+{{/* html section for popUp */}}
+<div id="popUp">
+    {{ if eq .PopUpCause "registrationDone" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h2>Registration Successful</h2>
+            <h3>A verification link was sent to your provided email. Go to the link for email verification.</h3>
+            <h3>The link will expire in 30 minutes.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "tokenInvalid" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h2>Invalid Token</h2>
+            <h3><a href="/resetToken">Request</a> for a new Token</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "tokenAlreadyVerified" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h2>Your Email Already Verified.</h2>
+            <h3>Login to your account & enjoy your journey with us.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "tokenExpired" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h2>Token Expired</h2>
+            <h3><a href="/resetToken">Request</a> for a new Token</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "tokenVerifiedNow" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h2>Email Verified</h2>
+            <h3>Login to your account & enjoy your journey with us.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "tokenRequest" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h2>New Token Sent</h2>
+            <h3>A verification link was sent to your provided email. Go to the link for email verification.</h3>
+            <h3>The link will expire in 30 minutes.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "passwordRequest" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h2>Password Reset Link Sent</h2>
+            <h3>A password reset link was sent to your provided email. Go to the link for password reset.</h3>
+            <h3>The link will expire in 30 minutes.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "passTokenInvalid" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h2>Token Invalid</h2>
+            <h3><a href="/resetPassword">Get</a> a new token for resetting your password.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "passTokenExpired" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h2>Token Expired</h2>
+            <h3><a href="/resetPassword">Get</a> a new token for resetting your password.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "passwordReset" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h2>Password Reset Successful</h2>
+            <h3>Login to your account now using your new password.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "loginRequired" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h3>You must Login to see the requested page.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "verifyRequired" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h3>You must verify your email (account) to see the requested page.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "submissionError" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h3>Error: {{ .ErrorType }} </h3>
+            <h3>Please try again.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "submissionErrorCustom" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h3>Error: Something went wrong.</h3>
+            <h3>Please try again.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "NoSuchProblem" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h3>Error: No Such Problem Exist!</h3>
+            <h3>Please choose a valid problem Name/Number.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "userFeedback" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h3>We have received you mail. We will get back to you soon. Thank you.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "contestCreated" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h3>You successfully created a contest. This contest is listed to <a href="/contest">Contest</a> page</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "contestUpdated" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h3>Successfully updated contest Data.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ end }}
+</div>
+
+{{/* script section for popUp */}}
+<script>
+    $(window).on("load", function () {
+        $('.popup-wrap').fadeIn(500);
+        $('.popup-box').removeClass('transform-out').addClass('transform-in');
+        
+        //event.preventDefault();
+    });
+
+    $('.popup-close').click(function() {
+        $('.popup-wrap').fadeOut(500);
+        $('.popup-box').removeClass('transform-in').addClass('transform-out');
+
+        //event.preventDefault();
+    });
+</script>
+
+{{ end }}

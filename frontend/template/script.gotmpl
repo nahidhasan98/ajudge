@@ -1,0 +1,51 @@
+{{ define "script" }}
+
+    <script src="../assets/scripts/jquery-3.4.1.min.js"></script>
+
+    {{/* for bootstrap */}}
+    {{/* <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> */}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="../assets/scripts/bootstrap.min.js"></script>
+    
+    <script src="../assets/scripts/main.js"></script>
+    {{ if or (eq .PageName "Reset") (eq .PageName "Reset Password") }}
+        <script src="../assets/scripts/reset.js"></script>
+    {{ else if eq .PageName "Result" }}
+        <script src="../assets/scripts/result.js"></script>
+    {{ else if eq .PageName "Submission" }}
+        <script src="../assets/scripts/submission.js"></script>
+    {{ else if eq .PageName "Registration" }}
+        <script src="../assets/scripts/register.js"></script>
+    {{ else if eq .PageName "Login" }}
+        <script src="../assets/scripts/login.js"></script>
+    {{ else if eq .PageName "Contact" }}
+        <script src="../assets/scripts/contact.js"></script>
+    {{ else if eq .PageName "Problem" }}
+        <script src="../assets/scripts/problem.js"></script>
+    {{ else if eq .PageName "ProblemView" }}
+        <script src="../assets/scripts/problemView.js"></script>
+    {{ else if eq .PageName "Profile" }}
+        <script src="../assets/scripts/profile.js"></script>
+    {{ else if eq .PageName "Rank" }}
+        <script src="../assets/scripts/rank.js"></script>
+    {{ else if eq .PageName "ContestList" }}
+        <script src="../assets/scripts/contestList.js"></script>
+    {{ else if or (eq .PageName "CreateContest") (eq .PageName "UpdateContest") }}
+        <script src="../assets/scripts/createContest.js"></script>
+    {{ else if eq .PageName "ContestGround" }}
+        <script src="../assets/scripts/contestGround.js"></script>
+    {{ end }}
+
+    {{ if eq .PageName "Contact" }}
+        {{ template "popUpScript" . }}
+    {{ else if and (eq .PageName "Login") (eq .PopUpCause "registrationDone") }}
+        {{ template "popUpScript" . }}
+    {{ else if and (eq .PageName "Homepage") (or (eq .PopUpCause "tokenInvalid") (eq .PopUpCause "tokenAlreadyVerified") (eq .PopUpCause "tokenExpired") (eq .PopUpCause "tokenVerifiedNow") (eq .PopUpCause "tokenRequest") (eq .PopUpCause "passwordRequest") (eq .PopUpCause "passTokenInvalid") (eq .PopUpCause "passTokenExpired") (eq .PopUpCause "passwordReset") (eq .PopUpCause "verifyRequired") ) }}
+        {{ template "popUpScript" . }}
+    {{ else if and (eq .PageName "Submission") (or (eq .PopUpCause "submissionError") (eq .PopUpCause "submissionErrorCustom") (eq .PopUpCause "NoSuchProblem")) }}
+        {{ template "popUpScript" . }}
+    {{ else if eq .PageName "ContestList" }}
+        {{ template "popUpScript" . }}
+    {{ end }}
+
+{{ end }}

@@ -1,0 +1,27 @@
+{{ template "open" . }}
+
+<div id="content">
+    <form class="formGroup" method="POST" style="" id="passReset">
+        <h1>Reset Password</h1>
+        <div>
+            <input type="hidden" id="token" name="token" value="{{ .Token }}" required>
+        </div>
+        <div>
+            <label for="password">New Password :</label>
+            <input type="password" id="password" name="password" value="" placeholder="At least 5 Charecter!" required>
+        </div>
+        <div>
+            <label for="confirmPassword">Confirm Password :</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" value="" required><br>
+            <center style="color: red;" id="errPassword"></center>
+        </div>
+        <div>
+            <center>
+                <input type="reset" name="reset" value="Clear">
+                <input type="submit" name="register" value="Reset" id="submit">
+            <center>
+        </div>
+    </form>
+</div>
+
+{{ template "close" . }}

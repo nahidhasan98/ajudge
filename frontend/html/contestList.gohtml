@@ -1,0 +1,43 @@
+{{ template "open" . }}
+
+<div id="content">
+    <div class="row">
+        <div class="col-md-9">
+            <p class="h2" style="text-align:center;color:#1b6698; margin-top: 10px;">Contest List</p>
+        </div>
+        <div class="col-md-3">
+            <a href="/contest/create" style="float: right;padding: 5px 10px;background: #7dbde8;outline: none;border: 1px solid #2691d9;border-radius: 5px;color: white;margin-right: 4%;margin-top: 5%;">Create a new Contest</a>
+        </div>
+    </div>
+    <div id="problemPart">
+        <table id="problemTable" style="border-collapse:collapse; width:100%; text-align:center;">
+            <tr>
+                <th>Contest ID</th>
+                <th>Contest Title</th>
+                <th>Start Time</th>
+                <th>Date</th>
+                <th>Duration</th>
+                <th>Author</th>
+            </tr>
+        </table>
+        <div>
+            <center id="loadingGif"><img src="../assets/images/loading.gif" style="width: 30%;"></center>
+            <center id="notFound" style="padding:10px;"></center>
+        </div>
+    </div>
+    {{/* adding paging symtem */}}
+    <div id="myPager">
+        <div id="previous" style="display:none;">
+            <button id="pre" href="#">Previous</button>
+        </div>
+        <div id="myPagination">
+            <ul id="pageUL">
+            </ul>
+        </div>
+        <div id="next" style="display:none;">
+            <button id="nxt" href="#">Next</button>
+        </div>
+    </div>
+</div>
+
+{{ template "close" . }}

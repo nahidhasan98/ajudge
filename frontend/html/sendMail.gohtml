@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Test Email Sample</title>
+  <meta http–equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http–equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    *{
+        margin: 0 auto;
+        padding: 0;
+        font-family:Arial,vrinda,times new roman,sans-serif;
+        font-size:15px;
+        line-height:20px;
+        color:#000;
+    }
+    #content{
+      background:white;
+      border: 3px solid #D3E9F8;
+      width:90%;
+      float:left;
+    }
+    #header {
+      height: 80px;
+      overflow: hidden;
+      background: #d3e9f8;
+      border-bottom: 3px solid #D3E9F8;
+    }
+    img{
+      height: 80px;
+    }
+    #verify{
+      padding: 8px 10px;
+      font-size: 14px;
+      background: #2592da;
+      border: 1px solid #1f74ad;
+      border-radius: 3px;
+      color:white;
+      text-decoration: none;
+    }
+    #verify:hover {
+      cursor: pointer;
+      background: #1f74ad;
+      border: 1px solid #175782;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+    <div id="content">
+        <center>
+            <div id="header" style="Height: 50px;">
+              <a href="http://localhost:8080">
+                  {{/* <img src="https://drive.google.com/u/0/uc?id=1gK74OVStj1ny_3ry5sQ8qhuuj8orpR6P"> */}}
+                  <img src="https://drive.google.com/u/0/uc?id=1vGP6A6GA0DsJSYwLlI0K6PXqdF1TkrnL" style="width: 200px;height:50px;">
+                  {{/* https://drive.google.com/file/d/1vGP6A6GA0DsJSYwLlI0K6PXqdF1TkrnL/view?usp=sharing */}}
+              </a>
+            </div>
+            <div style="padding:10px;">
+              <p>Hi <span style="color:#175782; font-size:16px;">{{ .Username }}<span>,</p>
+              <p style="margin-bottom:20px;">{{ .Description1 }}</p>
+              <a id="verify" href="{{ .Link }}">{{ .ButtonText }}</a>
+              <p style="margin-top:20px;">{{ .Description2 }}</p>
+            </div>
+            <div style="padding:10px;width:30%;border-top:2px solid #D3E9F8">
+              <p>Thanks</p>
+              <p>Ajudge Team</p>
+            </div>
+        </center>
+    </div>
+</body>

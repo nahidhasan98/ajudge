@@ -1,0 +1,20 @@
+{{ define "close" }}
+
+{{/* html tag open
+    head tag open
+        head tag content here
+    head tag close
+
+    body tag open
+        main div open
+            header content here
+            navbar content here
+            main page content here */}}
+            
+            {{ template "footer" . }}
+        </div>
+        {{ template "script" . }}
+    </body>
+</html>
+
+{{ end }}

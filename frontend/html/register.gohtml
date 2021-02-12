@@ -1,0 +1,43 @@
+{{ template "open" . }}
+
+<div id="content">
+    <form class="formGroup" method="POST" style="">
+        <h1>User Registration</h1>
+        <p style="text-align: center;margin: 8px 0px 0px 90px;">*All fields are required.</p>
+        <div>
+            <label for="fullName">Full Name :</label>
+            <input type="text" id="fullName" name="fullName" value="{{ .FullName }}" required>
+        </div>
+        <div>
+            <label for="username">Username :</label>
+            <input type="text" id="username" name="username" value="{{ .Username }}" required><br>
+            <center style="color: red;" id="errUsername" style="margin-left:8px"></center>
+        </div>
+        <div>
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" value="{{ .Email }}" required><br>
+            <center style="color: red;" id="errEmail" style="margin-left:8px"></center>
+        </div>
+        <div>
+            <label for="password">Password :</label>
+            <input type="password" id="password" name="password" value="" placeholder="At least 5 Charecter!" required>
+        </div>
+        <div>
+            <label for="confirmPassword">Confirm Password :</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" value="" required><br>
+            <center style="color: red;" id="errPassword" style="margin-left:8px"></center>
+        </div>
+        <div id="captcha">
+            <div class="g-recaptcha" data-sitekey="6LeLjgUaAAAAAJN9ck-f-OviuNvh0Q8SobTFCggQ"></div>
+            <center style="color: red;" id="errCaptcha" style="margin-left:8px"></center>
+        </div>
+        <div>
+            <center>
+                <input type="reset" name="reset" value="Reset">
+                <input type="submit" name="register" value="Sign Up" id="submit">
+            </center>
+        </div>
+    </form>
+</div>
+
+{{ template "close" . }}

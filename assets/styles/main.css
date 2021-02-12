@@ -1,0 +1,889 @@
+*{
+    margin: 0 auto;
+    padding: 0;
+}
+body{
+    font-family:Arial,vrinda,times new roman,sans-serif;
+    font-size:14px;
+    line-height:20px;
+    color:#000;
+    background-color: #edf1f8;
+}
+/* for bootstrap reset: start*/
+.table td,.table th{
+    border-top: 0px;
+    border-bottom: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+p{
+    margin-bottom: 0px;
+}
+a{
+    color:#2283c3;
+}
+/* for bootstrap reset: end*/
+
+#main{
+    display:block;
+    overflow: hidden;
+}
+#header{
+    overflow: hidden;
+    height: 85px;
+    border-bottom: 1px solid #e9f4fb;
+    background-color: white;
+}
+#headerContent{
+    width: 80%;
+}
+#headerContent img{
+    width: 200px;
+    margin-top: 22px;
+}
+#headerContent p{
+    float: right;
+    font-size: 20px;
+    font-family: cursive;
+    margin-top: 40px;
+    color: #2183c4;
+}
+#navbarRegion{
+    background-color:#fdfdfd;
+    box-shadow: 0 1px 3px rgba(47,53,59,.033)
+}
+#navbarArea{
+    width:80%;
+}
+.navbar{
+    padding:2px 0px;
+}
+.navbar-toggler{
+    height: 36px;
+    width: 48px;
+}
+.navbar-toggler-icon{
+    width: 24px;
+    margin-top: -1px;
+    margin-left: -1px;
+}
+.custom-toggler .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(31, 116, 173)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  }
+.custom-toggler.navbar-toggler {
+    border-color: rgb(31, 116, 173);
+} 
+.dropdown-menu{
+    font-size: 14px;
+    padding: 0px 0px;
+    min-width: 140px;
+}
+.dropdown-item{
+    padding: 8px 12px;
+}
+.dropdown-divider{
+    margin:0px;
+}
+.nav-link,.dropdown-item{
+    color:#595959;
+}
+.nav-link:hover,.dropdown-item:hover{
+    color:#2283c3;
+}
+.activeNav{
+    box-shadow: 0px -2px 0px 0px #2283c3 inset;
+}
+#name{
+    font-family: cursive;
+    background: #e9f4fb;
+    font-weight: bold;
+    padding: 0px 5px;
+}
+#name a:hover{
+    font-weight: bold;
+    color: white;
+    background: #3c9cdd;
+}
+.loginForm{
+    padding: 30px;
+    width: 40%;
+    background: white;
+    box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.1), -1px -1px 0px 0px rgba(0, 0, 0, 0.1);
+}
+.loginForm h1{
+    text-align: center;
+    color: #1b6698;
+    margin-bottom: 45px;
+}
+.loginForm div{
+    text-align: center;
+    margin-top: 30px;
+}
+.loginForm input{
+    width: 50%;
+    height: 30px;
+    padding: 5px 8px;
+    box-sizing: border-box;
+    border: 1px solid #999;
+    outline: none;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    text-align: center;
+}
+.loginForm input:focus{
+    border-color: #1f74ad;
+    box-shadow: inset 0 1px 1px rgba(47,53,59,.075), 0 0 3px rgba(53,152,220,.6)
+}
+.loginForm input[type=submit]{
+    height: 35px;
+    width: 100px;
+    font-size: 16px;
+    background: #e9f4fb;
+    border: 1px solid #1f74ad;
+    border-radius: 2px;
+    outline: none;
+    margin-top: 10px;
+}
+.loginForm input[type=submit]:hover{
+    cursor: pointer;
+    background: #1f74ad;
+    border: #175782;
+    color: white;
+}
+.loginForm a{
+    color: #2283C3;
+    font-style: italic;
+    font-size: 14px;
+    margin-top: 20px;
+}
+.loginForm a:hover{
+    color: #4B0082;
+}
+.loginFeedback{
+    margin-top: 10px;
+    height: 30px;
+    width: 125px;
+    font-size: 14px;
+    background: #e9f4fb;
+    border: 1px solid #1f74ad;
+    border-radius: 2px;
+    outline: none;
+}
+.loginFeedback:hover{
+    cursor: pointer;
+    background: #1f74ad;
+    border: #175782;
+    color: white;
+}
+#content,.container{
+    width: 80%;
+    background-color: white;
+    border: 1px solid #c8d5ea;
+    min-height: 486px;
+    background-image: url("../images/bg.png");
+    overflow: hidden;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+#probDes{
+    display: flex;
+}
+.leftContent{
+    text-align: justify;
+    background-color: white;
+    width: 70%;
+    margin: 10px;
+    border: 1px solid lightsteelblue;
+    border-radius: 2px;
+    padding: 10px 15px;
+    overflow-x: auto;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
+}
+#rightContent{
+    width: 25%;
+    margin: 10px;
+}
+#rightContent div{
+    margin-top: 15px;
+    background: white;
+    border: 1px solid lightsteelblue;
+    padding: 8px 12px;
+    overflow-x: auto;
+    border-radius: 2px;
+    min-height: 120px;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
+}
+#rightContent a{
+    padding: 3px;
+    text-decoration: none;
+    color: #1f74ad;
+}
+.colLimit{
+    font-weight: 600;
+    width: 45%;
+    padding: 5px 0px;
+}
+#submitAllow{
+    height: 33px;
+    width: 100%;
+    font-size: 15px;
+    background: #2283c3;
+    border: 1px solid #1f74ad;
+    border-radius: 2px;
+    outline: none;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
+    margin-top: 1px;
+}
+#submitAllow:hover{
+    cursor: pointer;
+    background: #175782;
+    border: #175782;
+    color: white;
+}
+#submitDisable{
+    height: 33px;
+    width: 100%;
+    font-size: 15px;
+    background: #ff4d4d;
+    border: 1px solid #e60000;
+    border-radius: 2px;
+    outline: none;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
+    margin-top: 1px;
+}
+#submitDisable:hover{
+    background: #ff8080;
+    border: #e60000;
+    color: white;
+}
+#footer{
+    background-color: #dae3f1;
+    height: 70px;
+    box-shadow: 0 -2px 4px #d5d9dd;
+}
+
+/* for modal */
+/* Popoup */
+.popup-wrap,.popup-wrap-custom {
+    width:100%;
+    height:100%;
+    display:none;
+    position:fixed;
+    top:0px;
+    left:0px;
+    content:'';
+    background:rgba(0,0,0,0.85);
+}
+.popup-box,.popup-box-custom {
+    width:50%;
+    padding:60px;
+    transform:translate(-50%, -50%) scale(0.5);
+    position:absolute;
+    top:50%;
+    left:50%;
+    box-shadow:0px 2px 16px rgba(0,0,0,0.5);
+    border-radius:3px;
+    background:#fff;
+    text-align:center;
+}
+.popup-box h2 {
+    color:#1a1a1a;
+}
+.popup-box h3 {
+    color:#888;
+}
+.close-btn {
+    width:35px;
+    height:35px;
+    display:inline-block;
+    position:absolute;
+    top:10px;
+    right:10px;
+    -webkit-transition:all ease 0.5s;
+    transition:all ease 0.5s;
+    border-radius:1000px;
+    background:#d75f70;
+    font-weight:bold;
+    text-decoration:none;
+    color:#fff;
+    line-height:240%;
+}
+.close-btn:hover {
+    color:white;
+    text-decoration: none;
+    -webkit-transform:rotate(180deg);
+    transform:rotate(180deg);
+}
+
+.transform-in, .transform-out {
+    display:block;
+    -webkit-transition:all ease 0.5s;
+    transition:all ease 0.5s;
+}
+
+.transform-in {
+    -webkit-transform:translate(-50%, -50%) scale(1);
+    transform:translate(-50%, -50%) scale(1);
+}
+
+.transform-out {
+    -webkit-transform:translate(-50%, -50%) scale(0.5);
+    transform:translate(-50%, -50%) scale(0.5);
+}
+#viewCode{
+    text-align: left;
+    padding: 1%;
+    height: 56vh;
+    margin-top: -40px;
+}
+#lineNumber{
+    background: #bedef4;
+    border-right: 1px solid #67b2e4;
+    width: 30px;
+    height: 56vh;
+    float:left;
+    padding:1%;
+    overflow:hidden;
+}
+
+#myPager{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    height: 32px;
+}
+#previous button,#next button{
+    cursor:pointer;
+    background-color: #2283c3;
+    color: white;
+    width: 67px;
+    height: 32px;
+    border: none;
+    border-radius: 3px;
+    outline: none;
+}
+#previous button:hover,#next button:hover{
+    background-color: #1f74ad;
+}
+#next{
+    margin-right: 0px;
+    margin-top: -32px;
+    width: 67px;
+}
+#myPagination{
+    text-align: center;
+    background-color: lightblue;
+    margin-top: -32px;
+    margin-left: 70px;
+    overflow: hidden;
+    border-radius: 3px;
+    height: 32px;
+}
+#myPagination ul{
+    list-style: none;
+    display: flex;
+}
+#myPagination ul li a{
+    color: #fff;
+    text-decoration: none;
+    display:block;
+    padding-top: 6px;
+    width: 32px;
+    height: 32px;
+}
+#myPagination ul li a:hover{
+    background-color: #1a75ff;
+    color: #fff;
+}
+.activePage{
+    background-color: #4d94ff;
+    font-weight: 100;
+    color: #fff;
+}
+.disableClick{
+    pointer-events: none;
+}
+
+/* DimikOJ part Start */
+@font-face {
+    font-family: "DimikOJFont";
+    src: url("../fonts/dimikBengali.woff2") format('woff2');
+}
+@font-face {
+    font-family: "DimikOJFont";
+    src: url("../fonts/dimikUbuntu.woff2") format('woff2');
+}
+.DimikOJ {
+    font-family: DimikOJFont;
+}
+.DimikOJ p , .DimikOJ pre {
+    font-size: 15px;
+}
+.DimikOJ p, .DimikOJ h3, .DimikOJ h2 {
+    margin-top: 20px;
+}
+.DimikOJ h5 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+.DimikOJ ul, .DimikOJ ol{
+    margin-left: 30px;
+    margin-top: 10px;
+}
+/* DimikOJ part Start */
+
+/* Toph part Start */
+.Toph .copy{  /* Toph sample copy disable */
+    display: none;
+}
+.Toph .math p{
+    margin: 20px 0;
+}
+.Toph h2,.Toph h3,.Toph h4,.Toph h5,.Toph h6{
+    margin: 40px 0 15px;
+}
+.Toph .TophImage{ /* for center position */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+}
+.Toph .samples{ /* for Toph sample */
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 15px;
+}
+.Toph .samples th{
+    border-bottom: 1px solid #ddd;
+}
+.Toph .samples td {
+    vertical-align: top;
+    padding: 8px 3px;
+}
+.Toph ol, .Toph ul {
+    margin-top: 0;
+    margin-bottom: 10px;
+    margin-left: 30px;
+}
+.Toph .math pre code{
+    padding: 0;
+    font-size: inherit;
+    color: inherit;
+    white-space: pre-wrap;
+    background-color: transparent;
+    border-radius: 0;
+}
+.Toph .math code{
+    padding: 2px 4px;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+}
+.Toph .math pre{
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+}
+.Toph .table-responsive{
+    padding: 0px 5px;
+    font-size: 15px;
+}
+.Toph .table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    border: none!important;
+}
+.Toph .table>thead>tr {
+    border-bottom: 1px solid #f3f5f8;
+}
+.Toph .table>tbody>tr>td, .Toph .table>tbody>tr>th, .Toph .table>tfoot>tr>td, .Toph .table>tfoot>tr>th, .Toph .table>thead>tr>td, .Toph .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+}
+.Toph caption, .Toph th{
+    text-align: left;
+}
+.Toph blockquote {
+    padding: 1px 20px;
+    margin: 0 0 20px;
+    border-left: 5px solid #eee;
+}
+.Toph .math p a{
+    text-decoration: none;
+    color: #1f74ad;
+}
+@font-face {
+    font-family: "myfont";
+    src: url("../fonts/ubuntu-m-webfont.woff2") format('woff2');
+}
+@font-face {
+    font-family: "myfont";
+    src: url("../fonts/ubuntu-r-webfont.woff2") format('woff2');
+}
+/* Toph Part End */
+
+/* URI Part Start */
+.URI table{
+    border-bottom: #BBB solid 1px;
+    border-collapse: collapse;
+    border-top: #BBB solid 1px;
+    margin: 15px 0;
+    width: 100%;
+}
+.URI table thead {
+    font-weight: bold;
+    text-align: center;
+}
+.URI table tbody {
+    font-family: "Courier New", Courier, "Nimbus Mono L", monospace;
+    background: #EFEFEF;
+}
+.URI table tbody td{
+    border-bottom: #BBB solid 1px;
+    border-top: #BBB solid 1px;
+    padding: 5px;
+    vertical-align: text-top;
+    width: 50%;
+}
+.URI .division {
+    border-right: #BBB solid 1px;
+}
+.URI .footer{
+    font-size: 10px;
+    line-height: 12px;
+}
+.URI .center{
+    text-align: center;
+}
+.URI .description p, .URI .input p, .URI .output p {
+    margin: 0 0 10px 0;
+}
+.URI .description ul {
+    margin: 0px 0px 10px 40px;
+}
+.URI .tables-fifty {
+    margin: 0 10px 10px 0;
+    width: 50%;
+}
+.URI .tables-model-two {
+    margin: 10px 10px 0 0;
+    width: 49%;
+}
+.URI .tables-model-two-inline {
+    width: 49%;
+}
+.URI .tables-fifty, .URI .tables-hundred, .URI .tables-model-two, .URI .tables-model-two-inline {
+    border-collapse: collapse;
+    display: inline-table;
+    background: none;
+}
+.URI .tables-fifty tbody, .URI .tables-hundred tbody, .URI .tables-model-two tbody, .URI .tables-model-two-inline tbody {
+    background: none;
+}
+.URI .tables-fifty tr td, .URI .tables-hundred tr td, .URI .tables-model-two tr td, .URI .tables-model-two-inline tr td {
+    border: #BBB solid 1px;
+    padding: 5px;
+    width: 0%;
+}
+.URI caption {
+    font-weight: bold;
+    background: #efefef;
+    border: #bbb solid 1px;
+    margin: 0 0 5px 0;
+    padding: 5px;
+}
+.URI .half-column {
+    width: 50%;
+}
+.URI h2 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+.URI ul,.URI ol {
+    margin-left: 30px;
+}
+/* URI Part End */
+
+/* VJudge Part Start */
+.VJudge h1 {
+    margin-bottom: 8px;
+}
+.VJudge h3, .VJudge h2{
+    margin-top: 22px;
+    margin-bottom: 8px;
+}
+.VJudge p,.VJudge pre {
+    margin-bottom: 8px;
+}
+.VJudge ul,.VJudge ol {
+    margin-left: 30px;
+    margin-bottom: 8px;
+}
+.VJudge img {
+    max-width: 100%;
+}
+.VJudge .sample {
+    width: 100%;
+    border-collapse: collapse;
+}
+.VJudge .sample td{
+    width: 50%;
+}
+.VJudge .sample td pre{
+    white-space: pre-wrap;
+}
+.VJudge .statText table {
+    width: 100%;
+}
+.VJudge .problem_par {
+    margin-bottom: 10px;
+}
+/* VJudge Part End */
+
+#homepageTable{
+    width: 60%;
+}
+#homepageTable img{
+    width: 22px;
+    vertical-align: middle;
+    margin-right: 7px;
+    border-radius: 5px;
+}
+#homepageTable a,#index a{
+    text-decoration: none;
+    color: darkslategray;
+}
+#homepageTable a:hover,#index a:hover{
+    text-decoration: underline;
+    text-decoration-color: #071d2c;
+    color: #071d2c;
+}
+#homepageTable tr{
+    height: 65px;
+}
+.formGroup{
+    padding: 30px;
+    width: 60%;
+    background: white;
+    box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.1), -1px -1px 0px 0px rgba(0, 0, 0, 0.1);
+    min-height: 400px;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+.formGroup div{
+    margin-top: 20px;
+}
+.formGroup h1{
+    text-align: center;
+    color: #1b6698;
+}
+.formGroup label{
+    display: inline-block;
+    width: 28%;
+    text-align: right;
+    margin-right: 20px;
+}
+.formGroup input,.formGroup textarea{
+    width: 50%;
+    height: 30px;
+    padding: 5px 8px;
+    box-sizing: border-box;
+    border: 1px solid #999;
+    outline: none;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+.formGroup input:focus,.formGroup textarea:focus{
+    border-color: #1f74ad;
+    box-shadow: inset 0 1px 1px rgba(47,53,59,.075), 0 0 3px rgba(53,152,220,.6)
+}
+.formGroup input[type=submit],.formGroup input[type="reset"],#submission input[type=submit],#previewPart input[type=submit],#previewPart input[type=reset]{
+    height: 35px;
+    width: 100px;
+    font-size: 16px;
+    background: #e9f4fb;
+    border: 1px solid #1f74ad;
+    border-radius: 2px;
+    outline: none;
+}
+.formGroup input[type=submit]:hover,.formGroup input[type="reset"]:hover,#submission input[type=submit]:hover,#previewPart input[type=submit]:hover,#previewPart input[type=reset]:hover{
+    cursor: pointer;
+    background: #1f74ad;
+    border: #175782;
+    color: white;
+}
+#profilePart{
+    padding: 5px;
+    background: white;
+    margin: 14px 0px 3px 0px;
+    border-top: 1px solid lightsteelblue;
+    border-bottom: 1px solid lightsteelblue;
+}
+.colLeft{
+    background: #1f74ad;
+    color: white;
+    font-weight: bold;
+}
+#profilePart td{
+    padding: 3px 5px;
+    width: 35%;
+    border: 1px solid #bedef4;
+}
+#submissionPart,#problemPart,#submission{
+    padding: 5px;
+    background: white;
+    /* border-top: 1px solid lightsteelblue;
+    border-bottom: 1px solid lightsteelblue; */
+    overflow: auto;
+    min-height: 422px;
+}
+#submissionTable th,#problemTable th,#resultPart table th,#previewPart table th,#overviewTable th,#standingTable th{
+    padding: 5px 10px;
+    background: #1F74AD;
+    color: white;
+    border: 1px solid lightsteelblue;
+}
+#submissionTable td,#problemTable td,#resultPart table td,#previewPart table td{
+    border: 1px solid lightsteelblue;
+    padding: 5px 10px;
+}
+#submissionTable tr:nth-child(even),#problemTable tr:nth-child(even),#previewPart table tr:nth-child(even){
+    background-color: #e9f4fb;
+}
+#submissionTable tr:hover,#problemTable tr:hover,#previewPart table tr:hover{
+    background-color: #bedef4;
+}
+#submissionTable button,#problemTable button,#previewPart table button,#sorting, #problemTag button{
+    padding: 3px 3px;
+    background: #7dbde8;
+    outline: none;
+    border: 1px solid #2691d9;
+    border-radius: 1px;
+    cursor: pointer;
+    color: white;
+}
+#submissionTable button:hover,#problemTable button:hover,#previewPart table button:hover,#problemTag button:hover{
+    background: #0b2c41;
+}
+#sorting:hover{
+    background: #3c9cdd;
+}
+#submissionTable a,#problemTable a,#resultPart a{
+    text-decoration: none;
+    color: #2283c3;
+}
+#submissionTable a:hover,#problemTable a:hover,#resultPart a:hover{
+    text-decoration: underline;
+}
+#submissionTable input,#submissionTable select,#problemTable input,#problemTable select,.contestCustomInput{
+    width: 100%;
+    padding: 5px 8px;
+    box-sizing: border-box;
+    border: 1px solid lightsteelblue;
+    outline: none;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+#submissionTable input:focus,#submissionTable select:focus,#problemTable input:focus,#problemTable select:focus,.contestCustomInput:focus{
+    border-color: #1f74ad;
+    box-shadow: inset 0 1px 1px rgba(47,53,59,.075), 0 0 3px rgba(53,152,220,.6)
+}
+#submissionLeft{
+    float: left;
+    width: 27%;
+    padding: 0px 10px;
+}
+#submissionLeft div{
+    margin-bottom: 15px;
+}
+#submissionLeft label,#submissionRight label{
+    margin-left:2px;
+    font-size: 15px;
+}
+#submissionRight{
+    float: right;
+    width: 70%;
+}
+#submission input,#submission select,#submission textarea{
+    height: 30px;
+    width: 100%;
+    padding: 5px 8px;
+    margin-top:2px;
+    box-sizing: border-box;
+    border: 1px solid lightsteelblue;
+    outline: none;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+#submission input:focus,#submission select:focus,#submission textarea:focus{
+    border-color: #1f74ad;
+    box-shadow: inset 0 1px 1px rgba(47,53,59,.075), 0 0 3px rgba(53,152,220,.6)
+}
+#resultPart{
+    margin: 10px;
+    padding: 10px;
+    background: white;
+    border: 1px solid lightsteelblue;
+    overflow: auto;
+    min-height: 404px;
+}
+.aboutUs{
+    display: flex;
+    justify-content: space-between;
+}
+.aboutUs h2{
+    color: #1b6698;
+    text-align: center;
+    margin-bottom: 12px;
+}
+.aboutUs div{
+    width: 25%;
+    text-align: justify;
+    border: 1px solid #c8d5ea;
+    background: white;
+    padding: 12px;
+    overflow-x: auto;
+    min-height: 260px;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.cTableInput{
+    width: 100%;
+    padding: 5px 0px;
+    outline: none;
+    background: transparent;
+    border: 0px;
+    text-align: center;
+    overflow:hidden;
+    resize: none;
+}
+#problemTag{
+    background: white;
+    min-height: 104px;
+    padding: 10px 5px;
+    overflow: hidden;
+}
+#problemTag ul{
+    list-style: none;
+}
+#problemTag ul li{
+    float: left;
+    margin-right: 1%;
+}
+#problemTag ul li button{
+    padding: 6px 20px;
+    min-width: 10%;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    margin: 5px 0px;
+}

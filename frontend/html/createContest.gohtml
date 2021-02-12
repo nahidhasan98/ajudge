@@ -1,0 +1,187 @@
+{{ template "open" . }}
+
+<div class="container" style="">
+    {{ if (eq .PageName "UpdateContest")}}
+    <span id="cDate" style="display:none;">{{ .ContestData.Date }}</span>
+    <span id="cProbSetLength" style="display:none;">{{ len .ContestData.ProblemSet }}</span>
+    {{ end }}
+
+    <div class="row">
+        <div class="col-lg-7 mb-3">
+            <div class="" id="previewPart" style="background:white;padding:5px;">
+                <div class="">
+                    <p class="h2" style="text-align:center;color: #1b6698;">Selected Problems</p>
+                </div>
+                <form class="form-group" method="POST">
+                    <div class="" style="min-height:300px;">
+                        <table class="table table-sm table-responsive" id="contestProbSelectedTable">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">OJ</th>
+                                <th scope="col">Problem Number</th>
+                                <th scope="col">Problem Name</th>
+                                <th scope="col">Custom Name</th>
+                                <th scope="col">Remove</th>
+                            </tr>
+                            {{ if (eq .PageName "UpdateContest")}}
+                            {{ range $key,$value := .ContestData.ProblemSet }}
+                            <tr class="selectedRow{{ $key }}">
+                                <td scope="col" id="serialNum">{{ .SerialIndex }}</td>
+                                <td scope="col" id="OJ"><textarea type="text" name="OJ{{ $.Addition.Add $key 65 }}" value="" readonly class="cTableInput">{{ .OJ }}</textarea></td>
+                                <td scope="col" id="pNum"><textarea type="text" name="pNum{{ $.Addition.Add $key 65 }}" value="" readonly class="cTableInput">{{ .PNum }}</textarea></td>
+                                <td scope="col" id="pName"><textarea type="text" name="pName{{ $.Addition.Add $key 65 }}" value="" readonly class="cTableInput">{{ .PName }}</textarea></td>
+                                <td scope="col" id="customName"><textarea type="text" name="customName{{ $.Addition.Add $key 65 }}" placeholder="Give a custom name" class="contestCustomInput" style="resize: none;overflow:hidden;">{{ .CustomName }}</textarea></td>
+                                <td scope="col" ><button onclick="removeSelected({{ $key }})">Remove</button></td>
+                            </tr>
+                            {{ end }}
+                            {{ end }}
+                        </table>
+                    </div>
+                    <div class="">
+                        <div class="input-group mt-5">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Contest Title</span>
+                            </div>
+                            {{ if (eq .PageName "UpdateContest")}}
+                            <input type="text" class="form-control" name="contestTitle" placeholder="" value="{{ .ContestData.Title }}" required>
+                            {{ else }}
+                            <input type="text" class="form-control" name="contestTitle" placeholder="" required>
+                            {{ end }}
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="input-group mt-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Start Date</span>
+                            </div>
+                            {{ if (eq .PageName "UpdateContest")}}
+                            <input type="date" class="form-control" name="contestDate" placeholder="" required readonly>
+                            {{ else }}
+                            <input type="date" class="form-control" name="contestDate" placeholder="" required>
+                            {{ end }}
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="input-group mt-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Start Time</span>
+                            </div>
+                            {{ if (eq .PageName "UpdateContest")}}
+                            <input type="text" class="form-control" name="contestTimeDummy" placeholder="{{ .ContestData.Time }}" required readonly>
+                            {{ else }}
+                            <input type="time" class="form-control" name="contestTime" placeholder="" required>
+                            {{ end }}
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="input-group mt-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="">Duration</span>
+                            </div>
+                            {{ if (eq .PageName "UpdateContest")}}
+                            <input type="text" class="form-control col-12" name="contestDuration" placeholder="hh:mm" value="{{ .ContestData.Duration }}" required>
+                            {{ else }}
+                            <input type="text" class="form-control col-12" name="contestDuration" placeholder="hh:mm" required>
+                            {{ end }}
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="alert alert-warning mt-3 d-none" role="alert">
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="input-group mt-3 mb-3">
+                            <center>
+                                <input type="reset" name="reset" value="Reset "id="resetBtton">
+                                {{ if (eq .PageName "UpdateContest")}}
+                                <input type="submit" name="create" value="Update" id="createButton">
+                                {{ else }}
+                                <input type="submit" name="create" value="Create" id="createButton">
+                                {{ end }}
+                            </center>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div id="problemPart">
+                <p class="h2" style="text-align:center;color: #1b6698;">Select from here</p>
+                <table class="table table-sm" id="problemTable" style="border-collapse:collapse; width:100%; text-align:center;">
+                    <tr>
+                        <th>OJ</th>
+                        <th>Problem Number</th>
+                        <th>Problem Name</th>
+                        <th>Select</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select name="OJ">
+                                <option value="All">All</option>
+                                <option value="51Nod">51Nod</option>
+                                <option value="ACdream">ACdream</option>
+                                <option value="Aizu">Aizu</option>
+                                <option value="AtCoder">AtCoder</option>
+                                <option value="CodeChef">CodeChef</option>
+                                <option value="CodeForces">CodeForces</option>
+                                <option value="CSU">CSU</option>
+                                <option value="DimikOJ">DimikOJ</option>
+                                <option value="EIJudge">EIJudge</option>
+                                <option value="EOlymp">EOlymp</option>
+                                <option value="FZU">FZU</option>
+                                <option value="Gym">Gym</option>
+                                <option value="HackerRank">HackerRank</option>
+                                <option value="HDU">HDU</option>
+                                <option value="HihoCoder">HihoCoder</option>
+                                <option value="HIT">HIT</option>
+                                <option value="HRBUST">HRBUST</option>
+                                <option value="HUST">HUST</option>
+                                <option value="HYSBZ">HYSBZ</option>
+                                <option value="Kattis">Kattis</option>
+                                <option value="LibreOJ">LibreOJ</option>
+                                <option value="LightOJ">LightOJ</option>
+                                <option value="Minieye">Minieye</option>
+                                <option value="NBUT">NBUT</option>
+                                <option value="OpenJ_Bailian">OpenJ_Bailian</option>
+                                <option value="OpenJ_POJ">OpenJ_POJ</option>
+                                <option value="POJ">POJ</option>
+                                <option value="SCU">SCU</option>
+                                <option value="SGU">SGU</option>
+                                <option value="SPOJ">SPOJ</option>
+                                <option value="TopCoder">TopCoder</option>
+                                <option value="Toph">Toph</option>
+                                <option value="UESTC">UESTC</option>
+                                <option value="UESTC_old">UESTC_old</option>
+                                <option value="UniversalOJ">UniversalOJ</option>
+                                <option value="URAL">URAL</option>
+                                <option value="URI">URI</option>
+                                <option value="UVA">UVA</option>
+                                <option value="UVALive">UVALive</option>
+                                <option value="Z_trening">Z_trening</option>
+                                <option value="ZOJ">ZOJ</option>
+                                <option value="计蒜客">计蒜客</option>
+                                <option value="黑暗爆炸">黑暗爆炸</option>
+                            </select>
+                            <img src="../assets/images/loadingMini.gif" id="loadingGifOJ" style="width: 20px; margin-left: -23px; margin-top:4px; position: absolute; display:none;">
+                        </td>
+                        <td>
+                            <input type="text" name="pNum" value="" placeholder="">
+                            <img src="../assets/images/loadingMini.gif" id="loadingGifPNum" style="width: 20px; margin-left: -23px; margin-top:4px; position: absolute; display:none;">
+                        </td>
+                        <td>
+                            <input type="text" name="pName" value="" placeholder="">
+                            <img src="../assets/images/loadingMini.gif" id="loadingGifPName" style="width: 20px; margin-left: -23px; margin-top:4px; position: absolute; display:none;">
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+                <div>
+                    <center id="loadingGif"><img src="../assets/images/loading.gif" style="width: 60%;"></center>
+                    <center id="notFound" style="padding:10px;"></center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ template "close" . }}

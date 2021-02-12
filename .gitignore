@@ -1,0 +1,11 @@
+# for extra files for testing purposes
+/Trash
+
+# for downloading and displaying images of problem statement
+/assets/temp/*
+
+#for different login credentials
+/vault/vault.go
+
+#all exe file
+*.exe

@@ -1,0 +1,33 @@
+{{ template "open" . }}
+
+<div id="content">
+    <form class="formGroup" action="" method="post">
+        <h1 style="margin-bottom:20px;">Contact with us</h1>
+        <center style="color: #1b6698;">If you have any suggestions or for any kind of enquiry, please Leave A Message</center>
+        <center style="margin-top:3px;">*All fields are required.</center>
+        <div>
+            <label for="mailName">Name :</label>
+            <input type="text" id="mailName" name="mailName" required>
+        </div>
+        <div>
+            <label for="mailEmail">Email :</label>
+            <input type="email" id="mailEmail" name="mailEmail" required>
+        </div>
+        <div>
+            <label for="mailMessage" style="vertical-align: top;">Message :</label>
+            <textarea id="mailMessage" name="mailMessage" required style= "height: 200px;"></textarea>
+        </div>
+        <div id="captcha">
+            <div class="g-recaptcha" data-sitekey="6LeLjgUaAAAAAJN9ck-f-OviuNvh0Q8SobTFCggQ"></div>
+            <center style="color: red;" id="errCaptcha" style="margin-left:8px"></center>
+        </div>
+        <div>
+            <center>
+                <input type="reset" name="reset" value="Clear">
+                <input type="submit" name="send" value="Send">
+            </center>
+        </div>
+    </form>
+</div>
+
+{{ template "close" . }}

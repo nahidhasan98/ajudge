@@ -1,0 +1,60 @@
+package vault
+
+var (
+	//DatabaseName variable
+	DatabaseName string
+	//DatabaseUsername variable
+	DatabaseUsername string
+	//DatabasePassword variable
+	DatabasePassword string
+
+	//GmailUsername variable
+	GmailUsername string
+	//GmailPassword variable
+	GmailPassword string
+
+	//DimikOJUsername variable
+	DimikOJUsername string
+	//DimikOJPassword variable
+	DimikOJPassword string
+
+	//TophUsername variable
+	TophUsername string
+	//TophPassword variable
+	TophPassword string
+
+	//URIUsername variable
+	URIUsername string
+	//URIPassword variable
+	URIPassword string
+
+	//VJudgeUsername variable
+	VJudgeUsername string
+	//VJudgePassword variable
+	VJudgePassword string
+)
+
+func init() {
+	//Assigning the credentials to the variables
+
+	DatabaseName = DBname
+	DatabaseUsername = username
+	DatabasePassword = password
+
+	GmailUsername = username
+	GmailPassword = password
+
+	DimikOJUsername = username
+	DimikOJPassword = password
+
+	TophUsername = username
+	TophPassword = password
+
+	URIUsername = username
+	URIPassword = password
+
+	VJudgeUsername = username
+	VJudgePassword = password
+
+	CaptchaKey = captchaKey
+}

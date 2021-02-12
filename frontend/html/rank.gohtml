@@ -1,0 +1,34 @@
+{{ template "open" . }}
+
+<div id="content">
+    <div id="problemPart">
+        <table id="problemTable" style="border-collapse:collapse; width:100%; text-align:center;">
+            <tr>
+                <th>Serial No.</th>
+                <th id ="rankType">{{ .RankType }}</th>
+                <th>Total Solved</th>
+            </tr>
+        </table>
+        <div>
+            <center id="loadingGif"><img src="../assets/images/loading.gif" style="width: 30%;"></center>
+            <center id="notFound" style="padding:10px;"></center>
+        </div>
+    </div>
+    {{/* adding paging symtem for user rank */}}
+    {{ if eq .RankType "User" }}
+        <div id="myPager">
+            <div id="previous" style="display:none;">
+                <button id="pre" href="#">Previous</button>
+            </div>
+            <div id="myPagination">
+                <ul id="pageUL">
+                </ul>
+            </div>
+            <div id="next" style="display:none;">
+                <button id="nxt" href="#">Next</button>
+            </div>
+        </div>
+    {{ end }}
+</div>
+
+{{ template "close" . }}

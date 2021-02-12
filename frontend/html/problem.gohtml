@@ -1,0 +1,156 @@
+{{ template "open" . }}
+
+<div id="content">
+    <div id="problemPart">
+        <table id="problemTable" style="border-collapse:collapse; width:100%; text-align:center;">
+            <tr>
+                {{if .IsLogged }}
+                <th>Status</th>
+                {{end}}
+                <th>OJ</th>
+                <th>Problem Number</th>
+                <th>Problem Name</th>
+            </tr>
+            <tr>
+                {{if .IsLogged }}
+                <td></td>
+                {{end}}
+                <td>
+                    <select name="OJ">
+                        <option value="All">All</option>
+                        <option value="51Nod">51Nod</option>
+                        <option value="ACdream">ACdream</option>
+                        <option value="Aizu">Aizu</option>
+                        <option value="AtCoder">AtCoder</option>
+                        <option value="CodeChef">CodeChef</option>
+                        <option value="CodeForces">CodeForces</option>
+                        <option value="CSU">CSU</option>
+                        <option value="DimikOJ">DimikOJ</option>
+                        <option value="EIJudge">EIJudge</option>
+                        <option value="EOlymp">EOlymp</option>
+                        <option value="FZU">FZU</option>
+                        <option value="Gym">Gym</option>
+                        <option value="HackerRank">HackerRank</option>
+                        <option value="HDU">HDU</option>
+                        <option value="HihoCoder">HihoCoder</option>
+                        <option value="HIT">HIT</option>
+                        <option value="HRBUST">HRBUST</option>
+                        <option value="HUST">HUST</option>
+                        <option value="HYSBZ">HYSBZ</option>
+                        <option value="Kattis">Kattis</option>
+                        <option value="LibreOJ">LibreOJ</option>
+                        <option value="LightOJ">LightOJ</option>
+                        <option value="Minieye">Minieye</option>
+                        <option value="NBUT">NBUT</option>
+                        <option value="OpenJ_Bailian">OpenJ_Bailian</option>
+                        <option value="OpenJ_POJ">OpenJ_POJ</option>
+                        <option value="POJ">POJ</option>
+                        <option value="SCU">SCU</option>
+                        <option value="SGU">SGU</option>
+                        <option value="SPOJ">SPOJ</option>
+                        <option value="TopCoder">TopCoder</option>
+                        <option value="Toph">Toph</option>
+                        <option value="UESTC">UESTC</option>
+                        <option value="UESTC_old">UESTC_old</option>
+                        <option value="UniversalOJ">UniversalOJ</option>
+                        <option value="URAL">URAL</option>
+                        <option value="URI">URI</option>
+                        <option value="UVA">UVA</option>
+                        <option value="UVALive">UVALive</option>
+                        <option value="Z_trening">Z_trening</option>
+                        <option value="ZOJ">ZOJ</option>
+                        <option value="计蒜客">计蒜客</option>
+                        <option value="黑暗爆炸">黑暗爆炸</option>
+                    </select>
+                    <img src="../assets/images/loadingMini.gif" id="loadingGifOJ" style="width: 20px; margin-left: -23px; margin-top:4px; position: absolute; display:none;">
+                </td>
+                <td>
+                    <input type="text" name="pNum" value="" placeholder="">
+                    <img src="../assets/images/loadingMini.gif" id="loadingGifPNum" style="width: 20px; margin-left: -23px; margin-top:4px; position: absolute; display:none;">
+                </td>
+                <td>
+                    <input type="text" name="pName" value="" placeholder="">
+                    <img src="../assets/images/loadingMini.gif" id="loadingGifPName" style="width: 20px; margin-left: -23px; margin-top:4px; position: absolute; display:none;">
+                </td>
+            </tr>
+        </table>
+        <div>
+            <center id="loadingGif"><img src="../assets/images/loading.gif" style="width: 60%;"></center>
+            <center id="notFound" style="padding:10px;"></center>
+        </div>
+    </div>
+    <div id="myPager">
+        <div id="previous" style="display:none;">
+            <button id="pre" herf="#">Previous</button>
+        </div>
+        <div id="myPagination">
+            <ul id="pageUL">
+            </ul>
+        </div>
+        <div id="next" style="display:none;">
+            <button id="nxt" herf="#">Next</button>
+        </div>
+    </div>
+    <div id="problemTag">
+        <ul>
+            <li>
+                <button id="tagEasy">Easy</button>
+                <img src="../assets/images/loadingMini.gif" id="loadingGifEasy" style="width: 20px; margin-left: -20px; margin-top:12px; position: absolute; display:none;">
+            </li>
+            <li>
+                <button id="tagMath">Math</button>
+                <img src="../assets/images/loadingMini.gif" id="loadingGifMath" style="width: 20px; margin-left: -20px; margin-top:12px; position: absolute; display:none;">
+            </li>
+            <li>
+                <button id="tagGeometry">Geometry</button>
+                <img src="../assets/images/loadingMini.gif" id="loadingGifGeometry" style="width: 20px; margin-left: -20px; margin-top:12px; position: absolute; display:none;">
+            </li>
+            <li>
+                <button id="tagDataStructure">Data Structure</button>
+                <img src="../assets/images/loadingMini.gif" id="loadingGifDataStructure" style="width: 20px; margin-left: -20px; margin-top:12px; position: absolute; display:none;">
+            </li>
+            <li>
+                <button id="tagImplementation">Implementation</button>
+                <img src="../assets/images/loadingMini.gif" id="loadingGifImplementation" style="width: 20px; margin-left: -20px; margin-top:12px; position: absolute; display:none;">
+            </li>
+            <li>
+                <button id="tagHard">Hard</button>
+                <img src="../assets/images/loadingMini.gif" id="loadingGifHard" style="width: 20px; margin-left: -20px; margin-top:12px; position: absolute; display:none;">
+            </li>
+            <li>
+                <button id="tagString">String</button>
+                <img src="../assets/images/loadingMini.gif" id="loadingGifString" style="width: 20px; margin-left: -20px; margin-top:12px; position: absolute; display:none;">
+            </li>
+            <li>
+                <button id="tagGreedy">Greedy</button>
+                <img src="../assets/images/loadingMini.gif" id="loadingGifGreedy" style="width: 20px; margin-left: -20px; margin-top:12px; position: absolute; display:none;">
+            </li>
+            <li>
+                <button id="tagSorting">Sorting</button>
+                <img src="../assets/images/loadingMini.gif" id="loadingGifSorting" style="width: 20px; margin-left: -20px; margin-top:12px; position: absolute; display:none;">
+            </li>
+            <li>
+                <button id="tagBFS">BFS</button>
+                <img src="../assets/images/loadingMini.gif" id="loadingGifBFS" style="width: 20px; margin-left: -20px; margin-top:12px; position: absolute; display:none;">
+            </li>
+            <li>
+                <button id="tagDP">DP</button>
+                <img src="../assets/images/loadingMini.gif" id="loadingGifDP" style="width: 20px; margin-left: -20px; margin-top:12px; position: absolute; display:none;">
+            </li>
+            <li>
+                <button id="tagProbability">Probability</button>
+                <img src="../assets/images/loadingMini.gif" id="loadingGifProbability" style="width: 20px; margin-left: -20px; margin-top:12px; position: absolute; display:none;">
+            </li>
+            <li>
+                <button id="tagNumberTheory">Number Theory</button>
+                <img src="../assets/images/loadingMini.gif" id="loadingGifNumberTheory" style="width: 20px; margin-left: -20px; margin-top:12px; position: absolute; display:none;">
+            </li>
+            <li>
+                <button id="tagGraph">Graph</button>
+                <img src="../assets/images/loadingMini.gif" id="loadingGifGraph" style="width: 20px; margin-left: -20px; margin-top:12px; position: absolute; display:none;">
+            </li>
+        </ul>
+    </div>
+</div>
+
+{{ template "close" . }}

@@ -1,0 +1,40 @@
+{{ template "open" . }}
+
+<div id="content">
+    <h1 style="text-align:center;color:#1b6698; margin-top: 15px;margin-bottom: 15px;">Submission Result</h1>
+    <div id="resultPart">
+        <table style="border-collapse: collapse; width:100%; text-align:center;">
+            <tr>
+                <th>Submission ID</th>
+                <th>OJ</th>
+                <th>Problem Number</th>
+                <th>Verdict</th>
+                <th>Time</th>
+                <th>Memory</th>
+                <th>Language</th>
+                <th>Submitted At</th>
+            </tr>
+            <tr>
+                <td id="subID">{{ .SubID }}</td>
+                <td id="OJ">{{ .OJ }}</td>
+                {{ $link := (printf "/problemView/%s-%s" .OJ .PNum) }}
+                <td><a href="{{ $link }}">{{ .PNum }}</a></td>
+                <td>
+                    <img src="../assets/images/loadingVerdict.gif" id="loadingVerdictGif" style="width: 80px;margin-top:4px;display:none;">
+                    <img src="../assets/images/loadingMini.gif" id="judging" style="width: 20px; display:none; cursor:pointer;" title="Judging...">
+                    <img src="../assets/images/rejudge.png" id="rejudge" style="width: 20px; display:none; cursor:pointer;" title="Click to rejudge">
+                    <p id="verdict"></p>
+                </td>
+                <td id="time"></td>
+                <td id="memory"></td>
+                <td>{{ .Language }}</td>
+                <td>{{ .SubmittedAt }}</td>
+            </tr>
+            <tr>
+                <td colspan="8"><pre style="min-height:326px;text-align: left;">{{ .SourceCode }}</pre></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+{{ template "close" . }}

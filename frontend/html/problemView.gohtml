@@ -1,0 +1,79 @@
+{{ template "open" . }}
+
+<div id="content">
+    <p id="invisibleOJ" style="display:none;">{{ .OJ }}</p>
+    <p id="invisiblePNum" style="display:none;">{{ .PNum }}</p>
+    <div id="probDes">
+        <div class="leftContent">
+            <h1 style="text-align:center;color:#1b6698; margin-top: 15px;margin-bottom:30px;">{{ .PName }}</h1>
+            <object id="problemDescription">
+                {{ if eq .OJ "DimikOJ" }}
+                    {{ .DimikOJProblem.Des }}
+                {{ else if eq .OJ "Toph" }}
+                    {{ .TophProblem.Des }}
+                {{ else if eq .OJ "URI" }}
+                    {{ .URIProblem.Des }}
+                {{ else }}
+                    {{ .VJProblem.Des }}
+                {{ end }}
+            </object>
+        </div>
+        <div id="rightContent">
+        {{ if eq .AllowSubmit true }}
+            {{ $link := (printf "/submit/%s-%s" .OJ .PNum) }}
+            <button id="submitAllow"><a href="{{ $link }}" style="text-decoration:none;color:white;display: block;padding: 7px;">Submit</a></button>
+        {{ else }}
+            <button id="submitDisable"><a style="text-decoration:none;color:white;display: block;padding: 7px;" title="Submit is not Allowed for this problem. System Error.">Submit</a></button>
+        {{ end }}
+            <div>
+                <table style="border-collapse:collapse;width:100%;">
+                    <tr>
+                        <td class="colLimit">Memory Limit</td>
+                        <td>
+                            {{ if or (eq .MemoryLimit "-") (eq .MemoryLimit "") }}
+                            : -
+                            {{ else }}
+                            : {{ .MemoryLimit }}
+                            {{ end }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="colLimit">Time Limit</td>
+                        <td>
+                            {{ if or (eq .TimeLimit "-") (eq .TimeLimit "") }}
+                            : -
+                            {{ else }}
+                            : {{ .TimeLimit }}
+                            {{ end }}
+                        </td>
+                    </tr>
+                                        <tr>
+                        <td class="colLimit">Source Limit</td>
+                        <td>
+                            {{ if or (eq .SourceLimit "-") (eq .SourceLimit "") }}
+                            : -
+                            {{ else }}
+                            : {{ .SourceLimit }}
+                            {{ end }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding: 5px 0px;"><b>Origin</b>
+                            {{ $origin := (printf "/origin/%s-%s" .OJ .PNum) }}
+                            <a href="{{ $origin }}" target="_blank">: {{ .OJ }} - {{ .PNum }}</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="subHistory" style="padding:0px;">
+                <div id="subHistoryHeader" style="margin-top: 0px;border: 0px;min-height: 56px;border-bottom: 1px solid #a8d3f0;">
+                    <p style="text-align:center;font-weight:bold;margin-bottom:0px;">Your submission status<br>for this problem</p>
+                </div>
+                <div id="subHistoryTable" style="border: 0px;margin-top: 1px;padding:5px;box-shadow: 0px 10px 8px -10px rgba(0, 0, 0, 0.1) inset;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ template "close" . }}

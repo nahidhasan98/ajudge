@@ -1,0 +1,129 @@
+{{ template "open" . }}
+
+<div id="content">
+    <p id="self" style="display:none;">{{ .Self }}</p>  {{/* for sending to js */}}
+    <h1 style="text-align:center;color:#1b6698; margin-top: 15px;">Profile Information</h1>
+    <div id="profilePart">
+        <table style="border-collapse:collapse;">
+            <tr>
+                <td class="colLeft">Full Name</td>
+                <td>: {{.FullName}}</td>
+            </tr>
+            <tr>
+                <td class="colLeft">Email</td>
+                <td>: {{.Email}}</td>
+            </tr>
+            <tr>
+                <td class="colLeft">Account Created At</td>
+                <td>: {{.CreatedAt}}</td>
+            </tr>
+            <tr>
+                <td class="colLeft">Problem Solved</td>
+                <td id="problemSolved">: 0</td>
+            </tr>
+            <tr>
+                <td class="colLeft">Problem Attempted</td>
+                <td id="problemAttempted">: 0</td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <button id="sorting" onclick="sortingFunction()" style="float:right;margin-right: 10px; padding: 2px 5px;"><img src="../assets/images/sortingIcon.png" style="height:20px; width=20px;"></button>
+        <h1 style="text-align:center;color:#1b6698; margin-top: 25px;margin-bottom: 15px;">Submission List</h1>
+    </div>
+    <div id="submissionPart">
+        <table id="submissionTable" style="border-collapse:collapse; width:100%; text-align:center;">
+            <tr>
+                <th>Submission ID</th>
+                <th>OJ<br>
+                    <select name="OJ">
+                        <option value="All">All</option>
+                        <option value="51Nod">51Nod</option>
+                        <option value="ACdream">ACdream</option>
+                        <option value="Aizu">Aizu</option>
+                        <option value="AtCoder">AtCoder</option>
+                        <option value="CodeChef">CodeChef</option>
+                        <option value="CodeForces">CodeForces</option>
+                        <option value="CSU">CSU</option>
+                        <option value="DimikOJ">DimikOJ</option>
+                        <option value="EIJudge">EIJudge</option>
+                        <option value="EOlymp">EOlymp</option>
+                        <option value="FZU">FZU</option>
+                        <option value="Gym">Gym</option>
+                        <option value="HackerRank">HackerRank</option>
+                        <option value="HDU">HDU</option>
+                        <option value="HihoCoder">HihoCoder</option>
+                        <option value="HIT">HIT</option>
+                        <option value="HRBUST">HRBUST</option>
+                        <option value="HUST">HUST</option>
+                        <option value="HYSBZ">HYSBZ</option>
+                        <option value="Kattis">Kattis</option>
+                        <option value="LibreOJ">LibreOJ</option>
+                        <option value="LightOJ">LightOJ</option>
+                        <option value="Minieye">Minieye</option>
+                        <option value="NBUT">NBUT</option>
+                        <option value="OpenJ_Bailian">OpenJ_Bailian</option>
+                        <option value="OpenJ_POJ">OpenJ_POJ</option>
+                        <option value="POJ">POJ</option>
+                        <option value="SCU">SCU</option>
+                        <option value="SGU">SGU</option>
+                        <option value="SPOJ">SPOJ</option>
+                        <option value="TopCoder">TopCoder</option>
+                        <option value="Toph">Toph</option>
+                        <option value="UESTC">UESTC</option>
+                        <option value="UESTC_old">UESTC_old</option>
+                        <option value="UniversalOJ">UniversalOJ</option>
+                        <option value="URAL">URAL</option>
+                        <option value="URI">URI</option>
+                        <option value="UVA">UVA</option>
+                        <option value="UVALive">UVALive</option>
+                        <option value="Z_trening">Z_trening</option>
+                        <option value="ZOJ">ZOJ</option>
+                        <option value="计蒜客">计蒜客</option>
+                        <option value="黑暗爆炸">黑暗爆炸</option>
+                    </select>
+                    <img src="../assets/images/loadingMini.gif" id="loadingGifOJ" style="width: 20px; margin-left: -23px; margin-top:4px; position: absolute; display:none;">
+                </th>
+                <th>Problem<br>
+                    <input type="text" name="pNum" value="" placeholder="">
+                    <img src="../assets/images/loadingMini.gif" id="loadingGifPNum" style="width: 20px; margin-left: -23px; margin-top:4px; position: absolute; display:none;">
+                </th>
+                <th>Verdict</th>
+                <th>Time</th>
+                <th>Memory</th>
+                <th>Language</th>
+                <th>Submitted At</th>
+                {{ if .Self }}
+                <th>Source Code</th>
+                {{ end }}
+            </tr>
+        </table>
+        <div>
+            <center id="loadingGif"><img src="../assets/images/loading.gif" style="width: 30%;"></center>
+            <center id="notFound" style="padding:10px;"></center>
+        </div>
+    </div>
+    <div id="myPager">
+        <div id="previous" style="display:none;">
+            <button id="pre" href="#">Previous</button>
+        </div>
+        <div id="myPagination">
+            <ul id="pageUL">
+            </ul>
+        </div>
+        <div id="next" style="display:none;">
+            <button id="nxt" href="#">Next</button>
+        </div>
+    </div>
+</div>
+<div class="popup-wrap">
+    <div class="popup-box" style="max-height: 90vh;width: 80%;padding: 5%;overflow:hidden;">
+        <pre style="height: 56vh;overflow: hidden;margin-bottom:0;">
+            <span id="lineNumber"></span>
+            <code id="viewCode"></code>
+        </pre>
+        <a class="close-btn popup-close" href="#close">x</a>
+    </div>
+</div>
+
+{{ template "close" . }}

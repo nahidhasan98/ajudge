@@ -1,0 +1,203 @@
+{{ template "open" . }}
+
+<div class="container">
+    <span id="contestID" style="display:none;">{{ .ContestData.ContestID }}</span>
+    <span id="contestUser" style="display:none;">{{ .Username }}</span>
+    <span id="contestAuthor" style="display:none;">{{ .ContestData.Author }}</span>
+    <span id="contestDateTime" style="display:none;">{{ .ContestData.Date }} {{ .ContestData.Time }}</span>
+    <span id="contestDuration" style="display:none;">{{ .ContestData.Duration }}</span>
+    <span id="contestStartAt" style="display:none;">{{ .ContestData.StartAt }}</span>
+    <span id="problemSetLength" style="display:none;">{{ len .ContestData.ProblemSet }}</span>
+
+    {{/* timing section */}}
+    {{ if (eq .RunningStatus "BeforeContest")}}
+    <div class="row mb-1" style="min-height:15vh;background:white;padding:1%;text-align:center;">
+        <div class="col-sm-4 clock">
+            <p class="h4" id="currentTimeLabel">Current Time</p>
+            <p class="h1" id="currentTime" style="color: steelblue;padding: 3% 0%;"></p>
+            <p id="currentDate"></p>
+        </div>
+        <div class="col-sm-4 clock">
+            <p class="h4" id="cDurationLabel">Contest Duration</p>
+            <p class="h1" id="cDuration" style="color: steelblue;padding: 3% 0%;">{{ .ContestData.Duration }}:00</p>
+        </div>
+        <div class="col-sm-4 clock">
+            <p class="h4" id="beforeStartLabel">Before Start</p>
+            <p class="h1" id="beforeStart" style="color: steelblue;padding: 3% 0%;"></p>
+        </div>
+    </div>
+    {{ else if (eq .RunningStatus "RunningContest")}}
+    <div class="row mb-1" style="min-height:15vh;background:white;padding:1%;text-align:center;">
+        <div class="col-sm-4 clock">
+            <p class="h4" id="currentTimeLabel">Contest Running</p>
+            <p class="h1" id="currentTime" style="color: steelblue;padding: 3% 0%;"></p>
+            <p id="currentDate" style="display:none;"></p>
+        </div>
+        <div class="col-sm-4 clock">
+            <p class="h4" id="cDurationLabel">Contest Duration</p>
+            <p class="h1" id="cDuration" style="color: steelblue;padding: 3% 0%;">{{ .ContestData.Duration }}:00</p>
+        </div>
+        <div class="col-sm-4 clock">
+            <p class="h4" id="beforeStartLabel">Before Finish</p>
+            <p class="h1" id="beforeStart" style="color: steelblue;padding: 3% 0%;"></p>
+        </div>
+    </div>
+    {{ else }}
+    <div class="row mb-1" style="min-height:15vh;background:white;padding:1%;text-align:center;">
+        <div class="col-sm-4 clock">
+            <p class="h4" id="currentTimeLabel">Full Time</p>
+            <p class="h1" id="currentTime" style="color: steelblue;padding: 3% 0%;">{{ .ContestData.Duration }}:00</p>
+            <p id="currentDate" style="display:none;"></p>
+        </div>
+        <div class="col-sm-4 clock">
+            <p class="h4" id="cDurationLabel">Contest Duration</p>
+            <p class="h1" id="cDuration" style="color: steelblue;padding: 3% 0%;">{{ .ContestData.Duration }}:00</p>
+        </div>
+        <div class="col-sm-4 clock">
+            <p class="h4" id="beforeStartLabel">Contest Finished</p>
+            <p class="h1" id="beforeStart" style="color: steelblue;padding: 3% 0%;">00:00:00</p>
+        </div>
+    </div>
+    {{ end }}
+
+    {{/* problem Section */}}
+    {{ if (ne .RunningStatus "BeforeContest")}}
+    <div class="mb-1" style="background:white;padding:0px 10px;">
+        <nav class="navbar navbar-expand-sm" style="border-bottom: 1px solid #e9f4fb;padding:1% 0%">
+            <div class="navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-0 nav nav-pills" id="pills-tab">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="dashboard-tab" data-toggle="pill" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="true">Dashboard</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="problems-tab" data-toggle="pill" href="#problems" role="tab" aria-controls="problems" aria-selected="false">Problems</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="submissions-tab" data-toggle="pill" href="#submissions" role="tab" aria-controls="submissions" aria-selected="false">Submissions</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="standings-tab" data-toggle="pill" href="#standings" role="tab" aria-controls="standings" aria-selected="false">Standings</a>
+                    </li>
+                </ul>
+                {{ if (eq .Username .ContestData.Author)}}
+                <ul class="navbar-nav mr-0" id="update-tab">
+                     <li class="">
+                        <a href="/contestUpdate/{{ .ContestData.ContestID }}" style="float: right;padding: 5px 10px;background: #7dbde8;outline: none;border: 1px solid #2691d9;border-radius: 5px;color: white;">Update</a>
+                    </li>
+                </ul>
+                {{ end }}
+            </div>
+        </nav>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab" style="min-height: 50vh;overflow:auto;">
+                <table class="table" id="overviewTable" style="text-align: center;">
+                    <tr>
+                        <th>Number</th>
+                        <th>Problem</th>
+                        <th>Overall Solved/Submission</th>
+                        <th>My Status</th>
+                    </tr>
+                    {{ range .ContestData.ProblemSet }}
+                    <tr>
+                        <td>{{ .SerialIndex }}</td>
+                        <td><p id="goto{{ .SerialIndex }}" style="color:#2283c3;">
+                            {{ if eq .CustomName "" }}
+                                {{ .PName }}
+                            {{ else }}
+                                {{ .CustomName }}
+                            {{ end }}
+                            </p>
+                        </td>
+                        <td id="totalStatus{{ .SerialIndex }}"></td>
+                        <td id="myStatus{{ .SerialIndex }}"></td>
+                    </tr>
+                    {{ end }}
+                </table>
+            </div>
+            <div class="tab-pane fade" id="problems" role="tabpanel" aria-labelledby="problems-tab">
+                <div class="row">
+                    <div class="col-sm-1" style="margin-left: -1%;margin-right: -4%;">
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            {{ range $key, $value := .ContestData.ProblemSet }}
+                                    <a class="nav-link" id="{{ .SerialIndex }}-tab" data-toggle="pill" href="#problems{{ .SerialIndex }}" role="tab" aria-controls="{{ .SerialIndex }}" aria-selected="">{{ .SerialIndex }}</a>
+                            {{ end }}
+                        </div>
+                    </div>
+                    <div class="col-11" style="background:white;min-height:100vh;">
+                        <div class="tab-content" id="v-pills-tabContent">
+                            {{ range $key, $value := .ContestData.ProblemSet }}
+                                <div class="tab-pane fade" id="problems{{ .SerialIndex }}" role="tabpanel" aria-labelledby="{{ .SerialIndex }}-tab">
+                                    <span style="display:none;" id="OJ">{{ .OJ }}</span>
+                                    <span style="display:none;" id="pNum">{{ .PNum }}</span>
+                                    <div class="row">
+                                        {{ if eq .CustomName "" }}
+                                            <p class="h1" style="text-align:center;color:#1b6698; margin-top: 15px;">{{ .PName }}</p>
+                                        {{ else }}
+                                            <p class="h1" style="text-align:center;color:#1b6698; margin-top: 15px;">{{ .CustomName }}</p>
+                                        {{ end }}
+                                    </div>
+                                    <div class="row" style="" id="iframeP{{ .SerialIndex }}">
+                                        {{/* <iframe id="myIframe{{ .SerialIndex }}" scrolling="no" frameborder="0" src="/problemSet/{{ .OJ }}-{{ .PNum }}" style="width: 100%;"></iframe>
+                                        <script src="../assets/scripts/iframeResizer.min.js"></script>
+                                        <script>iFrameResize({ log: false }, '#myIframe'+{{ .SerialIndex }})</script> */}}
+                                    </div>
+                                </div>
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="submissions" role="tabpanel" aria-labelledby="submissions-tab" style="min-height: 50vh;overflow:auto;">
+                <table class="table" id="submissionTable" style="text-align: center;">
+                    <tr>
+                        <th>Submission ID</th>
+                        <th>Username</th>
+                        <th>Problem</th>
+                        <th>Verdict</th>
+                        <th>Time</th>
+                        <th>Memory</th>
+                        <th>Language</th>
+                        <th>Submitted At</th>
+                        <th>Source Code</th>
+                    </tr>
+                </table>
+                <div>
+                    <center id="loadingGif"><img src="../assets/images/loading.gif" style="width: 30%;"></center>
+                    <center id="notFound" style="padding:10px;"></center>
+                </div>
+                <div class="popup-wrap">
+                    <div class="popup-box" style="max-height: 90vh;width: 80%;padding: 5%;overflow:hidden;">
+                        <pre style="height: 56vh;overflow: hidden;margin-bottom:0;">
+                            <span id="lineNumber"></span>
+                            <code id="viewCode"></code>
+                        </pre>
+                        <a class="close-btn popup-close" href="#close">x</a>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="standings" role="tabpanel" aria-labelledby="standings-tab" style="min-height: 50vh;overflow:auto;">
+                <table class="table" id="standingTable" style="text-align: center;">
+                    <tr>
+                        <th>#</th>
+                        <th>Contestant</th>
+                        <th>Score</th>
+                        {{ range .ContestData.ProblemSet }}
+                            <th>{{ .SerialIndex }}</th>
+                        {{ end }}
+                    </tr>
+                </table>
+                <div>
+                    <center id="loadingGifStanding"><img src="../assets/images/loading.gif" style="width: 30%;"></center>
+                    <center id="notFound" style="padding:10px;"></center>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ else }}
+    <div class="mb-1" style="background:white;padding:0px 10px;min-height:50vh;">
+        <center class="h3" style="text-align:center;padding-top:15%;">Problem Set will be revealed after contest start.</center>
+    </div>
+    {{ end }}
+</div>
+
+{{ template "close" . }}

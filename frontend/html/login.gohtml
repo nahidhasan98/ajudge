@@ -1,0 +1,21 @@
+{{ template "open" . }}
+
+<div id="content">
+    <form class="loginForm" method="POST" style="margin-top:20px;height:385px;">
+        <h1>LOGIN</h1>
+        <div>
+            <input type="text" id="username" name="username" class="" value="{{ .Username }}" placeholder="Username" required>
+            <center style="color: red;" id="errUsername" style="margin-left:8px"></center>
+        </div>
+        <div>
+            <input type="password" id="password" name="password" class="" placeholder="Password" required>
+            <center style="color: red;" id="errPassword" style="margin-left:8px">{{ .ErrPassword }}</center>
+        </div>
+        <div>
+            <center><input type="submit" class="" value="Login" name="" id="submit"><center>
+        </div>
+        <center style="margin-top: 40px;"><a href="/resetPassword">Forgot Password?</a></center>
+    </form>
+</div>
+
+{{ template "close" . }}
