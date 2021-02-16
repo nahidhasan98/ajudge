@@ -168,7 +168,7 @@ func Submit(w http.ResponseWriter, r *http.Request) {
 			document, err := goquery.NewDocumentFromReader(response.Body)
 			errorhandling.Check(err)
 
-			title := document.Find("span[class='caption']").Find("h1").Text()
+			title := document.Find("span[class='artifact__caption']").Find("h1").Text()
 
 			if title == "" { //no such problem
 				model.PopUpCause = "NoSuchProblem"
