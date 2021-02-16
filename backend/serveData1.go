@@ -469,7 +469,7 @@ func Verdict(w http.ResponseWriter, r *http.Request) {
 			{Key: "verdict", Value: rVerdict},
 			{Key: "timeExec", Value: rRuntime},
 			{Key: "memoryExec", Value: rMemory},
-			{Key: "model.TerminalVerdict", Value: rTerminalVerdict},
+			{Key: "terminalVerdict", Value: rTerminalVerdict},
 		}},
 	}
 	_, err = submissionCollection.UpdateOne(ctx, bson.M{"subID": subID}, updateField)
@@ -717,7 +717,7 @@ func Rejudge(w http.ResponseWriter, r *http.Request) {
 			{Key: "verdict", Value: rVerdict},
 			{Key: "timeExec", Value: rRuntime},
 			{Key: "memoryExec", Value: rMemory},
-			{Key: "model.TerminalVerdict", Value: rTerminalVerdict},
+			{Key: "terminalVerdict", Value: rTerminalVerdict},
 		}},
 	}
 	_, err = submissionCollection.UpdateOne(ctx, bson.M{"subID": subID}, updateField)
