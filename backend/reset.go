@@ -75,7 +75,7 @@ func Reset(w http.ResponseWriter, r *http.Request) { //calling from submit of 1.
 			errorhandling.Check(err)
 
 			//sending mail to the user with a reset link
-			link := "http://localhost:8080/passReset/token=" + newToken //sending link for mail
+			link := "https://ajudge.net/passReset/token=" + newToken //sending link for mail
 			model.SendMail(email, userData.Username, link, "passwordReset")
 
 			model.PopUpCause = "passwordRequest"
@@ -93,7 +93,7 @@ func Reset(w http.ResponseWriter, r *http.Request) { //calling from submit of 1.
 			errorhandling.Check(err)
 
 			//sending mail to the user with a reset link
-			link := "http://localhost:8080/verify-email/token=" + newToken
+			link := "https://ajudge.net/verify-email/token=" + newToken
 			model.SendMail(email, userData.Username, link, "accVerify")
 
 			model.PopUpCause = "tokenRequest"

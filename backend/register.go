@@ -79,7 +79,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		errorhandling.Check(err)
 
 		//sending mail to user email with a verification link
-		linkforMail := "http://localhost:8080/verify-email/token=" + newToken
+		linkforMail := "https://ajudge.net/verify-email/token=" + newToken
 		model.SendMail(email, username, linkforMail, "accVerify")
 
 		model.PopUpCause = "registrationDone" //login page will give a popup
