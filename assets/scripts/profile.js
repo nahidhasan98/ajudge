@@ -11,6 +11,11 @@ username = username.substring(9)
 
 //getting the submission list for (logged in/null if not logged) user
 $(document).ready(function () {
+    $("#verdictModal").modal('show');   //if redirected from submission
+
+    init();
+});
+function init() {
     $.ajax({
         url: "/userSubmission/" + username,
         type: "GET",
@@ -42,8 +47,7 @@ $(document).ready(function () {
 
         newReq();
     }
-});
-
+}
 function process() {
     //first calculating and crateing page number
     pageNumberCreate();
@@ -335,3 +339,8 @@ function getURLParameter(sParam) {
         }
     }
 }
+
+//refresh the list on modal close
+$('#verdictModal').on('hidden.bs.modal', function (e) {
+    init();
+})

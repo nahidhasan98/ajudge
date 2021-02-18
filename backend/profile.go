@@ -63,11 +63,13 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 	model.Info["FullName"] = userData.FullName
 	model.Info["Email"] = userData.Email
 	model.Info["CreatedAt"] = createdAt
-	model.Info["PopUpCause"] = "Profile"
+	model.Info["PopUpCause"] = model.PopUpCause
 
 	model.Tpl.ExecuteTemplate(w, "profile.gohtml", model.Info)
 
 	//clearing up values (because it may be used in wrong place unintentionally)
 	model.Info["FullName"] = ""
 	model.Info["Email"] = ""
+	model.PopUpCause = ""
+	model.Info["PopUpCause"] = model.PopUpCause
 }

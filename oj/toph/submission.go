@@ -130,11 +130,14 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 	errorhandling.Check(err)
 
 	//preparing info for sending to frontend
-	model.Info["Username"] = session.Values["username"]
-	model.Info["Password"] = session.Values["password"]
-	model.Info["IsLogged"] = session.Values["isLogin"]
-	model.Info["PageName"] = "Result"
-	model.Info["PageTitle"] = "Result | AJudge"
+	// model.Info["Username"] = session.Values["username"]
+	// model.Info["Password"] = session.Values["password"]
+	// model.Info["IsLogged"] = session.Values["isLogin"]
+	// model.Info["PageName"] = "Result"
+	// model.Info["PageTitle"] = "Result | AJudge"
+	model.PopUpCause = "verdict"
+
+	model.Info["PopUpCause"] = model.PopUpCause
 	model.Info["SubID"] = submissionData.SubID //sending submit id to frontend for getting the verdict with ajax call
 	model.Info["OJ"] = "Toph"
 	model.Info["PNum"] = pNum
@@ -142,7 +145,7 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 	model.Info["SourceCode"] = source
 	model.Info["SubmittedAt"] = submittedAt
 
-	http.Redirect(w, r, "/result", http.StatusSeeOther)
+	http.Redirect(w, r, "/profile", http.StatusSeeOther)
 	return
 }
 
