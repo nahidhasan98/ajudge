@@ -59,6 +59,13 @@ $('#rejudge').click(function () {
                 time.text(result.Runtime);
                 memory.text(result.Memory);
 
+                //setting a color to the verdict result
+                if (result.Status == "Accepted") {
+                    verdict.css('color', '#1d9563');
+                } else {
+                    verdict.css('color', '#de3b3b');
+                }
+
                 clearInterval(doCheck);
             } else if (counter >= 20) {
                 $('#judging').css("display", "none");           //displaying judging gif image
