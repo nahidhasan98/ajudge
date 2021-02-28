@@ -5,20 +5,58 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/nahidhasan98/ajudge/errorhandling"
+	"github.com/nahidhasan98/ajudge/model"
 )
 
 //Test function for testing a piece of code
 func Test(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
-	contestDateTime := "324242:00"
-	_, err := time.Parse(time.RFC3339, contestDateTime) //format RFC3339 = "2006-01-02T15:04:05Z07:00"
-	errorhandling.Check(err)
+	// contestDateTime := "324242:00"
+	// _, err := time.Parse(time.RFC3339, contestDateTime) //format RFC3339 = "2006-01-02T15:04:05Z07:00"
+	// errorhandling.Check(err)
+
+	location, _ := time.LoadLocation("Asia/Singapore")
+	currentTime := time.Now().In(location)
+	zone, off := currentTime.Zone()
+	// contestDateTime := "2021-01-02" + "T" + "15:04" + ":00" + zone
+	// contestDT, err := time.Parse(time.RFC3339, contestDateTime) //format RFC3339 = "2006-01-02T15:04:05Z07:00"
+	// errorhandling.Check(err)
+	fmt.Println(zone, off/60, currentTime)
+
+	location, _ = time.LoadLocation("UTC")
+	currentTime = time.Now().In(location)
+	zone, off = currentTime.Zone()
+	// contestDateTime := "2021-01-02" + "T" + "15:04" + ":00" + zone
+	// contestDT, err := time.Parse(time.RFC3339, contestDateTime) //format RFC3339 = "2006-01-02T15:04:05Z07:00"
+	// errorhandling.Check(err)
+	fmt.Println(zone, off/60, currentTime)
+
+	currentTime = time.Now()
+	zone, off = currentTime.Zone()
+	// contestDateTime := "2021-01-02" + "T" + "15:04" + ":00" + zone
+	// contestDT, err := time.Parse(time.RFC3339, contestDateTime) //format RFC3339 = "2006-01-02T15:04:05Z07:00"
+	// errorhandling.Check(err)
+	fmt.Println(zone, off/60, currentTime)
+
+	// currentUnix := time.Now().Unix()
+	// zone, off = currentTime.Zone()
+	// // contestDateTime := "2021-01-02" + "T" + "15:04" + ":00" + zone
+	// // contestDT, err := time.Parse(time.RFC3339, contestDateTime) //format RFC3339 = "2006-01-02T15:04:05Z07:00"
+	// // errorhandling.Check(err)
+	// fmt.Println(zone, off)
+	// fmt.Println(currentTime)
+	// fmt.Println(currentUnix)
+
+	// t := time.Unix(1614346849, 0)
+	// fmt.Println(t)
+
+	// tl := time.Now().Local()
+	// fmt.Println(tl)
 
 	//not found: !=nil - mongo: no document in result
 	fmt.Println("ENDDDDDD")
-	//tpl.ExecuteTemplate(w, "test.html", Info)
+	model.Tpl.ExecuteTemplate(w, "test.html", nil)
 }
 
 //URISearch function for searching problem in URI
