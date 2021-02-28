@@ -11,7 +11,7 @@ $(document).ready(function () {
         type: "GET",
         async: false,
         success: function (data) {
-            console.log(data)
+            //console.log(data)
             contestList = data;  //assigning to a global variable
 
             process();
@@ -79,8 +79,8 @@ function showList(activePage) {
             dataCreate = `<tr class="problemRow">
                         <td>`+ contestList[i].ContestID + `</td>
                         <td align="left" style="padding-left:3%;"><a href="/contest/`+ contestList[i].ContestID + `">` + contestList[i].Title + `</a></td>
-                        <td>`+ contestList[i].Time + `</td>
-                        <td>`+ contestList[i].Date + `</td>
+                        <td>`+ startTime(contestList[i].StartAt) + `</td>
+                        <td>`+ startDate(contestList[i].StartAt) + `</td>
                         <td>`+ contestList[i].Duration + ` h</td>
                         <td><a href="/profile/`+ contestList[i].Author + `">` + contestList[i].Author + `</a></td>
                         </tr>`
@@ -134,3 +134,19 @@ $('#pre').click(function () {
 $('#nxt').click(function () {
     showList(currPage + 1);
 });
+
+function startTime(startAt) {
+    let time12format = new Date(startAt * 1000).toLocaleTimeString("en-US");
+
+    return time12format;
+}
+function startDate(startAt) {
+    let a = new Date(startAt * 1000);
+    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let year = a.getFullYear();
+    let month = months[a.getMonth()];
+    let date = a.getDate();
+    let timeDate = date + '-' + month + '-' + year;
+
+    return timeDate;
+}

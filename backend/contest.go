@@ -110,14 +110,16 @@ func CreateContest(w http.ResponseWriter, r *http.Request) {
 		contestDate := r.FormValue("contestDate") //this format: 2020-12-31
 		contestTime := r.FormValue("contestTime") //this format: 23:59
 		contestDuration := r.FormValue("contestDuration")
+		clientTZOffset, _ := strconv.Atoi(r.FormValue("timeZoneOffset"))
 
-		currentTime := time.Now()
-		zone, _ := currentTime.Zone()
-		contestDateTime := contestDate + "T" + contestTime + ":00" + zone + ":00"
+		//currentTime := time.Now()
+		//zone, _ := currentTime.Zone()
+		contestDateTime := contestDate + "T" + contestTime + ":00Z"
 		contestDT, err := time.Parse(time.RFC3339, contestDateTime) //format RFC3339 = "2006-01-02T15:04:05Z07:00"
 		errorhandling.Check(err)
 
 		contestStartAt := contestDT.Unix() //converting start time to unix for storing to DB
+		contestStartAt += int64(clientTZOffset)
 
 		var probSetData []model.ProblemSet
 

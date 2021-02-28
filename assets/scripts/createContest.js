@@ -180,6 +180,11 @@ if (pathname.indexOf("/contestUpdate/") == 0) {
 }
 
 $(document).ready(function () {
+    //setting up client side time zone offset. js gives -360 as minute for GMT +06:00
+    let offset = new Date().getTimezoneOffset();
+    $('input[name="timeZoneOffset"]').val(offset * 60);
+
+    //on form submit
     $('form').on('submit', function () {
         $('form').bind(); //prevent default submitting
 
