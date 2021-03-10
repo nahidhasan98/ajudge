@@ -874,8 +874,8 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 		var problemSet = make(map[string]subDetails)
 
 		//all submitted problem info of a user - will be used in next loop
-		for i := 65; i < 91; i++ { //resetting problem info for a new user
-			index := string(rune(i)) //converting 65 to "A"
+		for j := 65; j < 91; j++ { //resetting problem info for a new user
+			index := string(rune(j)) //converting 65 to "A"
 
 			var temp subDetails
 			temp.SerialIndex = index
@@ -906,7 +906,7 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 							//setting up original variable contestantData
 							contestantData[i].SubDetails[tempSerial] = temp //totalSolved & time will be set
 							contestantData[i].TotalSolved++
-							contestantData[i].TotalTime = currentElapsedTime(cSubmissionList[j].SubmittedAt, dbQuery2.StartAt) + int64((problemSet[tempSerial].Penalty * 20))
+							contestantData[i].TotalTime += currentElapsedTime(cSubmissionList[j].SubmittedAt, dbQuery2.StartAt) + int64(problemSet[tempSerial].Penalty*(20*60))
 						} else if tempVerdict == "Compilation Error" || tempVerdict == "Compilation error" || tempVerdict == "Compile Error" || tempVerdict == "Compile error" {
 							//setting up temp problemSet
 							var temp subDetails
