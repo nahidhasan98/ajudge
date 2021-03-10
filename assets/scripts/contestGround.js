@@ -85,7 +85,7 @@ $(document).ready(function () {
         showRunningTimer();
         (function updateContestData() {
             getContestData();
-            callData = setTimeout(updateContestData, 3000); //every 15 seconds this function will be calling
+            callData = setTimeout(updateContestData, 15000); //every 15 seconds this function will be calling
         })();
     } else {
         clearTimeout(callData);
@@ -143,7 +143,7 @@ function getContestData() {
         type: "GET",
         async: false,
         success: function (data) {
-            console.log(data);
+            //console.log(data);
             cSubmissionList = data.CSubmissionList;
             displaySubmissionList();
             displaySolvedStatus(data.CSolvedStatus, data.CAttempedStatus, data.CTotalSolved, data.CTotalSubmission)
@@ -303,7 +303,7 @@ function displaySolvedStatus(solvedStatus, attempedStatus, totalSolved, totalSub
     }
 }
 function displayStandings(contestantData) {
-    console.log(contestantData);
+    //console.log(contestantData);
     $('#loadingGifStanding').css("display", "none");        //hide loading gif image
 
     if (contestantData == null || contestantData.length == 0) {
@@ -342,7 +342,7 @@ function displayStandings(contestantData) {
                     let serialIndex = String.fromCharCode(j);
 
                     if (contestantData[i].SubDetails[serialIndex] != undefined) {
-                        console.log(contestantData[i].SubDetails[serialIndex]);
+                        //console.log(contestantData[i].SubDetails[serialIndex]);
                         let tempVerdict = contestantData[i].SubDetails[serialIndex].Verdict;
                         let penaltyCount = contestantData[i].SubDetails[serialIndex].Penalty;
                         let comErrorCount = contestantData[i].SubDetails[serialIndex].CompilationError;
