@@ -226,7 +226,7 @@ func ContestUpadte(w http.ResponseWriter, r *http.Request) {
 	} else if timeHH == 12 {
 		dbQuery.Time += " PM"
 	} else if timeHH >= 13 && timeHH <= 23 {
-		dbQuery.Time = strconv.Itoa(timeHH-12) + timeMMText + " PM"
+		dbQuery.Time = strconv.Itoa(timeHH-12) + ":" + timeMMText + " PM"
 	}
 
 	if r.Method != "POST" {
