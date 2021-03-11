@@ -123,6 +123,8 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 	model.Info["Language"] = language
 	model.Info["SourceCode"] = source
 	model.Info["SubmittedAt"] = submittedAt
+	model.Info["ContestID"] = contestID
+	model.Info["SerialIndex"] = serialIndex
 
 	http.Redirect(w, r, "/profile", http.StatusSeeOther)
 	return
