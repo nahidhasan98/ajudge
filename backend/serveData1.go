@@ -256,8 +256,37 @@ func GetUserSubmission(w http.ResponseWriter, r *http.Request) {
 		err := cursor.Decode(&temp)
 		errorhandling.Check(err)
 		temp.SourceCode = html.EscapeString(temp.SourceCode) //specially for reserving newline
-		subDataFinal.SubList = append(subDataFinal.SubList, temp)
 
+		if temp.ContestID == 0 {
+			subDataFinal.SubList = append(subDataFinal.SubList, temp)
+		} else {
+			//If this submission is a contest submission and that contest in currently running,
+			// then this submission should not be sent to fronted right now
+
+			//taking DB collection/table to a variable
+			contestCollection := DB.Collection("contest")
+
+			var dbQuery model.ContestData
+			err := contestCollection.FindOne(ctx, bson.M{"contestID": temp.ContestID}).Decode(&dbQuery)
+			if err == mongo.ErrNoDocuments {
+				errorPage(w, http.StatusInternalServerError) //http.StatusBadRequest = 400
+				return
+			}
+
+			//converting duration, string to int64
+			cHH := dbQuery.Duration[0:2]
+			cMM := dbQuery.Duration[3:]
+			cHour, _ := strconv.Atoi(cHH)
+			cMin, _ := strconv.Atoi(cMM)
+			cDuration := int64((cHour * 60 * 60) + (cMin * 60))
+
+			contestEndAt := dbQuery.StartAt + cDuration
+			timeNow := time.Now().Unix()
+
+			if timeNow > contestEndAt {
+				subDataFinal.SubList = append(subDataFinal.SubList, temp)
+			}
+		}
 		var tempSet setData
 		tempSet.OJ = temp.OJ
 		tempSet.PNum = temp.PNum
