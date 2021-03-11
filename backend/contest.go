@@ -2,6 +2,7 @@ package backend
 
 import (
 	"encoding/json"
+	"html"
 	"html/template"
 	"net/http"
 	"net/url"
@@ -818,6 +819,7 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 		var temp model.SubmissionData
 		err := cursor.Decode(&temp)
 		errorhandling.Check(err)
+		temp.SourceCode = html.EscapeString(temp.SourceCode) //specially for reserving newline
 
 		//for submission list
 		cSubmissionList = append(cSubmissionList, temp)

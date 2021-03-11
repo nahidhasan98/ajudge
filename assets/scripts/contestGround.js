@@ -214,6 +214,25 @@ function displayCode(index) {
     $('#viewCode').text("").remove
     $('#viewCode').append(cSubmissionList[index].SourceCode)
 
+    //adding line number to the left of code segment
+    let s = cSubmissionList[index].SourceCode;
+    $('#lineNumber').text("").remove
+    $('#lineNumber').append(1)
+    let lineNumber = 1
+    for (i = 0; i < s.length; i++) {
+        if (s[i] == '\n')
+            $('#lineNumber').append("<br>" + ++lineNumber)
+    }
+
+    //for scrolling the line number with code segment
+    (function () {
+        let target = $("#lineNumber");
+        $("#viewCode").scroll(function () {
+            target.prop("scrollTop", this.scrollTop)
+                .prop("scrollLeft", this.scrollLeft);
+        });
+    })();
+
     //for highlighting code syntax
     document.querySelectorAll('pre code').forEach((block) => {
         hljs.highlightBlock(block);
