@@ -180,7 +180,7 @@ function displaySubmissionList() {
 
             let dataCreate = `<tr class="submissionRow">
                 <td>`+ cSubmissionList[i].SubID + `</td>
-                <td>`+ cSubmissionList[i].Username + `</td>
+                <td><a href="/profile/`+ cSubmissionList[i].Username + `">` + cSubmissionList[i].Username + `</a></td>
                 <td>`+ cSubmissionList[i].SerialIndex + `</td>
                 <td>`+ checkRejudge(cSubmissionList[i].TerminalVerdict, cSubmissionList[i].SubID, i);
 
