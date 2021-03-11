@@ -142,8 +142,15 @@
                 <table style="border-collapse: collapse; width:100%; text-align:center;">
                     <tr>
                         <th>Submission ID</th>
+
+                        {{/* if contest submission, then not showing the OJ & pNum */}}
+                        {{ if eq .ContestID 0 }}
                         <th>OJ</th>
                         <th>Problem Number</th>
+                        {{ else }}
+                        <th>Problem Number</th>
+                        {{ end }}
+
                         <th>Verdict</th>
                         <th>Time</th>
                         <th>Memory</th>
@@ -152,9 +159,16 @@
                     </tr>
                     <tr>
                         <td id="subID">{{ .SubID }}</td>
+
+                        {{ if eq .ContestID 0 }}
                         <td id="OJ">{{ .OJ }}</td>
                         {{ $link := (printf "/problemView/%s-%s" .OJ .PNum) }}
                         <td><a href="{{ $link }}">{{ .PNum }}</a></td>
+                        {{ else }}
+                        {{ $IDNum := (printf "%d - %s" .ContestID .SerialIndex) }}
+                        <td>{{ $IDNum }}</td>
+                        {{ end }}
+                        
                         <td>
                             <img src="../assets/images/loadingVerdict.gif" id="loadingVerdictGif" style="width: 80px;margin-top:4px;display:none;">
                             <img src="../assets/images/loadingMini.gif" id="judging" style="width: 20px; display:none; cursor:pointer;" title="Judging...">
