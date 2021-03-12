@@ -359,7 +359,6 @@ function displayStandings(contestantData) {
             if (contestantData[i].SubDetails != null) { //at least 1 submission done(except compilation error) by this user
                 for (let j = 65; j < (65 + problemSetLength); j++) { //for A to Z problem
                     let serialIndex = String.fromCharCode(j);
-                    console.log(contestantData[i].SubDetails["Z"])
                     if (contestantData[i].SubDetails[serialIndex] != undefined) {
                         //console.log(contestantData[i].SubDetails[serialIndex]);
                         let tempVerdict = contestantData[i].SubDetails[serialIndex].Verdict;
@@ -373,7 +372,6 @@ function displayStandings(contestantData) {
                             dataCreate += `<td style="width:` + x1 + `%; "title="Accepted: 0` + tdTitle + `"><img src="../assets/images/cross.png" style="width:15px;"><br><span style="color:#1d9563;">0</span> / <span style="color:#de3b3b;">` + penaltyCount + `</span> / <span style="color:#e68a00;">` + comErrorCount + `</span></td>`;
                         }
                     } else {
-                        console.log("el")
                         dataCreate += `<td style="width:` + x1 + `%;"></td>`;
                     }
                 }
