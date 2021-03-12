@@ -257,6 +257,12 @@ func GetUserSubmission(w http.ResponseWriter, r *http.Request) {
 		errorhandling.Check(err)
 		temp.SourceCode = html.EscapeString(temp.SourceCode) //specially for reserving newline
 
+		//checking if this user is appropriate to see the source code or not
+		session, _ := model.Store.Get(r, "mysession")
+		if temp.Username != session.Values["username"] { //source code will be provided to the correct owner only
+			temp.SourceCode = ""
+		}
+
 		if temp.ContestID == 0 {
 			subDataFinal.SubList = append(subDataFinal.SubList, temp)
 		} else {

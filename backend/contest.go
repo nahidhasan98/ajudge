@@ -789,6 +789,14 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 	submissionCollection := DB.Collection("submission")
 	contestCollection := DB.Collection("contest")
 
+	//taking contest data/start time from DB
+	var dbQuery2 model.ContestData
+
+	res := contestCollection.FindOne(ctx, bson.M{"contestID": contestID}).Decode(&dbQuery2)
+	if res == mongo.ErrNoDocuments {
+		errorPage(w, http.StatusBadRequest)
+	}
+
 	//preparing data for retrieving to DB
 	var cSubmissionList []model.SubmissionData
 
@@ -820,6 +828,12 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 		err := cursor.Decode(&temp)
 		errorhandling.Check(err)
 		temp.SourceCode = html.EscapeString(temp.SourceCode) //specially for reserving newline
+
+		//checking if this user is appropriate to see the source code or not
+		//source code will be provided to the correct owner and the contest author
+		if (temp.Username != session.Values["username"]) && (dbQuery2.Author != session.Values["username"]) {
+			temp.SourceCode = ""
+		}
 
 		//for submission list
 		cSubmissionList = append(cSubmissionList, temp)
@@ -855,14 +869,6 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 	}
 	for key := range setTotalSubmission {
 		totalSubmission[key.SerialIndex]++
-	}
-
-	//taking contest start time from DB
-	var dbQuery2 model.ContestData
-
-	res := contestCollection.FindOne(ctx, bson.M{"contestID": contestID}).Decode(&dbQuery2)
-	if res == mongo.ErrNoDocuments {
-		errorPage(w, http.StatusBadRequest)
 	}
 
 	//for standings section - 2nd part
