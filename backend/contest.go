@@ -805,7 +805,7 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 		Penalty          int
 		CompilationError int
 		Verdict          string
-		AccpedtedAt      int64
+		AcceptedAt       int64
 	}
 	type contestant struct {
 		Username    string
@@ -893,7 +893,7 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 			temp.Penalty = 0
 			temp.CompilationError = 0
 			temp.Verdict = ""
-			temp.AccpedtedAt = 0
+			temp.AcceptedAt = 0
 
 			problemSet[index] = temp
 		}
@@ -910,8 +910,8 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 							temp.SerialIndex = tempSerial
 							temp.Penalty = problemSet[tempSerial].Penalty
 							temp.CompilationError = problemSet[tempSerial].CompilationError
-							temp.Verdict = cSubmissionList[j].Verdict         //verdict will be set to "Accepted"
-							temp.AccpedtedAt = cSubmissionList[j].SubmittedAt //submitted time will be set
+							temp.Verdict = cSubmissionList[j].Verdict        //verdict will be set to "Accepted"
+							temp.AcceptedAt = cSubmissionList[j].SubmittedAt //submitted time will be set
 							problemSet[tempSerial] = temp
 
 							//setting up original variable contestantData
@@ -925,7 +925,7 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 							temp.Penalty = problemSet[tempSerial].Penalty
 							temp.CompilationError = problemSet[tempSerial].CompilationError + 1 //only CompilationError counter will inc by 1
 							temp.Verdict = cSubmissionList[j].Verdict
-							temp.AccpedtedAt = cSubmissionList[j].SubmittedAt
+							temp.AcceptedAt = cSubmissionList[j].SubmittedAt
 							problemSet[tempSerial] = temp
 
 							//setting up original variable contestantData
@@ -937,7 +937,7 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 							temp.Penalty = problemSet[tempSerial].Penalty + 1 //only penalty will inc by 1
 							temp.CompilationError = problemSet[tempSerial].CompilationError
 							temp.Verdict = cSubmissionList[j].Verdict
-							temp.AccpedtedAt = cSubmissionList[j].SubmittedAt
+							temp.AcceptedAt = cSubmissionList[j].SubmittedAt
 							problemSet[tempSerial] = temp
 
 							//setting up original variable contestantData
