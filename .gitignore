@@ -9,6 +9,3 @@
 
 #all exe file
 *.exe
-
-#all test file
-test.*
