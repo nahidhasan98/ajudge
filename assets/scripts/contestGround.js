@@ -353,7 +353,7 @@ function displayStandings(contestantData) {
 
             let dataCreate = `<tr class="standingRow">
                 <td style="width:`+ x1 + `%;">` + rank + `</td>
-                <td style="width:`+ x4 + `%;"><a href="/profile/">` + contestantData[i].Username + `</a></td>
+                <td style="width:`+ x4 + `%;"><a href="/profile/` + contestantData[i].Username + `">` + contestantData[i].Username + `</a></td>
                 <td style="width:`+ x2 + `%;" title="Solved: ` + contestantData[i].TotalSolved + ` / Penalty Time: ` + makeMinute(contestantData[i].TotalTime) + `"><span style="color:#1d9563;font-weight: bold;font-size: 15px;">` + contestantData[i].TotalSolved + `</span><br>` + makeMinute(contestantData[i].TotalTime) + `</td>`;
 
             if (contestantData[i].SubDetails != null) { //at least 1 submission done(except compilation error) by this user
