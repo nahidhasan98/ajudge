@@ -359,7 +359,7 @@ function displayStandings(contestantData) {
             if (contestantData[i].SubDetails != null) { //at least 1 submission done(except compilation error) by this user
                 for (let j = 65; j < (65 + problemSetLength); j++) { //for A to Z problem
                     let serialIndex = String.fromCharCode(j);
-
+                    console.log(contestantData[i].SubDetails["Z"])
                     if (contestantData[i].SubDetails[serialIndex] != undefined) {
                         //console.log(contestantData[i].SubDetails[serialIndex]);
                         let tempVerdict = contestantData[i].SubDetails[serialIndex].Verdict;
@@ -373,6 +373,7 @@ function displayStandings(contestantData) {
                             dataCreate += `<td style="width:` + x1 + `%; "title="Accepted: 0` + tdTitle + `"><img src="../assets/images/cross.png" style="width:15px;"><br><span style="color:#1d9563;">0</span> / <span style="color:#de3b3b;">` + penaltyCount + `</span> / <span style="color:#e68a00;">` + comErrorCount + `</span></td>`;
                         }
                     } else {
+                        console.log("el")
                         dataCreate += `<td style="width:` + x1 + `%;"></td>`;
                     }
                 }
@@ -519,12 +520,13 @@ function checkFirstSolved(conData, contestantSerial, serial) {
     let temp = Number.MAX_SAFE_INTEGER;
 
     for (let i = 0; i < conData.length; i++) {
-        temp = Math.min(temp, conData[i].SubDetails[serial].AccpedtedAt);
+        if (conData[i].SubDetails[serial] != undefined) {
+            temp = Math.min(temp, conData[i].SubDetails[serial].AcceptedAt);
+        }
     }
-    console.log(temp, conData[contestantSerial].SubDetails[serial].AccpedtedAt);
 
     //if current user submission(accepted) is first
-    if (conData[contestantSerial].SubDetails[serial].AccpedtedAt == temp) {
+    if (conData[contestantSerial].SubDetails[serial].AcceptedAt == temp) {
         res = `<img src="../assets/images/tickCircle.png" style="width:16px;">`; //first AC
     } else {
         res = `<img src="../assets/images/tick.png" style="width:15px;">`;  //normal AC
