@@ -835,6 +835,9 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 			temp.SourceCode = ""
 		}
 
+		//no need to send OJ & pNum to frontend of a contest
+		temp.OJ, temp.PNum = "", ""
+
 		//for submission list
 		cSubmissionList = append(cSubmissionList, temp)
 
