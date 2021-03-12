@@ -368,7 +368,7 @@ function displayStandings(contestantData) {
                         let tdTitle = " / Penalty: " + penaltyCount + " / Compilation Error: " + comErrorCount;
 
                         if (tempVerdict == "Accepted") {
-                            dataCreate += `<td style="width:` + x1 + `%;" title="Accepted: 1` + tdTitle + `"><img src="../assets/images/tick.png" style="width:15px;"><br><span style="color:#1d9563;">1</span> / <span style="color:#de3b3b;">` + penaltyCount + `</span> / <span style="color:#e68a00;">` + comErrorCount + `</span></td>`;
+                            dataCreate += `<td style="width:` + x1 + `%;" title="Accepted: 1` + tdTitle + `">` + checkFirstSolved(contestantData, i, serialIndex) + `<br><span style="color:#1d9563;">1</span> / <span style="color:#de3b3b;">` + penaltyCount + `</span> / <span style="color:#e68a00;">` + comErrorCount + `</span></td>`;
                         } else {
                             dataCreate += `<td style="width:` + x1 + `%; "title="Accepted: 0` + tdTitle + `"><img src="../assets/images/cross.png" style="width:15px;"><br><span style="color:#1d9563;">0</span> / <span style="color:#de3b3b;">` + penaltyCount + `</span> / <span style="color:#e68a00;">` + comErrorCount + `</span></td>`;
                         }
@@ -512,4 +512,23 @@ function showRunningTimer() {
             clearInterval(timer);
         }
     }, 1000);
+}
+
+function checkFirstSolved(conData, contestantSerial, serial) {
+    let res = "";
+    let temp = Number.MAX_SAFE_INTEGER;
+
+    for (let i = 0; i < conData.length; i++) {
+        temp = Math.min(temp, conData[i].SubDetails[serial].AccpedtedAt);
+    }
+    console.log(temp, conData[contestantSerial].SubDetails[serial].AccpedtedAt);
+
+    //if current user submission(accepted) is first
+    if (conData[contestantSerial].SubDetails[serial].AccpedtedAt == temp) {
+        res = `<img src="../assets/images/tickCircle.png" style="width:16px;">`; //first AC
+    } else {
+        res = `<img src="../assets/images/tick.png" style="width:15px;">`;  //normal AC
+    }
+
+    return res;
 }
