@@ -69,7 +69,7 @@
                             {{ if (eq .PageName "UpdateContest")}}
                             <input type="text" class="form-control" name="contestTimeDummy" placeholder="{{ .ContestData.Time }}" required readonly>
                             {{ else }}
-                            <input type="time" class="form-control" name="contestTime" placeholder="" required>
+                            <input type="text" class="form-control" name="contestTime" placeholder="hh:mm:ss (in 24-hour format)" required>
                             {{ end }}
                         </div>
                     </div>

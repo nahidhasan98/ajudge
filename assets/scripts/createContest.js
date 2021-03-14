@@ -66,9 +66,9 @@ $("input[name=pNum]").change(function () {
     newReq();
 })
 $("input[name=pName]").change(function () {
-    console.log("Hello1")
+    //console.log("Hello1")
     $('#loadingGifPName').css('display', 'inline-block');
-    console.log("Hello2")
+    //console.log("Hello2")
     newReq();
 })
 function newReq() {
@@ -215,13 +215,56 @@ $(document).ready(function () {
 
         //checking wheather start time valid or not
         if (pathname.indexOf("/contestUpdate/") != 0) { //skip time validation for update
-            let startTime = new Date($('input[name="contestDate"]').val() + " " + $('input[name="contestTime"]').val());
+            let flag = 1;
+            //checking 24-hour input format is valid
+            let tInput = $('input[name="contestTime"]').val().trim();
+
+            let h1 = parseInt(tInput.substr(0, 1), 10);
+            let h2 = parseInt(tInput.substr(1, 1), 10);
+            let hh = parseInt(tInput.substr(0, 2), 10);
+
+            let m1 = parseInt(tInput.substr(3, 1), 10);
+            let m2 = parseInt(tInput.substr(4, 1), 10);
+            let mm = parseInt(tInput.substr(3, 2), 10);
+
+            let s1 = parseInt(tInput.substr(6, 1), 10);
+            let s2 = parseInt(tInput.substr(7, 1), 10);
+            let ss = parseInt(tInput.substr(6, 2), 10);
+            //console.log(tInput, h1, h2, hh, m1, m2, mm, s1, s2, ss)
+
+            if (isNaN(h1) || h1 < 0 || h1 > 2 || isNaN(h2) || h2 < 0 || h2 > 9 || isNaN(h2) || hh < 0 || hh > 23) flag = 0;
+            if (isNaN(m1) || m1 < 0 || m1 > 5 || isNaN(m2) || m2 < 0 || m2 > 9 || isNaN(mm) || mm < 0 || mm > 59) flag = 0;
+            if (isNaN(s1) || s1 < 0 || s1 > 5 || isNaN(s2) || s2 < 0 || s2 > 9 || isNaN(ss) || ss < 0 || ss > 59) flag = 0;
+
+            //console.log(flag)
+            if (flag == 0) {
+                //setting up empty if there present spaces
+                //$('input[name="contestTime"]').val("");
+                $('input[name="contestTime"]').addClass('alert alert-danger');
+
+                $('div[role="alert"]').text("Start time should be in 24-hour format!");
+                $('div[role="alert"]').addClass('d-block');
+
+                return false;
+            } else { //24-hour format ok
+                tInput = "";
+                if (hh < 10) tInput = "0";
+                tInput += hh.toString() + ":";
+                if (mm < 10) tInput += "0";
+                tInput += mm.toString() + ":";
+                if (ss < 10) tInput += "0";
+                tInput += ss.toString()
+
+                $('input[name="contestTime"]').val(tInput);
+            }
+
+            let startTime = new Date($('input[name="contestDate"]').val() + " " + $('input[name="contestTime"]').val().trim());
             let currentTime = new Date();
             // console.log(startTime);
             // console.log(currentTime);
             if (startTime <= currentTime) {
                 //setting up empty if there present spaces
-                $('input[name="contestTime"]').val("");
+                //$('input[name="contestTime"]').val("");
                 $('input[name="contestTime"]').addClass('alert alert-danger');
 
                 $('div[role="alert"]').text("Start time must be later from now!");

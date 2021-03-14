@@ -115,7 +115,7 @@ func CreateContest(w http.ResponseWriter, r *http.Request) {
 
 		//currentTime := time.Now()
 		//zone, _ := currentTime.Zone()
-		contestDateTime := contestDate + "T" + contestTime + ":00Z"
+		contestDateTime := contestDate + "T" + contestTime + "Z"
 		contestDT, err := time.Parse(time.RFC3339, contestDateTime) //format RFC3339 = "2006-01-02T15:04:05Z07:00"
 		errorhandling.Check(err)
 
