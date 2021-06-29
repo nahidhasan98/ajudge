@@ -21,6 +21,7 @@ import (
 	"github.com/nahidhasan98/ajudge/oj/vjudge"
 	"github.com/nahidhasan98/ajudge/vault"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -93,125 +94,98 @@ func ProblemList(w http.ResponseWriter, r *http.Request) {
 	}
 	//fmt.Println(OJ,pNum,pName)
 
-	var pListFinal []model.List
+	var pListFinal []model.ProblemList
 
-	//searching problem from DimikOJ first
-	var pRes []byte
-	if OJ == "" || OJ == "All" || OJ == "DimikOJ" {
-		if pNum != "" {
-			pRes = dimik.Search(pNum)
-		} else if pName != "" {
-			pRes = dimik.Search(pName)
-		} else {
-			if OJ == "DimikOJ" { //again checking cause it may contains only DimikOJ or All OJ
-				pRes = dimik.Search("DimikOJ Only")
-			} else {
-				rand.Seed(time.Now().UnixNano())
-				min := 1   //the first problem DimikOJ is 1
-				max := 100 //the last problem DimikOJ is approx. 100
-				sQuery := rand.Intn(max-min+1) + min
-				pRes = dimik.Search(strconv.Itoa(sQuery))
-			}
-		}
-		type PResList struct {
-			Num  string `json:"Num"`
-			Name string `json:"Name"`
-		}
-		var pResList []PResList
-		json.Unmarshal(pRes, &pResList)
-
-		for i := 0; i < len(pResList); i++ {
-			var temp model.List
-
-			temp.OJ = "DimikOJ"
-			temp.Num = pResList[i].Num
-			temp.Name = pResList[i].Name
-
-			pListFinal = append(pListFinal, temp)
-		}
-	}
-	if OJ == "" || OJ == "All" || OJ == "Toph" {
-		if pNum != "" {
-			pRes = toph.Search(pNum)
-		} else if pName != "" {
-			pRes = toph.Search(pName)
-		} else {
-			if OJ == "Toph" { //again checking cause it may contains only DimikOJ or All OJ
-				pRes = toph.Search("Toph Only")
-			} else { //actually this do nothing because Toph has no problem number
-				rand.Seed(time.Now().UnixNano())
-				min := 1   //the first problem DimikOJ is 1
-				max := 100 //the last problem DimikOJ is approx. 100
-				sQuery := rand.Intn(max-min+1) + min
-				pRes = toph.Search(strconv.Itoa(sQuery))
-			}
-		}
-		type PResList struct {
-			Num  string `json:"Num"`
-			Name string `json:"Name"`
-		}
-		var pResList []PResList
-		json.Unmarshal(pRes, &pResList)
-
-		for i := 0; i < len(pResList); i++ {
-			var temp model.List
-
-			temp.OJ = "Toph"
-			temp.Num = pResList[i].Num
-			temp.Name = pResList[i].Name
-
-			pListFinal = append(pListFinal, temp)
-		}
-	}
-	if OJ == "" || OJ == "All" || OJ == "URI" {
-		if pNum != "" {
-			pRes = uri.Search(pNum)
-		} else if pName != "" {
-			pRes = uri.Search(pName)
-		} else {
-			if OJ == "URI" {
-				pRes = uri.Search("URI Only")
-			} else {
-				rand.Seed(time.Now().UnixNano())
-				min := 1001 //the first problem in URI is 1001
-				max := 3100 //the last problem in URI is approx. 3100
-				sQuery := rand.Intn(max-min+1) + min
-				pRes = uri.Search(strconv.Itoa(sQuery))
-			}
-		}
-		type PResList struct {
-			Num  string `json:"Num"`
-			Name string `json:"Name"`
-		}
-		var pResList []PResList
-		json.Unmarshal(pRes, &pResList)
-
-		for i := 0; i < len(pResList); i++ {
-			var temp model.List
-
-			temp.OJ = "URI"
-			temp.Num = pResList[i].Num
-			temp.Name = pResList[i].Name
-
-			pListFinal = append(pListFinal, temp)
-		}
-	}
-	if OJ != "DimikOJ" && OJ != "Toph" && OJ != "URI" {
-		probData := vjudge.Search(OJ, pNum, pName)
-
-		var temp model.List
-		for i := 0; i < len(probData); i++ {
-			temp.OJ = probData[i].OJ
-			temp.Num = probData[i].Num
-			temp.Name = probData[i].Name
-
-			pListFinal = append(pListFinal, temp)
-		}
+	if pNum == "" && pName == "" {
+		pListFinal = multipleSearch(OJ)
+	} else {
+		pListFinal = singleSearch(OJ, pNum, pName)
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	b, _ := json.Marshal(pListFinal)
 	w.Write(b)
+}
+
+func multipleSearch(OJ string) []model.ProblemList {
+	//connecting to DB
+	DB, ctx, cancel := db.Connect()
+	defer cancel()
+	defer DB.Client().Disconnect(ctx)
+
+	//taking DB collection/table to a variable
+	problemCollection := DB.Collection("problem")
+
+	//getting data from DB
+	//setting up options for retrieving data from DB
+	var pipe []primitive.M
+
+	if OJ != "" && OJ != "All" {
+		pipe = []bson.M{
+			{"$match": bson.M{
+				"OJ": OJ,
+			}},
+		}
+	}
+	pipe = append(pipe, bson.M{
+		"$sample": bson.M{
+			"size": 2000,
+		},
+	})
+
+	cursor, err := problemCollection.Aggregate(ctx, pipe)
+	errorhandling.Check(err)
+
+	var pList []model.ProblemList
+
+	err = cursor.All(ctx, &pList)
+	errorhandling.Check(err)
+
+	err = cursor.Close(ctx)
+	errorhandling.Check(err)
+
+	return pList
+}
+
+func singleSearch(OJ, pNum, pName string) []model.ProblemList {
+	var pListFinal []model.ProblemList
+	var pList []model.ProblemList
+
+	if OJ == "" || OJ == "All" || OJ == "DimikOJ" {
+		if pNum != "" {
+			pList = dimik.Search(pNum)
+		} else if pName != "" {
+			pList = dimik.Search(pName)
+		}
+		pListFinal = append(pListFinal, pList...)
+	}
+	if OJ == "" || OJ == "All" || OJ == "Toph" {
+		if pNum != "" {
+			pList = toph.Search(pNum)
+		} else if pName != "" {
+			pList = toph.Search(pName)
+		}
+		pListFinal = append(pListFinal, pList...)
+	}
+	if OJ == "" || OJ == "All" || OJ == "URI" {
+		if pNum != "" {
+			pList = uri.Search(pNum)
+		} else if pName != "" {
+			pList = uri.Search(pName)
+		}
+		pListFinal = append(pListFinal, pList...)
+	}
+	if OJ != "DimikOJ" && OJ != "Toph" && OJ != "URI" {
+		pList := vjudge.Search(OJ, pNum, pName)
+
+		pListFinal = append(pListFinal, pList...)
+	}
+
+	//Shuffling the problem list
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(pListFinal), func(i, j int) { pListFinal[i], pListFinal[j] = pListFinal[j], pListFinal[i] })
+
+	return pListFinal
 }
 
 //GetUserSubmission function for grabbing all submissions of a user
