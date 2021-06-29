@@ -15,8 +15,8 @@ import (
 
 //GetLanguage function for grabbing language suported when submitting problem solution
 func GetLanguage(w http.ResponseWriter, r *http.Request) {
-	OJList, _ := r.URL.Query()["OJ"]
-	pNumList, _ := r.URL.Query()["pNum"]
+	OJList := r.URL.Query()["OJ"]
+	pNumList := r.URL.Query()["pNum"]
 
 	var OJ, pNum string
 	if len(OJList) > 0 {
