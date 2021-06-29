@@ -68,7 +68,7 @@ func ProblemView(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	if model.OJSet[OJ] == false || pNum == "" { //bad url, not OJ & pNum specified
+	if !model.OJSet[OJ] || pNum == "" { //bad url, not OJ & pNum specified
 		errorPage(w, http.StatusBadRequest) //http.StatusBadRequest = 400
 		return
 	}
@@ -116,7 +116,7 @@ func ProblemView(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		//checking whether problem submission allowed or not
-		if allowSubmit == true && status == 0 {
+		if allowSubmit && status == 0 {
 			allowSubmit = true
 		}
 
@@ -183,7 +183,7 @@ func Origin(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	if model.OJSet[OJ] == false || pNum == "" { //bad url, not OJ & pNum specified
+	if !model.OJSet[OJ] || pNum == "" { //bad url, not OJ & pNum specified
 		errorPage(w, http.StatusBadRequest) //http.StatusBadRequest = 400
 		return
 	}
