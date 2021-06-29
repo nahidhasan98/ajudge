@@ -99,7 +99,6 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	session.Save(r, w)
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
-	return
 }
 
 //function used above by this particular file
