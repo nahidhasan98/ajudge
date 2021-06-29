@@ -63,11 +63,11 @@ var (
 	LanguagePack = make(map[string]string)
 )
 
-//List variable for holding problem Name,number etc.(collected from search result)
-type List struct {
-	OJ   string `json:"originOJ"`
-	Num  string `json:"originProb"`
-	Name string `json:"title"`
+//ProblemList variable for holding problem Name,number etc.(collected from search result)
+type ProblemList struct {
+	OJ    string `json:"OJ"`
+	PNum  string `json:"pNum"`
+	PName string `json:"pName"`
 }
 
 //OJSet variable for clarifying total number of OJ
