@@ -395,7 +395,7 @@ func GetProblemSet(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	if model.OJSet[OJ] == false || pNum == "" { //bad url, not OJ & pNum specified
+	if !model.OJSet[OJ] || pNum == "" { //bad url, not OJ & pNum specified
 		errorPage(w, http.StatusBadRequest) //http.StatusBadRequest = 400
 		return
 	}
@@ -443,7 +443,7 @@ func GetProblemSet(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		//checking whether problem submission allowed or not
-		if allowSubmit == true && status == 0 {
+		if allowSubmit && status == 0 {
 			allowSubmit = true
 		}
 
@@ -532,7 +532,7 @@ func SubmitC(w http.ResponseWriter, r *http.Request) {
 					}
 				}
 
-				if model.OJSet[OJ] == false || pNum == "" { //bad url, not OJ & pNum specified
+				if !model.OJSet[OJ] || pNum == "" { //bad url, not OJ & pNum specified
 					model.PTitle, model.PTimeLimit, model.PMemoryLimit, model.PSourceLimit, model.PDesSrcVJ, model.POrigin = "", "", "", "", "", ""
 					errorPage(w, http.StatusBadRequest) //http.StatusBadRequest = 400
 					return
@@ -583,12 +583,12 @@ func SubmitC(w http.ResponseWriter, r *http.Request) {
 					}
 					//got a problem with this OJ & pNum
 					//checking whether problem submission allowed or not
-					if allowSubmit == true && status == 0 {
+					if allowSubmit && status == 0 {
 						allowSubmit = true
 					}
 				}
 
-				if allowSubmit == true {
+				if allowSubmit {
 					model.Info["Username"] = session.Values["username"]
 					model.Info["Password"] = session.Values["password"]
 					model.Info["IsLogged"] = session.Values["isLogin"]
@@ -608,7 +608,7 @@ func SubmitC(w http.ResponseWriter, r *http.Request) {
 					//clearing up values (because it may be used in wrong place unintentionally)
 					model.PopUpCause = ""
 					model.Info["PopUpCause"] = model.PopUpCause
-				} else if allowSubmit == false {
+				} else if !allowSubmit {
 					link := "/contest"
 					http.Redirect(w, r, link, http.StatusSeeOther)
 					return
