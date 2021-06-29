@@ -143,5 +143,4 @@ func EmailVerifiation(w http.ResponseWriter, r *http.Request) {
 
 	model.PopUpCause = "tokenVerifiedNow"
 	http.Redirect(w, r, "/", http.StatusSeeOther)
-	return
 }
