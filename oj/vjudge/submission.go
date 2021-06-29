@@ -150,5 +150,4 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 	model.Info["SerialIndex"] = serialIndex
 
 	http.Redirect(w, r, "/profile", http.StatusSeeOther)
-	return
 }
