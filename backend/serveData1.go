@@ -77,9 +77,9 @@ func CheckDB(w http.ResponseWriter, r *http.Request) {
 
 //ProblemList function for searching problem from OJ
 func ProblemList(w http.ResponseWriter, r *http.Request) {
-	OJList, _ := r.URL.Query()["OJ"]
-	pNumList, _ := r.URL.Query()["pNum"]
-	pNameList, _ := r.URL.Query()["pName"]
+	OJList := r.URL.Query()["OJ"]
+	pNumList := r.URL.Query()["pNum"]
+	pNameList := r.URL.Query()["pName"]
 
 	var OJ, pNum, pName string
 	if len(OJList) > 0 {
@@ -347,6 +347,7 @@ func Verdict(w http.ResponseWriter, r *http.Request) {
 
 		apiURL := "https://dimikoj.com/submissions/" + submissionData.VID
 		req, err := http.NewRequest("GET", apiURL, nil)
+		errorhandling.Check(err)
 		req.Header.Add("Content-Type", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		response, err := model.Client.Do(req)
 		errorhandling.Check(err)
@@ -389,6 +390,7 @@ func Verdict(w http.ResponseWriter, r *http.Request) {
 
 		apiURL := "https://toph.co/s/" + submissionData.VID
 		req, err := http.NewRequest("GET", apiURL, nil)
+		errorhandling.Check(err)
 		req.Header.Add("Content-Type", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		response, err := model.Client.Do(req)
 		errorhandling.Check(err)
@@ -561,6 +563,7 @@ func Rejudge(w http.ResponseWriter, r *http.Request) {
 
 		apiURL := "https://dimikoj.com/submissions/" + submissionData.VID
 		req, err := http.NewRequest("GET", apiURL, nil)
+		errorhandling.Check(err)
 		req.Header.Add("Content-Type", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		response, err := model.Client.Do(req)
 		errorhandling.Check(err)
@@ -603,6 +606,7 @@ func Rejudge(w http.ResponseWriter, r *http.Request) {
 
 		apiURL := "https://toph.co/s/" + submissionData.VID
 		req, err := http.NewRequest("GET", apiURL, nil)
+		errorhandling.Check(err)
 		req.Header.Add("Content-Type", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		response, err := model.Client.Do(req)
 		errorhandling.Check(err)
@@ -835,9 +839,9 @@ func GetRankList(w http.ResponseWriter, r *http.Request) {
 
 //SubHistory function for retrieving User's previous submission history of a specific problem
 func SubHistory(w http.ResponseWriter, r *http.Request) {
-	OJList, _ := r.URL.Query()["OJ"]
-	pNumList, _ := r.URL.Query()["pNum"]
-	userList, _ := r.URL.Query()["user"]
+	OJList := r.URL.Query()["OJ"]
+	pNumList := r.URL.Query()["pNum"]
+	userList := r.URL.Query()["user"]
 
 	var OJ, pNum, user string
 	if len(OJList) > 0 {
