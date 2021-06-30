@@ -65,9 +65,9 @@ var (
 
 //ProblemList variable for holding problem Name,number etc.(collected from search result)
 type ProblemList struct {
-	OJ    string `json:"OJ"`
-	PNum  string `json:"pNum"`
-	PName string `json:"pName"`
+	OJ    string `bson:"OJ"`
+	PNum  string `bson:"pNum"`
+	PName string `bson:"pName"`
 }
 
 //OJSet variable for clarifying total number of OJ
