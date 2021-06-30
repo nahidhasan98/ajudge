@@ -147,12 +147,12 @@ function displayProblem(active) {
     var finish = start + 20;
 
     for (i = start; i < Math.min(finish, pList.length); i++) {
-        var link = "/problemView/" + pList[i].OJ + "-" + pList[i].pNum;
+        var link = "/problemView/" + pList[i].OJ + "-" + pList[i].PNum;
 
         dataCreate = `<tr class="problemRow">`;
         if (username != null && username != "") {
             //setting a color to the verdict result
-            let solvedStatus = getSolvedStatus(pList[i].OJ, pList[i].pNum);
+            let solvedStatus = getSolvedStatus(pList[i].OJ, pList[i].PNum);
             if (solvedStatus == "Solved") {
                 dataCreate += `<td style="color:#1d9563">Solved</td>`;
             } else if (solvedStatus == "Tried") {
@@ -162,8 +162,8 @@ function displayProblem(active) {
             }
         }
         dataCreate += `<td>` + pList[i].OJ + `</td>
-                    <td>`+ pList[i].pNum + `</td>
-                    <td><a href="`+ link + `">` + pList[i].pName + `</a></td>
+                    <td>`+ pList[i].PNum + `</td>
+                    <td><a href="`+ link + `">` + pList[i].PName + `</a></td>
                 </tr>`;
 
         $('#problemTable').append(dataCreate);
