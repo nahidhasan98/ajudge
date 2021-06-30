@@ -148,8 +148,7 @@ func multipleSearch(OJ string) []model.ProblemList {
 }
 
 func singleSearch(OJ, pNum, pName string) []model.ProblemList {
-	var pListFinal []model.ProblemList
-	var pList []model.ProblemList
+	var pListFinal, pList []model.ProblemList
 
 	if OJ == "" || OJ == "All" || OJ == "DimikOJ" {
 		if pNum != "" {
