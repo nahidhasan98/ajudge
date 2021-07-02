@@ -246,11 +246,14 @@ func fileOperation(imageLink, segmentSeparator, fileExtension string) string {
 	// 	},
 	// }
 	resp, err := model.Client.Get(imageLink)
-	errorhandling.Check(err)
-	defer resp.Body.Close()
-	io.Copy(file, resp.Body) //copying response image to my just created empty file
-	defer file.Close()
-	//fmt.Println("Just Downloaded a file %s with size %d", fileName, size)
+
+	if resp != nil {
+		errorhandling.Check(err)
+		defer resp.Body.Close()
+		io.Copy(file, resp.Body) //copying response image to my just created empty file
+		defer file.Close()
+		//fmt.Println("Just Downloaded a file %s with size %d", fileName, size)
+	}
 
 	return fullFileName
 }
