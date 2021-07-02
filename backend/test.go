@@ -3,56 +3,24 @@ package backend
 import (
 	"fmt"
 	"net/http"
-	"strings"
 
-	"github.com/PuerkitoBio/goquery"
 	"github.com/nahidhasan98/ajudge/errorhandling"
-	"github.com/nahidhasan98/ajudge/oj/uri"
+	"github.com/nahidhasan98/ajudge/model"
 )
 
 //Test function for testing a piece of code
 func Test(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
-	//data that will be collected
-	type DList struct {
-		OJ    string `bson:"OJ"`
-		PNum  string `bson:"pNum"`
-		PName string `bson:"pName"`
-	}
-	//data that will be collected
-	var problemList []interface{}
-
-	apiURL := "https://www.urionlinejudge.com.br/judge/en/problems/all?page=64"
-	response := uri.GETRequest(apiURL)
-	defer response.Body.Close()
-
-	document, err := goquery.NewDocumentFromReader(response.Body)
+	apiURL := "https://vj.z180.cn/12d411fa8f4427a3e7abbbfbb77854e0"
+	req, err := http.NewRequest("GET", apiURL, nil)
 	errorhandling.Check(err)
+	req.Header.Add("Content-Type", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 
-	//collecting a list of problem numbers
-	document.Find("td[class='large']").Each(func(index int, mixedStr *goquery.Selection) {
-		tempNum, _ := mixedStr.Find("a").Attr("href")
+	response, err := model.Client.Do(req)
+	//errorhandling.Check(err)
 
-		need := "/judge/en/problems/view/"
-		match := strings.Index(tempNum, need)
-
-		if match != -1 {
-			tempNum = strings.TrimPrefix(tempNum, "/judge/en/problems/view/")
-			tempName := mixedStr.Find("a").Text()
-
-			temp := DList{"URI", tempNum, tempName}
-			problemList = append(problemList, temp)
-		}
-
-		fmt.Println(mixedStr.Find("a").Text())
-		//removing last/recently added problem(previous loop iteration), if it is a SQL problem
-		if mixedStr.Find("a").Text() == "SQL" {
-			problemList = problemList[:len(problemList)-1]
-		}
-	})
-
-	fmt.Fprintln(w, problemList)
+	fmt.Println(response, err)
 
 	fmt.Println("ENDDDDDD")
 	//model.Tpl.ExecuteTemplate(w, "test.html", nil)
