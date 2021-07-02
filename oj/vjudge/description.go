@@ -247,7 +247,7 @@ func fileOperation(imageLink, segmentSeparator, fileExtension string) string {
 	// }
 	resp, err := model.Client.Get(imageLink)
 
-	if resp != nil {
+	if resp != nil { //if response is nil (due to bad url/server side error/403), then return the blank file (fullFileName)
 		errorhandling.Check(err)
 		defer resp.Body.Close()
 		io.Copy(file, resp.Body) //copying response image to my just created empty file
