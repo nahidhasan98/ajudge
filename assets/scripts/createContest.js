@@ -201,13 +201,13 @@ $(document).ready(function () {
 
             return false;
         }
-        //checking wheather PName empty or not
+        //checking wheather title empty or not
         if ($('input[name="contestTitle"]').val().trim() == "") {
             //setting up empty if there present spaces
             $('input[name="contestTitle"]').val("");
             $('input[name="contestTitle"]').addClass('alert alert-danger');
 
-            $('div[role="alert"]').text("Contest PName cannot be empty!");
+            $('div[role="alert"]').text("Contest title cannot be empty!");
             $('div[role="alert"]').addClass('d-block');
 
             return false;
