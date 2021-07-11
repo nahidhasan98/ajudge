@@ -141,18 +141,6 @@ body{
     margin-right: auto;
     max-width: 100%;
 }
-.Toph .samples{ /* for Toph sample */
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 15px;
-}
-.Toph .samples th{
-    border-bottom: 1px solid #ddd;
-}
-.Toph .samples td {
-    vertical-align: top;
-    padding: 8px 3px;
-}
 .Toph ol, .Toph ul {
     margin-top: 0;
     margin-bottom: 10px;
@@ -212,6 +200,68 @@ body{
     text-decoration: none;
     color: #1f74ad;
 }
+/* toph sample input-output formatting*/
+.Toph .tablebox {
+    min-height: .01%;
+    margin-bottom: 20px;
+    overflow-x: auto;
+}
+.Toph .tablebox>.table {
+    margin-bottom: 0;
+}
+.Toph .tablebox .table th, .Toph .tablebox .table td {
+    border-bottom: 0px;
+}
+.Toph .tablebox .table>thead>tr {
+    border-bottom: 2px solid #f3f5f8;
+}
+.Toph .tablebox table.samples pre {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: transparent;
+}
+.Toph p>img, .Toph p>picture>img {
+    display: block;
+    margin: 0 auto 8px;
+    max-width: 100%;
+}
+.Toph p {
+    margin: 20px 0;
+}
+.Toph .samples pre {
+    font-size: 100%;
+}
+.Toph pre {
+    border-radius: 2px;
+}
+.Toph .pre, code, code[class*=language-], pre, pre[class*=language-] {
+    font-family: Ubuntu Mono,monospace;
+    font-size: 1.05em;
+}
+.Toph pre {
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+}
+.Toph pre code {
+    padding: 0;
+    font-size: inherit;
+    color: inherit;
+    white-space: pre-wrap;
+    background-color: transparent;
+    border-radius: 0;
+}
+.Toph code {
+    border: none;
+    box-shadow: none;
+}   
 @font-face {
     font-family: "myfont";
     src: url("../fonts/ubuntu-m-webfont.woff2") format('woff2');
