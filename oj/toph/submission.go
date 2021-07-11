@@ -65,6 +65,7 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 	errorhandling.Check(err)
 	defer response.Body.Close()
 	body, err := ioutil.ReadAll(response.Body)
+	errorhandling.Check(err)
 	//submission done
 
 	//now getting the submission ID
@@ -148,7 +149,6 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 	model.Info["SerialIndex"] = serialIndex
 
 	http.Redirect(w, r, "/profile", http.StatusSeeOther)
-	return
 }
 
 func createMultipart(language, source string) (io.Reader, string, error) {
@@ -160,6 +160,7 @@ func createMultipart(language, source string) (io.Reader, string, error) {
 	header := make(textproto.MIMEHeader)
 	header.Set("Content-Disposition", fmt.Sprintf(`form-data; name="languageId"`))
 	fileWrite, err := w.CreatePart(header)
+	errorhandling.Check(err)
 	_, err = io.Copy(fileWrite, strings.NewReader(language))
 	errorhandling.Check(err)
 
@@ -168,6 +169,7 @@ func createMultipart(language, source string) (io.Reader, string, error) {
 	header.Set("Content-Disposition", fmt.Sprintf(`form-data; name="source"; filename="`+getSubmitableFilenameAndExtention(language)+`"`))
 	header.Set("Content-Type", "application/octet-stream")
 	fileWrite, err = w.CreatePart(header)
+	errorhandling.Check(err)
 	_, err = io.Copy(fileWrite, strings.NewReader(source))
 	errorhandling.Check(err)
 
