@@ -52,6 +52,7 @@ func Login() string {
 		}
 
 		req, err := http.NewRequest("POST", apiURL, strings.NewReader(postData.Encode()))
+		errorhandling.Check(err)
 		req.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
 		response, err = model.Client.Do(req)
 		errorhandling.Check(err)
