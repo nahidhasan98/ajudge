@@ -3,24 +3,19 @@ package backend
 import (
 	"fmt"
 	"net/http"
-
-	"github.com/nahidhasan98/ajudge/errorhandling"
-	"github.com/nahidhasan98/ajudge/model"
+	"strings"
 )
 
 //Test function for testing a piece of code
 func Test(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
-	apiURL := "https://vj.z180.cn/12d411fa8f4427a3e7abbbfbb77854e0"
-	req, err := http.NewRequest("GET", apiURL, nil)
-	errorhandling.Check(err)
-	req.Header.Add("Content-Type", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	OJ := strings.TrimSpace(r.FormValue("OJ"))
+	pNum := strings.TrimSpace(r.FormValue("pNum"))
+	language := strings.TrimSpace(r.FormValue("language"))
+	source := strings.TrimSpace(r.FormValue("source"))
 
-	response, err := model.Client.Do(req)
-	//errorhandling.Check(err)
-
-	fmt.Println(response, err)
+	fmt.Println(OJ, pNum, language, source)
 
 	fmt.Println("ENDDDDDD")
 	//model.Tpl.ExecuteTemplate(w, "test.html", nil)
