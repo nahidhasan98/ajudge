@@ -10,9 +10,9 @@
         <link rel="stylesheet" href="../assets/styles/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="../assets/styles/main.css" type="text/css">
 
-        {{ if or (eq .PageName "Profile") (eq .PageName "ContestGround")}}
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
-        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        {{ if or (eq .PageName "Profile") (eq .PageName "ContestGround") (eq .PageName "ProblemView")}}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/night-owl.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js"></script>
         {{ end }}
 
         {{ if or (eq .PageName "Contact") (eq .PageName "Registration")}}
