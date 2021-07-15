@@ -1,6 +1,8 @@
 package dimik
 
 import (
+	"encoding/json"
+	"html"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -112,20 +114,27 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 	_, err = counterCollection.UpdateOne(ctx, bson.M{}, updateField)
 	errorhandling.Check(err)
 
-	//preparing info for sending to frontend
-
-	model.PopUpCause = "verdict"
-
-	model.Info["PopUpCause"] = model.PopUpCause
-	model.Info["SubID"] = submissionData.SubID //sending submit id to frontend for getting the verdict with ajax call
-	model.Info["OJ"] = OJ
-	model.Info["PNum"] = pNum
-	model.Info["Language"] = language
-	model.Info["SourceCode"] = source
-	model.Info["SubmittedAt"] = submittedAt
-	model.Info["ContestID"] = contestID
-	model.Info["SerialIndex"] = serialIndex
-
-	http.Redirect(w, r, "/profile", http.StatusSeeOther)
-	return
+	//preparing data for response back
+	respData := struct {
+		SubID       int
+		OJ          string
+		PNum        string
+		Language    string
+		SourceCode  string
+		SubmittedAt string
+		ContestID   int
+		SerialIndex string
+	}{
+		SubID:       submissionData.SubID, //sending submit id to frontend for getting the verdict with ajax call
+		OJ:          OJ,
+		PNum:        pNum,
+		Language:    language,
+		SourceCode:  html.EscapeString(source),
+		SubmittedAt: submittedAt,
+		ContestID:   contestID,
+		SerialIndex: serialIndex,
+	}
+	w.Header().Set("Content-Type", "application/json")
+	b, _ := json.Marshal(respData)
+	w.Write(b)
 }
