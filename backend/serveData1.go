@@ -888,3 +888,23 @@ func GetCaptcha(w http.ResponseWriter, r *http.Request) {
 	b, _ := json.Marshal(capRes)
 	w.Write(b)
 }
+
+func CheckLogin(w http.ResponseWriter, r *http.Request) {
+	session, _ := model.Store.Get(r, "mysession")
+	var response string
+
+	if session.Values["isLogin"] == true {
+		if model.IsAccVerifed(r) {
+			response = "true"
+		} else {
+			model.PopUpCause = "verifyRequired"
+			response = "notVerified"
+		}
+	} else {
+		model.PopUpCause = "loginRequired"
+		response = "false"
+	}
+	w.Header().Set("Content-Type", "application/json")
+	b, _ := json.Marshal(response)
+	w.Write(b)
+}
