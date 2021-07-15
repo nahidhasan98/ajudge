@@ -13,6 +13,8 @@
             <div id="content" style="width:100%;">
                 <p id="invisibleOJ" style="display:none;">{{ .OJ }}</p>
                 <p id="invisiblePNum" style="display:none;">{{ .PNum }}</p>
+                <p id="contestID" style="display:none;">{{ .ContestID }}</p>
+                <p id="serialID" style="display:none;">{{ .SerialIndex }}</p>
                 <div id="probDes">
                     <div class="leftContent">
                         {{/* <h1 style="text-align:center;color:#1b6698; margin-top: 15px;margin-bottom:30px;">{{ .PName }}</h1> */}}
@@ -30,7 +32,7 @@
                     </div>
                     <div id="rightContent">
                     {{ if eq .AllowSubmit true }}
-                        <button id="submitAllow"><a href="/submitC/{{ .ContestID }}-{{ .SerialIndex }}" target="_blank" style="text-decoration:none;color:white;display: block;padding: 7px;">Submit</a></button>
+                        <button id="submitAllow" style="text-decoration:none;color:white;display: block;padding: 7px;">Submit</button>
                     {{ else }}
                         <button id="submitDisable"><a style="text-decoration:none;color:white;display: block;padding: 7px;" title="Submit is not Allowed for this problem. System Error.">Submit</a></button>
                     {{ end }}
@@ -78,5 +80,6 @@
         <script src="../../../assets/scripts/main.js"></script>
         <script src="../../../assets/scripts/problemView.js"></script>
         <script src="../../../assets/scripts/iframeResizer.contentWindow.min.js"></script>
+        <script src="../../../assets/scripts/subCiframe.js"></script>
     </body>
 </html>

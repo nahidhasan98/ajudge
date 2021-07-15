@@ -147,7 +147,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="submissions" role="tabpanel" aria-labelledby="submissions-tab" style="min-height: 50vh;overflow:auto;">
+            <div class="tab-pane" id="submissions" role="tabpanel" aria-labelledby="submissions-tab" style="min-height: 50vh;overflow:auto;">
                 <table class="table" id="submissionTable" style="text-align: center;">
                     <tr>
                         <th>Submission ID</th>
@@ -165,13 +165,25 @@
                     <center id="loadingGif"><img src="../assets/images/loading.gif" style="width: 30%;"></center>
                     <center id="notFound" style="padding:10px;"></center>
                 </div>
-                <div class="popup-wrap">
-                    <div class="popup-box" style="max-height: 90vh;width: 80%;padding: 5%;overflow:hidden;">
-                        <pre style="height: 56vh;overflow: hidden;margin-bottom:0;">
-                            <span id="lineNumber"></span>
-                            <code id="viewCode"></code>
-                        </pre>
-                        <a class="close-btn popup-close" href="#close">x</a>
+                {{/* view code modal*/}}
+                <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+                    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalLabel">Submitted Solution</h5>
+                                <span class="modal-close-icon" aria-hidden="true" data-dismiss="modal" aria-label="Close">&times;</span>
+                            </div>
+                            <div class="modal-body">
+                                <pre style="">
+                                    <span id="lineNumber"></span>
+                                    <code id="viewCode"></code>
+                                </pre>
+                            </div>
+                            {{/* <div class="modal-footer">
+                                <button type="button" class="btn modal-close-btn" data-dismiss="modal">Close</button>
+                            </div> */}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -198,6 +210,101 @@
         <center class="h3" style="text-align:center;padding-top:15%;">Problem-set will be revealed after the start of the contest.</center>
     </div>
     {{ end }}
+</div>
+
+{{/* submission modal */}}
+<div class="modal fade" id="submissionModal" tabindex="-1" role="dialog" aria-labelledby="submissionModalLabel"
+    aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="submissionModalLabel">Submit Your Solution</h5>
+                <span class="modal-close-icon" aria-hidden="true" data-dismiss="modal" aria-label="Close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="submission" style="padding: 0px;">
+                    <form method="POST" id="subForm">
+                        <div id="submissionLeft">
+                            <div>
+                                <label>Problem:</label>
+                                <input type="text" name="conIDSerial" id="conIDSerial" value="{{ .ContestID }} - {{ .SerialIndex }}" readonly>
+                            </div>
+                            <div>
+                                <label hidden>OJ:</label>
+                                <input type="text" name="OJ" id="OJform" value="{{ .OJ }}" hidden>
+                            </div>
+                            <div>
+                                <label hidden>Problem Number:</label>
+                                <input type="text" name="pNum" id="pNumform" value="{{ .PNum }}" hidden>
+                            </div>
+                            <div>
+                                <label for="submit-language">Language:</label>
+                                <select name="language" id="submit-language">
+                                </select>
+                            </div>
+                            <center><input type="submit" value="Submit" name="" id="submit-btn" style="margin-top:30px;"></center>
+                        </div>
+                        <div id="submissionRight">
+                            <label for="submit-solution" class="">Solution:<p id="emptyWarning" style="float: right;color: #ff8080;right: 0px;margin-left: 10px;"></p></label>
+                            <textarea spellcheck="false" style="width: 95%; min-height: 400px; margin-top:2px; padding:8px 8px; resize: vertical; font-size:14px;" name="source" id="submit-solution" placeholder="" required></textarea>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {{/* <div class="modal-footer">
+                <button type="button" class="btn modal-close-btn" data-dismiss="modal">Close</button>
+            </div> */}}
+        </div>
+    </div>
+</div>
+
+{{/* verdict Modal */}}
+<div class="modal fade" id="verdictModal" tabindex="-1" role="dialog" aria-labelledby="verdictModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="verdictModalLabel">Submission Result</h5>
+                <span class="modal-close-icon" aria-hidden="true" data-dismiss="modal" aria-label="Close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="resultPart">
+                    <table style="border-collapse: collapse; width:100%; text-align:center;">
+                        <tr>
+                            <th>Submission ID</th>
+                            <th>Problem Number</th>
+                            <th>Verdict</th>
+                            <th>Time</th>
+                            <th>Memory</th>
+                            <th>Language</th>
+                            <th>Submitted At</th>
+                        </tr>
+                        <tr>
+                            <td id="subID"></td>
+                            <td id="pNumtd"></td>
+                            <td>
+                                <img src="../assets/images/loadingVerdict.gif" id="loadingVerdictGif" style="width: 80px;margin-top:4px;display:none;">
+                                <img src="../assets/images/loadingMini.gif" id="judging" style="width: 20px; display:none; cursor:pointer;" title="Judging...">
+                                <img src="../assets/images/rejudge.png" id="rejudge" style="width: 20px; display:none; cursor:pointer;" title="Click to rejudge">
+                                <p id="verdict"></p>
+                            </td>
+                            <td id="time"></td>
+                            <td id="memory"></td>
+                            <td id="language"></td>
+                            <td id="submittedAt"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="8" style="padding: 5px 0px; border:0px">
+                                <pre id="sourceC">
+                                    <span id="lineNumberC"></span>
+                                    <code id="viewCodeC"></code>
+                                </pre>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {{ template "close" . }}
