@@ -1,17 +1,489 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Test Title</title>
 </head>
 
 <body>
-    <span id="timeZoneOff"></span>
+    <span class="artifact__caption">
+        <h1>Is Prime</h1>
+    </span>
+    <div><span title="CPU: 1s, Memory: 512 MB, Source: 32 kB"><span class="text-muted">Limits</span>
+            <span class="dotted" data-toggle="modal" data-target="#mdlFactors">1s, 512 MB</span></span></div>
+    <p>Given an integer <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mi>N</mi>
+                        </mrow>
+                        <annotation encoding="application/x-tex">N</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.68333em;vertical-align:0"></span><span class="mord mathnormal"
+                        style="margin-right:.10903em">N</span></span></span></span>, determine if it is a prime a
+        number.</p>
+    <p>A number is called prime if it is only divisible by itself.</p>
+    <h2>Input</h2>
+    <p>The input will contain one integer <span class="katex"><span class="katex-mathml"><math
+                    xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mi>N</mi>
+                        </mrow>
+                        <annotation encoding="application/x-tex">N</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.68333em;vertical-align:0"></span><span class="mord mathnormal"
+                        style="margin-right:.10903em">N</span></span></span></span> (<span class="katex"><span
+                class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mn>0</mn>
+                            <mo>&lt;</mo>
+                            <mi>N</mi>
+                            <mo>&lt;</mo>
+                            <mn>1000</mn>
+                        </mrow>
+                        <annotation encoding="application/x-tex">0 &lt; N
+                            &lt; 1000</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.68354em;vertical-align:-.0391em"></span><span class="mord">0</span><span
+                        class="mspace" style="margin-right:.2777777777777778em"></span><span
+                        class="mrel">&lt;</span><span class="mspace"
+                        style="margin-right:.2777777777777778em"></span></span><span class="base"><span class="strut"
+                        style="height:.72243em;vertical-align:-.0391em"></span><span class="mord mathnormal"
+                        style="margin-right:.10903em">N</span><span class="mspace"
+                        style="margin-right:.2777777777777778em"></span><span class="mrel">&lt;</span><span
+                        class="mspace" style="margin-right:.2777777777777778em"></span></span><span class="base"><span
+                        class="strut" style="height:.64444em;vertical-align:0"></span><span
+                        class="mord">1000</span></span></span></span>).</p>
+    <h2>Output</h2>
+    <p>Print <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mtext mathvariant="monospace">Yes</mtext>
+                        </mrow>
+                        <annotation encoding="application/x-tex">\texttt{Yes}</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.61111em;vertical-align:0"></span><span class="mord text"><span
+                            class="mord texttt">Yes</span></span></span></span></span> if
+        the integer is prime, otherwise <span class="katex"><span class="katex-mathml"><math
+                    xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mtext mathvariant="monospace">No</mtext>
+                        </mrow>
+                        <annotation encoding="application/x-tex">\texttt{No}</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.61111em;vertical-align:0"></span><span class="mord text"><span
+                            class="mord texttt">No</span></span></span></span></span>.</p>
+    <h2>Sample</h2>
+    <div class="tablebox">
+        <table class="table samples">
+            <thead>
+                <tr>
+                    <th style="width:50%">Input</th>
+                    <th style="width:50%">Output</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="pre copywrap">
+                        <pre id="preSample0Input">7</pre><button class="btn -simple copy"
+                            data-clipboard-target="#preSample0Input"><img class="icon"
+                                src="/icons/copy-outline.svg?_=86335e0216e215b06d5bb1ad68b630010d0c5319" /></button>
+                    </td>
+                    <td class="pre copywrap">
+                        <pre id="preSample0Output">Yes</pre><button class="btn -simple copy"
+                            data-clipboard-target="#preSample0Output"><img class="icon"
+                                src="/icons/copy-outline.svg?_=86335e0216e215b06d5bb1ad68b630010d0c5319" /></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div><br />
 
-    <script src="../assets/scripts/test.js"></script>
+    <p>Given an integer <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mi>N</mi>
+                        </mrow>
+                        <annotation encoding="application/x-tex">N</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.68333em;vertical-align:0"></span><span class="mord mathnormal"
+                        style="margin-right:.10903em">N</span></span></span></span>, determine if it is a prime a
+        number.</p>
+    <p>A number is called prime if it is only divisible by
+        itself.</p>
+    <h2>Input</h2>
+    <p>The input will contain one integer <span class="katex"><span class="katex-mathml"><math
+                    xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mi>N</mi>
+                        </mrow>
+                        <annotation encoding="application/x-tex">N</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.68333em;vertical-align:0"></span><span class="mord mathnormal"
+                        style="margin-right:.10903em">N</span></span></span></span> (<span class="katex"><span
+                class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mn>0</mn>
+                            <mo>&lt;</mo>
+                            <mi>N</mi>
+                            <mo>&lt;</mo>
+                            <mn>1000</mn>
+                        </mrow>
+                        <annotation encoding="application/x-tex">0 &lt; N &lt; 1000</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.68354em;vertical-align:-.0391em"></span><span class="mord">0</span><span
+                        class="mspace" style="margin-right:.2777777777777778em"></span><span
+                        class="mrel">&lt;</span><span class="mspace"
+                        style="margin-right:.2777777777777778em"></span></span><span class="base"><span class="strut"
+                        style="height:.72243em;vertical-align:-.0391em"></span><span class="mord mathnormal"
+                        style="margin-right:.10903em">N</span><span class="mspace"
+                        style="margin-right:.2777777777777778em"></span><span class="mrel">&lt;</span><span
+                        class="mspace" style="margin-right:.2777777777777778em"></span></span><span class="base"><span
+                        class="strut" style="height:.64444em;vertical-align:0"></span><span
+                        class="mord">1000</span></span></span></span>).</p>
+    <h2>Output</h2>
+    <p>Print <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mtext mathvariant="monospace">Yes</mtext>
+                        </mrow>
+                        <annotation encoding="application/x-tex">\texttt{Yes}</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.61111em;vertical-align:0"></span><span class="mord text"><span
+                            class="mord texttt">Yes</span></span></span></span></span> if the integer is prime,
+        otherwise <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mtext mathvariant="monospace">No</mtext>
+                        </mrow>
+                        <annotation encoding="application/x-tex">\texttt{No}</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.61111em;vertical-align:0"></span><span class="mord text"><span
+                            class="mord texttt">No</span></span></span></span></span>.</p>
+    <h2>Sample</h2>
+    <div class="tablebox">
+        <table class="table samples">
+            <thead>
+                <tr>
+                    <th style="width:50%">Input</th>
+                    <th style="width:50%">Output</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="pre copywrap">
+                        <pre id="preSample0Input">7</pre><button class="btn -simple copy"
+                            data-clipboard-target="#preSample0Input"><img class="icon"
+                                src="/icons/copy-outline.svg?_=86335e0216e215b06d5bb1ad68b630010d0c5319" /></button>
+                    </td>
+                    <td class="pre copywrap">
+                        <pre id="preSample0Output">Yes</pre><button class="btn -simple copy"
+                            data-clipboard-target="#preSample0Output"><img class="icon"
+                                src="/icons/copy-outline.svg?_=86335e0216e215b06d5bb1ad68b630010d0c5319" /></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div><br />
+
+
+    <p>Given an integer <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mi>N</mi>
+                        </mrow>
+                        <annotation encoding="application/x-tex">N</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.68333em;vertical-align:0"></span><span class="mord mathnormal"
+                        style="margin-right:.10903em">N</span></span></span></span>, determine if it is a prime a
+        number.</p>
+    <p>A number is called prime if it is only divisible by
+        itself.</p>
+    <h2>Input</h2>
+    <p>The input will contain one integer <span class="katex"><span class="katex-mathml"><math
+                    xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mi>N</mi>
+                        </mrow>
+                        <annotation encoding="application/x-tex">N</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.68333em;vertical-align:0"></span><span class="mord mathnormal"
+                        style="margin-right:.10903em">N</span></span></span></span> (<span class="katex"><span
+                class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mn>0</mn>
+                            <mo>&lt;</mo>
+                            <mi>N</mi>
+                            <mo>&lt;</mo>
+                            <mn>1000</mn>
+                        </mrow>
+                        <annotation encoding="application/x-tex">0 &lt; N &lt; 1000</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.68354em;vertical-align:-.0391em"></span><span class="mord">0</span><span
+                        class="mspace" style="margin-right:.2777777777777778em"></span><span
+                        class="mrel">&lt;</span><span class="mspace"
+                        style="margin-right:.2777777777777778em"></span></span><span class="base"><span class="strut"
+                        style="height:.72243em;vertical-align:-.0391em"></span><span class="mord mathnormal"
+                        style="margin-right:.10903em">N</span><span class="mspace"
+                        style="margin-right:.2777777777777778em"></span><span class="mrel">&lt;</span><span
+                        class="mspace" style="margin-right:.2777777777777778em"></span></span><span class="base"><span
+                        class="strut" style="height:.64444em;vertical-align:0"></span><span
+                        class="mord">1000</span></span></span></span>).</p>
+    <h2>Output</h2>
+    <p>Print <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mtext mathvariant="monospace">Yes</mtext>
+                        </mrow>
+                        <annotation encoding="application/x-tex">\texttt{Yes}</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.61111em;vertical-align:0"></span><span class="mord text"><span
+                            class="mord texttt">Yes</span></span></span></span></span> if the integer is prime,
+        otherwise <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mtext mathvariant="monospace">No</mtext>
+                        </mrow>
+                        <annotation encoding="application/x-tex">\texttt{No}</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.61111em;vertical-align:0"></span><span class="mord text"><span
+                            class="mord texttt">No</span></span></span></span></span>.</p>
+    <h2>Sample</h2>
+    <div class="tablebox">
+        <table class="table samples">
+            <thead>
+                <tr>
+                    <th style="width:50%">Input</th>
+                    <th style="width:50%">Output</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="pre copywrap">
+                        <pre id="preSample0Input">7</pre><button class="btn -simple copy"
+                            data-clipboard-target="#preSample0Input"><img class="icon"
+                                src="/icons/copy-outline.svg?_=86335e0216e215b06d5bb1ad68b630010d0c5319" /></button>
+                    </td>
+                    <td class="pre copywrap">
+                        <pre id="preSample0Output">Yes</pre><button class="btn -simple copy"
+                            data-clipboard-target="#preSample0Output"><img class="icon"
+                                src="/icons/copy-outline.svg?_=86335e0216e215b06d5bb1ad68b630010d0c5319" /></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div><br />
+    <p>Given an integer <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mi>N</mi>
+                        </mrow>
+                        <annotation encoding="application/x-tex">N</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.68333em;vertical-align:0"></span><span class="mord mathnormal"
+                        style="margin-right:.10903em">N</span></span></span></span>, determine if it is a prime a
+        number.</p>
+    <p>A number is called prime if it is only divisible by
+        itself.</p>
+    <h2>Input</h2>
+    <p>The input will contain one integer <span class="katex"><span class="katex-mathml"><math
+                    xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mi>N</mi>
+                        </mrow>
+                        <annotation encoding="application/x-tex">N</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.68333em;vertical-align:0"></span><span class="mord mathnormal"
+                        style="margin-right:.10903em">N</span></span></span></span> (<span class="katex"><span
+                class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mn>0</mn>
+                            <mo>&lt;</mo>
+                            <mi>N</mi>
+                            <mo>&lt;</mo>
+                            <mn>1000</mn>
+                        </mrow>
+                        <annotation encoding="application/x-tex">0 &lt; N &lt; 1000</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.68354em;vertical-align:-.0391em"></span><span class="mord">0</span><span
+                        class="mspace" style="margin-right:.2777777777777778em"></span><span
+                        class="mrel">&lt;</span><span class="mspace"
+                        style="margin-right:.2777777777777778em"></span></span><span class="base"><span class="strut"
+                        style="height:.72243em;vertical-align:-.0391em"></span><span class="mord mathnormal"
+                        style="margin-right:.10903em">N</span><span class="mspace"
+                        style="margin-right:.2777777777777778em"></span><span class="mrel">&lt;</span><span
+                        class="mspace" style="margin-right:.2777777777777778em"></span></span><span class="base"><span
+                        class="strut" style="height:.64444em;vertical-align:0"></span><span
+                        class="mord">1000</span></span></span></span>).</p>
+    <h2>Output</h2>
+    <p>Print <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mtext mathvariant="monospace">Yes</mtext>
+                        </mrow>
+                        <annotation encoding="application/x-tex">\texttt{Yes}</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.61111em;vertical-align:0"></span><span class="mord text"><span
+                            class="mord texttt">Yes</span></span></span></span></span> if the integer is prime,
+        otherwise <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <semantics>
+                        <mrow>
+                            <mtext mathvariant="monospace">No</mtext>
+                        </mrow>
+                        <annotation encoding="application/x-tex">\texttt{No}</annotation>
+                    </semantics>
+                </math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                        style="height:.61111em;vertical-align:0"></span><span class="mord text"><span
+                            class="mord texttt">No</span></span></span></span></span>.</p>
+    <h2>Sample</h2>
+    <div class="tablebox">
+        <table class="table samples">
+            <thead>
+                <tr>
+                    <th style="width:50%">Input</th>
+                    <th style="width:50%">Output</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="pre copywrap">
+                        <pre id="preSample0Input">7</pre><button class="btn -simple copy"
+                            data-clipboard-target="#preSample0Input"><img class="icon"
+                                src="/icons/copy-outline.svg?_=86335e0216e215b06d5bb1ad68b630010d0c5319" /></button>
+                    </td>
+                    <td class="pre copywrap">
+                        <pre id="preSample0Output">Yes</pre><button class="btn -simple copy"
+                            data-clipboard-target="#preSample0Output"><img class="icon"
+                                src="/icons/copy-outline.svg?_=86335e0216e215b06d5bb1ad68b630010d0c5319" /></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div><br />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
 </body>
 
 </html>
+
+<!-- .Toph .copy{  /* Toph sample copy disable */
+    display: none;
+}
+.Toph .math p{
+    margin: 20px 0;
+}
+.Toph h2,.Toph h3,.Toph h4,.Toph h5,.Toph h6{
+    margin: 40px 0 15px;
+}
+.Toph .TophImage{ /* for center position */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+}
+.Toph .samples{ /* for Toph sample */
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 15px;
+}
+.Toph .samples th{
+    border-bottom: 1px solid #ddd;
+}
+.Toph .samples td {
+    vertical-align: top;
+    padding: 8px 3px;
+}
+.Toph ol, .Toph ul {
+    margin-top: 0;
+    margin-bottom: 10px;
+    margin-left: 30px;
+}
+.Toph .math pre code{
+    padding: 0;
+    font-size: inherit;
+    color: inherit;
+    white-space: pre-wrap;
+    background-color: transparent;
+    border-radius: 0;
+}
+.Toph .math code{
+    padding: 2px 4px;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+}
+.Toph .math pre{
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+}
+.Toph .table-responsive{
+    padding: 0px 5px;
+    font-size: 15px;
+}
+.Toph .table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    border: none!important;
+}
+.Toph .table>thead>tr {
+    border-bottom: 1px solid #f3f5f8;
+}
+.Toph .table>tbody>tr>td, .Toph .table>tbody>tr>th, .Toph .table>tfoot>tr>td, .Toph .table>tfoot>tr>th, .Toph .table>thead>tr>td, .Toph .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+}
+.Toph caption, .Toph th{
+    text-align: left;
+}
+.Toph blockquote {
+    padding: 1px 20px;
+    margin: 0 0 20px;
+    border-left: 5px solid #eee;
+}
+.Toph .math p a{
+    text-decoration: none;
+    color: #1f74ad;
+}
+@font-face {
+    font-family: "myfont";
+    src: url("../fonts/ubuntu-m-webfont.woff2") format('woff2');
+}
+@font-face {
+    font-family: "myfont";
+    src: url("../fonts/ubuntu-r-webfont.woff2") format('woff2');
+} -->
