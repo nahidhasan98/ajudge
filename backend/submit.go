@@ -17,123 +17,10 @@ import (
 
 //Submit function for submitting a problem solution
 func Submit(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
-	session, _ := model.Store.Get(r, "mysession")
-	model.LastPage = r.URL.Path
-
 	contestID := 0 //for differentiate from contest submission or normal submission
 	serialIndex := ""
 
-	if r.Method != "POST" {
-		if session.Values["isLogin"] == true {
-			if model.IsAccVerifed(r) {
-				path := r.URL.Path
-				OJpNum := strings.TrimPrefix(path, "/submit/")
-
-				need := "-"
-				index := strings.Index(OJpNum, need)
-				OJ, pNum := "", ""
-
-				if index == -1 { //url is not like this "/submit/OJ-pNum"
-					model.PTitle, model.PTimeLimit, model.PMemoryLimit, model.PSourceLimit, model.PDesSrcVJ, model.POrigin = "", "", "", "", "", ""
-					errorPage(w, http.StatusBadRequest) //http.StatusBadRequest = 400
-					return
-				}
-				//url is something like this "/submit/OJ-pNum"
-				OJ = OJpNum[0:index]
-				pNum = OJpNum[index+1:]
-
-				if !model.OJSet[OJ] || pNum == "" { //bad url, not OJ & pNum specified
-					model.PTitle, model.PTimeLimit, model.PMemoryLimit, model.PSourceLimit, model.PDesSrcVJ, model.POrigin = "", "", "", "", "", ""
-					errorPage(w, http.StatusBadRequest) //http.StatusBadRequest = 400
-					return
-				}
-				// got something in OJ and pNum
-				model.PDesSrcVJ = "" //resetting for now
-				allowSubmit := false
-
-				if OJ == "DimikOJ" {
-					dimik.ProbDes(pNum)
-
-					if model.PTitle == "" { //didn't get any problem
-						model.PTitle, model.PTimeLimit, model.PMemoryLimit, model.PSourceLimit, model.PDesSrcVJ, model.POrigin = "", "", "", "", "", ""
-						errorPage(w, http.StatusBadRequest) //http.StatusBadRequest = 400
-						return
-					}
-					//else got a problem with this OJ & pNum
-					allowSubmit = true
-				} else if OJ == "Toph" {
-					toph.ProbDes(pNum)
-
-					if model.PTitle == "" { //didn't get any problem
-						model.PTitle, model.PTimeLimit, model.PMemoryLimit, model.PSourceLimit, model.PDesSrcVJ, model.POrigin = "", "", "", "", "", ""
-						errorPage(w, http.StatusBadRequest) //http.StatusBadRequest = 400
-						return
-					}
-					//else got a problem with this OJ & pNum
-					allowSubmit = true
-				} else if OJ == "URI" {
-					uri.ProbDes(pNum)
-
-					if model.PTitle == "" { //didn't get any problem
-						model.PTitle, model.PTimeLimit, model.PMemoryLimit, model.PSourceLimit, model.PDesSrcVJ, model.POrigin = "", "", "", "", "", ""
-						errorPage(w, http.StatusBadRequest) //http.StatusBadRequest = 400
-						return
-					}
-					//else got a problem with this OJ & pNum
-					allowSubmit = true
-				} else {
-					//(Finding problem) Verifying that problem exist with this OJ & pNum
-					var status int
-					_, allowSubmit, status = vjudge.ProbDes(OJ, pNum)
-
-					if model.PDesSrcVJ == "" { //didn't get any problem (model.PTitle/model.PDesSrcVJ both will be empty)
-						model.PTitle, model.PTimeLimit, model.PMemoryLimit, model.PSourceLimit, model.PDesSrcVJ, model.POrigin = "", "", "", "", "", ""
-						errorPage(w, http.StatusBadRequest) //http.StatusBadRequest = 400
-						return
-					}
-					//got a problem with this OJ & pNum
-					//checking whether problem submission allowed or not
-					if allowSubmit && status == 0 {
-						allowSubmit = true
-					}
-				}
-
-				if allowSubmit {
-					model.Info["Username"] = session.Values["username"]
-					model.Info["Password"] = session.Values["password"]
-					model.Info["IsLogged"] = session.Values["isLogin"]
-					model.Info["PageName"] = "Submission"
-					model.Info["PageTitle"] = "Submission | AJudge"
-					model.Info["Lastpage"] = model.LastPage
-					model.Info["PopUpCause"] = model.PopUpCause
-					model.Info["ErrorType"] = model.ErrorType
-					model.Info["OJ"] = OJ
-					model.Info["PNum"] = pNum
-					model.Info["PName"] = model.PTitle
-					model.Info["ContestID"] = contestID
-
-					model.Tpl.ExecuteTemplate(w, "submit.gohtml", model.Info)
-
-					//clearing up values (because it may be used in wrong place unintentionally)
-					model.PopUpCause = ""
-					model.Info["PopUpCause"] = model.PopUpCause
-				} else if !allowSubmit {
-					link := "/problemView/" + OJ + "-" + pNum
-					http.Redirect(w, r, link, http.StatusSeeOther)
-					return
-				}
-			} else {
-				model.PopUpCause = "verifyRequired"
-				http.Redirect(w, r, "/", http.StatusSeeOther)
-				return
-			}
-		} else {
-			model.PopUpCause = "loginRequired"
-			http.Redirect(w, r, "/login", http.StatusSeeOther)
-			return
-		}
-	} else if r.Method == "POST" {
+	if r.Method == "POST" {
 		//getting form data
 		OJ := r.FormValue("OJ")
 
@@ -227,23 +114,4 @@ func Submit(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-}
-
-//Result function for verdict page
-func Result(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
-
-	//here only 2 info added. some info are come from submit page
-	model.Info["PageName"] = "Result"
-	model.Info["PageTitle"] = "Result | AJudge"
-
-	model.Tpl.ExecuteTemplate(w, "result.gohtml", model.Info)
-
-	//clearing things up
-	model.Info["SubID"] = ""
-	model.Info["OJ"] = ""
-	model.Info["PNum"] = ""
-	model.Info["Language"] = ""
-	model.Info["SourceCode"] = ""
-	model.Info["SubmittedAt"] = ""
 }
