@@ -35,21 +35,20 @@ func main() {
 	r.PathPrefix("/problemView/").HandlerFunc(backend.ProblemView)
 	r.PathPrefix("/origin/").HandlerFunc(backend.Origin)
 
-	r.PathPrefix("/submit/").HandlerFunc(backend.Submit)
-	r.HandleFunc("/result", backend.Result)
-
 	r.HandleFunc("/contest", backend.Contest)
 	r.HandleFunc("/contest/create", backend.CreateContest)
 	r.PathPrefix("/contestUpdate/").HandlerFunc(backend.ContestUpadte)
 	r.PathPrefix("/contest/").HandlerFunc(backend.ContestGround)
-	r.PathPrefix("/submitC/").HandlerFunc(backend.SubmitC)
 
 	//XHR request
+	r.HandleFunc("/checkLogin", backend.CheckLogin)
 	r.PathPrefix("/check").HandlerFunc(backend.CheckDB)
 	r.PathPrefix("/problemList").HandlerFunc(backend.ProblemList)
 	r.PathPrefix("/userSubmission/").HandlerFunc(backend.GetUserSubmission)
 	r.PathPrefix("/subHistory").HandlerFunc(backend.SubHistory)
 	r.PathPrefix("/lang").HandlerFunc(backend.GetLanguage)
+	r.HandleFunc("/submit", backend.Submit)
+	r.HandleFunc("/submitC", backend.SubmitC)
 	r.PathPrefix("/verdict/subID=").HandlerFunc(backend.Verdict)
 	r.PathPrefix("/rejudge/subID=").HandlerFunc(backend.Rejudge)
 	r.PathPrefix("/listRank").HandlerFunc(backend.GetRankList)
