@@ -197,9 +197,9 @@ function displaySubmissionList() {
             <td>`+ formattedTime + `</td>`
 
             if ($('#contestUser').text().trim() == cSubmissionList[i].Username || $('#contestUser').text().trim() == $('#contestAuthor').text().trim()) {
-                dataCreate += `<td><button onclick="displayCode(` + i + `)">View Code</button></td>`
+                dataCreate += `<td><button onclick="displayCode(` + i + `)" data-toggle="modal" data-target="#modal">View Code</button></td>`
             } else {
-                dataCreate += `<td><button onclick="displayCode(` + i + `)" disabled style="opacity: 50%;color: black;cursor: default;">View Code</button></td>`
+                dataCreate += `<td><button disabled style="opacity: 50%;color: black;cursor: default;">View Code</button></td>`
             }
             dataCreate += `</tr>`
 
@@ -208,20 +208,17 @@ function displaySubmissionList() {
     }
 }
 function displayCode(index) {
-    $('.popup-wrap').fadeIn(500);
-    $('.popup-box').removeClass('transform-out').addClass('transform-in');
-
-    $('#viewCode').text("").remove
-    $('#viewCode').append(cSubmissionList[index].SourceCode)
+    $('#viewCode').text("");
+    $('#viewCode').append(cSubmissionList[index].SourceCode);
 
     //adding line number to the left of code segment
     let s = cSubmissionList[index].SourceCode;
-    $('#lineNumber').text("").remove
-    $('#lineNumber').append(1)
-    let lineNumber = 1
+    $('#lineNumber').text("");
+    $('#lineNumber').append(1);
+    let lineNumber = 1;
     for (i = 0; i < s.length; i++) {
         if (s[i] == '\n')
-            $('#lineNumber').append("<br>" + ++lineNumber)
+            $('#lineNumber').append("<br>" + ++lineNumber);
     }
 
     //for scrolling the line number with code segment
@@ -233,15 +230,12 @@ function displayCode(index) {
         });
     })();
 
-    //for highlighting code syntax
-    document.querySelectorAll('pre code').forEach((block) => {
-        hljs.highlightBlock(block);
+    // first, find all the div.code blocks
+    document.querySelectorAll('pre code').forEach(el => {
+        // then highlight each
+        hljs.highlightElement(el);
     });
 }
-$('.popup-close').click(function () {
-    $('.popup-wrap').fadeOut(500);
-    $('.popup-box').removeClass('transform-in').addClass('transform-out');
-});
 //Converting Unix timestamp (like: 1549312452) to time (like: DATE MONTH YEAR HH/MM/SS AM format)
 function timeConverter(UNIX_timestamp) {
     let a = new Date(UNIX_timestamp * 1000);
@@ -532,3 +526,8 @@ function checkFirstSolved(conData, contestantSerial, serial) {
 
     return res;
 }
+
+//for highlighter js to detect language each time
+$('.modal-close-icon').click(function () {
+    $('#viewCode').removeAttr('class');
+});
