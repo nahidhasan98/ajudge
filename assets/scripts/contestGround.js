@@ -69,10 +69,10 @@ $(document).ready(function () {
     let now = new Date().getTime()
 
     let contestDurationStr = $('#contestDuration').text().trim();
-    let cdHH = contestDurationStr.substr(0, 2);
-    let cdMM = contestDurationStr.substr(3, 2);
-    let cdHour = parseInt(cdHH)
+    let cdMM = contestDurationStr.substr(contestDurationStr.length - 2);    //taking last two digits like: 120:43 -> 43
+    let cdHH = contestDurationStr.substr(0, contestDurationStr.length - 3); //taking first 2/3 char like: 120:43 -> 120
     let cdMin = parseInt(cdMM)
+    let cdHour = parseInt(cdHH)
 
     let contestDuration = (cdHour * 60 * 60 * 1000) + (cdMin * 60 * 1000)
 
@@ -141,7 +141,7 @@ function getContestData() {
     $.ajax({
         url: "/dataContest/" + $('#contestID').text(),
         type: "GET",
-        async: false,
+        async: true,
         success: function (data) {
             //console.log(data);
             cSubmissionList = data.CSubmissionList;
@@ -149,8 +149,8 @@ function getContestData() {
             displaySolvedStatus(data.CSolvedStatus, data.CAttempedStatus, data.CTotalSolved, data.CTotalSubmission)
             displayStandings(data.CContestantData);
         },
-        error: function () {
-            alert('Internal Server Error. Please try again after sometime or send us a feedback.');
+        error: function (response) {
+            console.log(response);
         }
     });
 }
@@ -474,10 +474,10 @@ function showRunningTimer() {
         $('#currentTime').text(hours + ":" + minutes + ":" + seconds);
 
         let contestDurationStr = $('#contestDuration').text().trim();
-        let cdHH = contestDurationStr.substr(0, 2);
-        let cdMM = contestDurationStr.substr(3, 2);
-        let cdHour = parseInt(cdHH)
+        let cdMM = contestDurationStr.substr(contestDurationStr.length - 2);    //taking last two digits like: 120:43 -> 43
+        let cdHH = contestDurationStr.substr(0, contestDurationStr.length - 3); //taking first 2/3 char like: 120:43 -> 120
         let cdMin = parseInt(cdMM)
+        let cdHour = parseInt(cdHH)
 
         let contestDuration = (cdHour * 60 * 60 * 1000) + (cdMin * 60 * 1000)
         let totalTime = contestStartAt + contestDuration;
