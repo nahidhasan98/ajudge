@@ -323,10 +323,18 @@ func ContestGround(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var runningStatus string
-	cHH := dbQuery.Duration[0:2]
-	cMM := dbQuery.Duration[3:]
-	cHour, _ := strconv.Atoi(cHH)
+
+	cMM := dbQuery.Duration[len(dbQuery.Duration)-2:]
+	cHH := ""
+	for i := 0; i < len(dbQuery.Duration); i++ {
+		if string(dbQuery.Duration[i]) == ":" {
+			break
+		} else {
+			cHH += string(dbQuery.Duration[i])
+		}
+	}
 	cMin, _ := strconv.Atoi(cMM)
+	cHour, _ := strconv.Atoi(cHH)
 
 	cDuration := (cHour * 60 * 60) + (cMin * 60)
 	currentTime := time.Now().Unix()
@@ -506,10 +514,19 @@ func SubmitC(w http.ResponseWriter, r *http.Request) {
 			errorPage(w, http.StatusInternalServerError) //http.StatusBadRequest = 400
 			return
 		}
-		cHH := dbQuery.Duration[0:2]
-		cMM := dbQuery.Duration[3:]
-		cHour, _ := strconv.Atoi(cHH)
+
+		cMM := dbQuery.Duration[len(dbQuery.Duration)-2:]
+		cHH := ""
+		for i := 0; i < len(dbQuery.Duration); i++ {
+			if string(dbQuery.Duration[i]) == ":" {
+				break
+			} else {
+				cHH += string(dbQuery.Duration[i])
+			}
+		}
 		cMin, _ := strconv.Atoi(cMM)
+		cHour, _ := strconv.Atoi(cHH)
+
 		cDuration := (cHour * 60 * 60) + (cMin * 60)
 		currentTime := time.Now().Unix()
 
