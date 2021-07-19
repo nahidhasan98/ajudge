@@ -253,10 +253,18 @@ func GetUserSubmission(w http.ResponseWriter, r *http.Request) {
 			}
 
 			//converting duration, string to int64
-			cHH := dbQuery.Duration[0:2]
-			cMM := dbQuery.Duration[3:]
-			cHour, _ := strconv.Atoi(cHH)
+			cMM := dbQuery.Duration[len(dbQuery.Duration)-2:]
+			cHH := ""
+			for i := 0; i < len(dbQuery.Duration); i++ {
+				if string(dbQuery.Duration[i]) == ":" {
+					break
+				} else {
+					cHH += string(dbQuery.Duration[i])
+				}
+			}
 			cMin, _ := strconv.Atoi(cMM)
+			cHour, _ := strconv.Atoi(cHH)
+			
 			cDuration := int64((cHour * 60 * 60) + (cMin * 60))
 
 			contestEndAt := dbQuery.StartAt + cDuration
