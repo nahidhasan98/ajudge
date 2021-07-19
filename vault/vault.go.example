@@ -32,6 +32,9 @@ var (
 	VJudgeUsername string
 	//VJudgePassword variable
 	VJudgePassword string
+
+	//CaptchaKey variable
+    CaptchaKey string
 )
 
 func init() {
