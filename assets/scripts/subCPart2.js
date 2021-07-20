@@ -32,9 +32,14 @@ $('form').on('submit', function () {
         $('#submissionModal').modal('hide');
         $('#verdictModal').modal('show');
 
+        //resetting previous value for now. These values will be added after getting verdict
+        verdict.text("");
+        time.text("");
+        memory.text("");
+        verdict.css('color', '#000');
+
         $('#subID').text(response.SubID);
         $('#pNumtd').text(formData[0].value);
-        // time, memory & verdict will be added from result.js
         $('#language').text(response.Language);
         $('#submittedAt').text(response.SubmittedAt);
         addingSourceCode(response.SourceCode);
