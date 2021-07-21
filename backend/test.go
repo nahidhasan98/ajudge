@@ -3,19 +3,11 @@ package backend
 import (
 	"fmt"
 	"net/http"
-	"strings"
 )
 
 //Test function for testing a piece of code
 func Test(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-
-	OJ := strings.TrimSpace(r.FormValue("OJ"))
-	pNum := strings.TrimSpace(r.FormValue("pNum"))
-	language := strings.TrimSpace(r.FormValue("language"))
-	source := strings.TrimSpace(r.FormValue("source"))
-
-	fmt.Println(OJ, pNum, language, source)
 
 	fmt.Println("ENDDDDDD")
 	//model.Tpl.ExecuteTemplate(w, "test.html", nil)
