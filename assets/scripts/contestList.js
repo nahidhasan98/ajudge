@@ -15,9 +15,10 @@ $(document).ready(function () {
             contestList = data;  //assigning to a global variable
 
             process();
+            $('#combinedRankBtn').css("display","block");
         },
-        error: function () {
-            alert('Internal Server Error. Please try again after sometime or send us a feedback.');
+        error: function (resp) {
+            console.log(resp);
         }
     });
 });
@@ -149,4 +150,164 @@ function startDate(startAt) {
     let timeDate = date + '-' + month + '-' + year;
 
     return timeDate;
+}
+
+$('#combinedRankBtn').click(function () {
+    let btnText = $(this).text();
+
+    if (btnText == "Combined Rank List"){
+        $(this).text("Show Rank");
+        $(this).prop('disabled', true);
+        $(this).css('cursor', 'not-allowed');
+    
+        $('#problemTable tr').each(function(i, row){
+            if ( i == 0 ) {
+                let data = $(row).html();
+                $(row).empty();
+                data = `<th>Select</th>` + data;
+                $(row).append(data);
+            } else {
+                let data = $(row).html();
+                let cID = $(row)[0]["cells"][0]["childNodes"][0]["textContent"];
+                //console.log(id);
+                insertingData = `<td><input type="checkbox" class="chkBox" onclick="checkBoxFn(` + cID + `, this)" style="width: 20px;height: 20px;"></td>`
+                $(row).empty();
+                data = insertingData + data;
+                $(row).append(data);
+            }
+            $('.chkBox').val($(this).is(':checked'));
+        });
+    } else if (btnText =="Show Rank"){
+        //console.log("HHH");
+        $('#cRankModal').modal('show');
+    
+        $('#loadingGifStanding').css("display", "block");        //hide loading gif image
+        //removing current existing rows
+        let rowSize = $('#standingTable tr').length;
+        for (let i = 0; i < rowSize - 1; i++) {
+            $('.standingRow').remove();
+        }
+
+        //removing cIDs column
+        $('.cIDAdded').remove();
+
+        getCombinedData();
+    }
+});
+
+let cList = new Set();
+function checkBoxFn(cID, item){
+    //console.log(cID, $(item));
+    let isChecked = $(item).is(':checked');
+
+    if (isChecked == true) {
+        cList.add(cID);
+    } else {
+        cList.delete(cID);
+    }
+    //console.log(cList.size);
+    //show/hide send button
+    if (parseInt(cList.size) > 0) {
+        $('#combinedRankBtn').prop('disabled', false);
+        $('#combinedRankBtn').css('cursor', 'pointer');
+    } else {
+        $('#combinedRankBtn').prop('disabled', true);
+        $('#combinedRankBtn').css('cursor', 'not-allowed');
+    }
+    //console.log(cList)
+}
+
+function getCombinedData(){
+    $('#combinedRankBtn').prop('disabled', true);
+    $('#combinedRankBtn').text("Please wait...");
+    //console.log(cList);
+    //sending ajax post request
+    let request = $.ajax({
+        async: true,
+        type: "POST",
+        url: "/getCombinedStandings",
+        data: {ids: JSON.stringify(Array.from(cList))},
+    });
+
+    request.done(function (response) {
+        //console.log(response)
+        displayStandings(response);
+    });
+
+    request.fail(function (response) {
+        console.log(response)
+    });
+
+    request.always(function () {
+        //console.log("Always")
+        $('#combinedRankBtn').prop('disabled', false);
+        $('#combinedRankBtn').text("Show Rank");
+    });
+}
+function displayStandings(contestantData) {
+    //console.log(contestantData);
+    $('#loadingGifStanding').css("display", "none");        //hide loading gif image
+
+    if (contestantData == null || contestantData.length == 0) {
+        //removing current existing rows
+        let rowSize = $('#standingTable tr').length;
+        for (let i = 0; i < rowSize - 1; i++) {
+            $('.standingRow').remove();
+        }
+        $('#notFoundStanding').text("No Submissions Found"); //if no problem found
+    } else {
+        $('#notFoundStanding').text("");                    //otherwise hide this message
+
+        //removing current existing rows
+        let rowSize = $('#standingTable tr').length;
+        for (let i = 0; i < rowSize - 1; i++) {
+            $('.standingRow').remove();
+        }
+
+        //removing cIDs column
+        $('.cIDAdded').remove();
+        //creating cIDs column
+        cListSorted = [...(new Set(cList))].sort()
+        for (let item of cListSorted) {
+            //console.log(item);
+            $('#standingTable').find('tr:first').append(`<th class="cIDAdded">Contest ID `+item+`</th>`);
+        }
+
+        //calculating col width
+        let totalCol = (1 + 4 + 2 + cListSorted.length);  //rank=x1,user=x4,score=x2,perProb=x1
+        let x1 = 100 / totalCol;
+        let x2 = 2 * x1;
+        let x3 = 3 * x1;
+        let x4 = 100 - ((x1 * (1 + cListSorted.length)) + (x2 * 1));
+
+        //adding new rows
+        for (let i = 0; i < contestantData.length; i++) {
+            let rank = i + 1;
+
+            let dataCreate = `<tr class="standingRow">
+                <td style="width:`+ x1 + `%;">` + rank + `</td>
+                <td style="width:`+ x3 + `%;"><a href="/profile/` + contestantData[i].Username + `">` + contestantData[i].Username + `</a></td>
+                <td style="width:`+ x2 + `%;background: aliceblue;" title="Solved: ` + contestantData[i].TotalSolved + ` / Penalty Time: ` + makeMinute(contestantData[i].TotalTime) + `"><span style="color:#1d9563;font-weight: bold;font-size: 15px;">` + contestantData[i].TotalSolved + `</span><br>` + makeMinute(contestantData[i].TotalTime) + `</td>`;
+
+            let idx = 0;
+            for (let item of cListSorted) {
+                if (idx >= contestantData[i].PerContestStatus.length){
+                    dataCreate += `<td></td>`;
+                    continue;
+                }
+                if (contestantData[i].PerContestStatus[idx].ConID == item) {
+                    dataCreate += `<td style="width:`+ x1 + `%;" title="Solved: ` + contestantData[i].PerContestStatus[idx].PerSolved + ` / Penalty Time: ` + makeMinute(contestantData[i].PerContestStatus[idx].PerTime) + `"><span style="color:#1d9563;font-weight: bold;font-size: 15px;">` + contestantData[i].PerContestStatus[idx].PerSolved + `</span><br>` + makeMinute(contestantData[i].PerContestStatus[idx].PerTime) + `</td>`;
+                    idx++;
+                } else {
+                    dataCreate += `<td></td>`;
+                }
+            }
+            dataCreate += `</tr>`;
+            $('#standingTable').append(dataCreate);
+        }
+    }
+}
+function makeMinute(timeSeconds) {
+    let timeMinute = Math.floor(timeSeconds / 60);
+    return timeMinute;
 }
