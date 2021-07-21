@@ -2,10 +2,11 @@
 
 <div id="content">
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
             <p class="h2" style="text-align:center;color:#1b6698; margin-top: 10px;">Contest List</p>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
+            <button id="combinedRankBtn" style="display: none;float: left;padding: 5px 10px;background: #7dbde8;outline: none;border: 1px solid #2691d9;border-radius: 5px;color: white;margin-left: 4%;margin-top: 5%;">Combined Rank List</button>
             <a href="/contest/create" style="float: right;padding: 5px 10px;background: #7dbde8;outline: none;border: 1px solid #2691d9;border-radius: 5px;color: white;margin-right: 4%;margin-top: 5%;">Create a new Contest</a>
         </div>
     </div>
@@ -36,6 +37,34 @@
         </div>
         <div id="next" style="display:none;">
             <button id="nxt" href="#">Next</button>
+        </div>
+    </div>
+</div>
+
+{{/* Combined Rank Modal */}}
+<div class="modal fade" id="cRankModal" tabindex="-1" role="dialog" aria-labelledby="cRankModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cRankModalLabel">Combined Standings</h5>
+                <span class="modal-close-icon" aria-hidden="true" data-dismiss="modal" aria-label="Close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="" id="standings" style="min-height: 50vh;overflow:auto;">
+                    <table class="table" id="standingTable" style="text-align: center;">
+                        <tr>
+                            <th>#</th>
+                            <th>Contestant</th>
+                            <th>Score</th>
+                            {{/* rest th will be added by js */}}
+                        </tr>
+                    </table>
+                    <div>
+                        <center id="loadingGifStanding"><img src="../assets/images/loading.gif" style="width: 30%;"></center>
+                        <center id="notFoundStanding" style="padding:10px;"></center>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
