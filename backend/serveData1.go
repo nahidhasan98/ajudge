@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"net/http"
 	"net/url"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -264,7 +265,7 @@ func GetUserSubmission(w http.ResponseWriter, r *http.Request) {
 			}
 			cMin, _ := strconv.Atoi(cMM)
 			cHour, _ := strconv.Atoi(cHH)
-			
+
 			cDuration := int64((cHour * 60 * 60) + (cMin * 60))
 
 			contestEndAt := dbQuery.StartAt + cDuration
@@ -914,5 +915,107 @@ func CheckLogin(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	b, _ := json.Marshal(response)
+	w.Write(b)
+}
+
+func GetCombinedStandings(w http.ResponseWriter, r *http.Request) {
+	cID := r.FormValue("ids")
+	cID = cID[1 : len(cID)-1]
+	cIDs := strings.Split(cID, ",")
+
+	type perStatus = struct {
+		ConID     int
+		PerSolved int
+		PerTime   int64
+	}
+	type contestant = struct {
+		Username         string
+		TotalSolved      int
+		TotalTime        int64
+		PerContestStatus []perStatus
+	}
+	cData := make(map[string]contestant) //map for tracking same username from different contest
+	var rData map[string]interface{}
+
+	for _, val := range cIDs {
+		apiURL := "https://ajudge.net/dataContest/" + val
+		req, err := http.NewRequest("GET", apiURL, nil)
+		errorhandling.Check(err)
+		req.Header.Add("Content-Type", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+
+		response, err := model.Client.Do(req)
+		errorhandling.Check(err)
+
+		body, _ := ioutil.ReadAll(response.Body)
+
+		json.Unmarshal(body, &rData)
+
+		rd1 := rData["CContestantData"]
+		if rd1 != nil { //if standings/submission is not empty
+			rd2 := rd1.([]interface{})
+
+			for j := 0; j < len(rd2); j++ {
+				rd3 := rd2[j].(map[string]interface{})
+
+				username := rd3["Username"].(string)
+
+				ts := cData[username].TotalSolved
+				ts += int(rd3["TotalSolved"].(float64))
+
+				tt := cData[username].TotalTime
+				tt += int64(rd3["TotalTime"].(float64))
+
+				cid, _ := strconv.Atoi(val)
+				tPer := perStatus{
+					ConID:     cid,
+					PerSolved: int(rd3["TotalSolved"].(float64)),
+					PerTime:   int64(rd3["TotalTime"].(float64)),
+				}
+
+				tp := cData[username].PerContestStatus
+				tp = append(tp, tPer)
+
+				temp := contestant{
+					TotalSolved:      ts,
+					TotalTime:        tt,
+					PerContestStatus: tp,
+				}
+				cData[username] = temp
+			}
+		}
+	}
+
+	//mow taking in []struct for sorting the list
+	var contestantData []contestant
+	for key, val := range cData {
+		//first sorting the per Status according to Contest ID
+		sort.SliceStable(val.PerContestStatus, func(i, j int) bool {
+			a, b := val.PerContestStatus[i], val.PerContestStatus[j]
+			if a.ConID != b.ConID {
+				return a.ConID < b.ConID
+			}
+			return true
+		})
+		temp := contestant{
+			Username:         key,
+			TotalSolved:      val.TotalSolved,
+			TotalTime:        val.TotalTime,
+			PerContestStatus: val.PerContestStatus,
+		}
+		contestantData = append(contestantData, temp)
+	}
+
+	//now sorting the standings
+	sort.SliceStable(contestantData, func(i, j int) bool {
+		a, b := contestantData[i], contestantData[j]
+		if a.TotalSolved != b.TotalSolved {
+			return a.TotalSolved > b.TotalSolved
+		}
+		return a.TotalTime < b.TotalTime
+	})
+	//fmt.Fprintln(w, contestantData)
+
+	w.Header().Set("Content-Type", "application/json")
+	b, _ := json.Marshal(contestantData)
 	w.Write(b)
 }
