@@ -10,6 +10,7 @@ func Test(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	fmt.Println("ENDDDDDD")
+	fmt.Println("Happy coding.")
 	//model.Tpl.ExecuteTemplate(w, "test.html", nil)
 }
 
