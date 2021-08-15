@@ -282,7 +282,7 @@ $(document).ready(function () {
         if (len >= 5 && len <= 6) {   //like 05:00 or 120:00
             if (duration[len - 1] >= '0' && duration[len - 1] <= '9' && duration[len - 2] >= '0' && duration[len - 2] <= '5' && duration[len - 3] == ':') {
                 for (i = len - 4; i >= 0; i--) {
-                    if (duration[i] <= '0' && duration[i] >= '9') {
+                    if (duration[i] < '0' || duration[i] > '9') {
                         flag = 0;   //invalid
                         break;
                     }
