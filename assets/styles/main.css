@@ -1,6 +1,7 @@
 *{
     margin: 0 auto;
     padding: 0;
+    box-sizing: border-box;
 }
 body{
     font-family:Arial,vrinda,times new roman,sans-serif;
@@ -109,6 +110,25 @@ a{
     background: white;
     box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.1), -1px -1px 0px 0px rgba(0, 0, 0, 0.1);
 }
+
+@media only screen and (max-width: 980px) {
+    .loginForm {
+        width: 80%;
+    }
+  }
+
+@media only screen and (max-width: 600px) {
+    .loginForm {
+        width: 99%;
+    }
+  }
+
+@media only screen and (max-width: 380px) {
+    .loginForm input {
+        width: 100%;
+    }
+  }
+
 .loginForm h1{
     text-align: center;
     color: #1b6698;
@@ -822,6 +842,19 @@ a{
     margin-top:20px;
     margin-bottom:20px;
 }
+@media only screen and (max-width: 980px) {
+    .formGroup {
+        width: 98%;
+    }
+    .formGroup label{
+        width: 100%;
+        text-align: center;
+    }
+    .formGroup input,.formGroup textarea{
+        width: 100%;
+    }
+  }
+  
 .formGroup div{
     margin-top: 20px;
 }
