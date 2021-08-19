@@ -1022,15 +1022,17 @@ a{
     margin-bottom: 12px;
 }
 .aboutUs div{
-    width: 28%;
     text-align: justify;
     border: 1px solid #c8d5ea;
     background: white;
     padding: 12px;
-    overflow-x: auto;
+    overflow-x: hidden;
     min-height: 260px;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
+}
+.aboutUs p {
+    padding: 0px 20px;
 }
 
 .cTableInput{
