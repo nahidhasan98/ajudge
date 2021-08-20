@@ -1,19 +1,23 @@
-*{
+* {
     margin: 0 auto;
     padding: 0;
 }
-body{
-    font-family:Arial,vrinda,times new roman,sans-serif;
-    font-size:14px;
-    line-height:20px;
-    color:#000;
+
+body {
+    font-family: Arial, vrinda, times new roman, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #000;
     background-color: #edf1f8;
 }
-#main{
-    display:block;
+
+#main {
+    display: block;
     overflow: hidden;
 }
-#content,.container{
+
+#content,
+.container {
     width: 80%;
     background-color: white;
     /* border: 1px solid #c8d5ea; */
@@ -25,14 +29,17 @@ body{
     padding-left: 0px;
     padding-right: 0px;
 }
-#probDes{
+
+#probDes {
     display: flex;
 }
-#rightContent{
+
+#rightContent {
     width: 25%;
     margin: 10px;
 }
-#rightContent div{
+
+#rightContent div {
     margin-top: 15px;
     background: white;
     border: 1px solid lightsteelblue;
@@ -42,12 +49,14 @@ body{
     min-height: 120px;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
 }
-#rightContent a{
+
+#rightContent a {
     padding: 3px;
     text-decoration: none;
     color: #1f74ad;
 }
-#submitAllow{
+
+#submitAllow {
     height: 33px;
     width: 100%;
     font-size: 15px;
@@ -58,13 +67,15 @@ body{
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
     margin-top: 1px;
 }
-#submitAllow:hover{
+
+#submitAllow:hover {
     cursor: pointer;
     background: #175782;
     border: #175782;
     color: white;
 }
-#submitDisable{
+
+#submitDisable {
     height: 33px;
     width: 100%;
     font-size: 15px;
@@ -75,12 +86,14 @@ body{
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
     margin-top: 1px;
 }
-#submitDisable:hover{
+
+#submitDisable:hover {
     background: #ff8080;
     border: #e60000;
     color: white;
 }
-.leftContent{
+
+.leftContent {
     text-align: justify;
     background-color: white;
     width: 70%;
@@ -91,7 +104,8 @@ body{
     overflow-x: auto;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
 }
-.colLimit{
+
+.colLimit {
     font-weight: 600;
     width: 45%;
     padding: 5px 0px;
@@ -102,51 +116,74 @@ body{
     font-family: "DimikOJFont";
     src: url("../fonts/dimikBengali.woff2") format('woff2');
 }
+
 @font-face {
     font-family: "DimikOJFont";
     src: url("../fonts/dimikUbuntu.woff2") format('woff2');
 }
+
 .DimikOJ {
     font-family: DimikOJFont;
 }
-.DimikOJ p , .DimikOJ pre {
+
+.DimikOJ p,
+.DimikOJ pre {
     font-size: 15px;
 }
-.DimikOJ p, .DimikOJ h3, .DimikOJ h2 {
+
+.DimikOJ p,
+.DimikOJ h3,
+.DimikOJ h2 {
     margin-top: 20px;
 }
+
 .DimikOJ h5 {
     margin-top: 15px;
     margin-bottom: 10px;
 }
-.DimikOJ ul, .DimikOJ ol{
+
+.DimikOJ ul,
+.DimikOJ ol {
     margin-left: 30px;
     margin-top: 10px;
 }
+
 /* DimikOJ part Start */
 
 /* Toph part Start */
-.Toph .copy{  /* Toph sample copy disable */
+.Toph .copy {
+    /* Toph sample copy disable */
     display: none;
 }
-.Toph .math p{
+
+.Toph .math p {
     margin: 20px 0;
 }
-.Toph h2,.Toph h3,.Toph h4,.Toph h5,.Toph h6{
+
+.Toph h2,
+.Toph h3,
+.Toph h4,
+.Toph h5,
+.Toph h6 {
     margin: 40px 0 15px;
 }
-.Toph .TophImage{ /* for center position */
+
+.Toph .TophImage {
+    /* for center position */
     display: block;
     margin-left: auto;
     margin-right: auto;
     max-width: 100%;
 }
-.Toph ol, .Toph ul {
+
+.Toph ol,
+.Toph ul {
     margin-top: 0;
     margin-bottom: 10px;
     margin-left: 30px;
 }
-.Toph .math pre code{
+
+.Toph .math pre code {
     padding: 0;
     font-size: inherit;
     color: inherit;
@@ -154,13 +191,15 @@ body{
     background-color: transparent;
     border-radius: 0;
 }
-.Toph .math code{
+
+.Toph .math code {
     padding: 2px 4px;
     color: #c7254e;
     background-color: #f9f2f4;
     border-radius: 4px;
 }
-.Toph .math pre{
+
+.Toph .math pre {
     display: block;
     padding: 9.5px;
     margin: 0 0 10px;
@@ -170,75 +209,105 @@ body{
     background-color: #f5f5f5;
     border: 1px solid #ccc;
 }
-.Toph .table-responsive{
+
+.Toph .table-responsive {
     padding: 0px 5px;
     font-size: 15px;
 }
+
 .Toph .table {
     border-collapse: collapse;
     width: 100%;
     max-width: 100%;
-    border: none!important;
+    border: none !important;
 }
+
 .Toph .table>thead>tr {
     border-bottom: 1px solid #f3f5f8;
 }
-.Toph .table>tbody>tr>td, .Toph .table>tbody>tr>th, .Toph .table>tfoot>tr>td, .Toph .table>tfoot>tr>th, .Toph .table>thead>tr>td, .Toph .table>thead>tr>th {
+
+.Toph .table>tbody>tr>td,
+.Toph .table>tbody>tr>th,
+.Toph .table>tfoot>tr>td,
+.Toph .table>tfoot>tr>th,
+.Toph .table>thead>tr>td,
+.Toph .table>thead>tr>th {
     padding: 8px;
     line-height: 1.42857143;
     vertical-align: top;
 }
-.Toph caption, .Toph th{
+
+.Toph caption,
+.Toph th {
     text-align: left;
 }
+
 .Toph blockquote {
     padding: 1px 20px;
     margin: 0 0 20px;
     border-left: 5px solid #eee;
 }
-.Toph .math p a{
+
+.Toph .math p a {
     text-decoration: none;
     color: #1f74ad;
 }
+
 /* toph sample input-output formatting*/
 .Toph .tablebox {
     min-height: .01%;
     margin-bottom: 20px;
     overflow-x: auto;
 }
+
 .Toph .tablebox>.table {
     margin-bottom: 0;
 }
-.Toph .tablebox .table th, .Toph .tablebox .table td {
+
+.Toph .tablebox .table th,
+.Toph .tablebox .table td {
     border-bottom: 0px;
 }
+
 .Toph .tablebox .table>thead>tr {
     border-bottom: 2px solid #f3f5f8;
 }
+
 .Toph .tablebox table.samples pre {
     padding: 0;
     margin: 0;
     border: none;
     background-color: transparent;
 }
-.Toph p>img, .Toph p>picture>img {
+
+.Toph p>img,
+.Toph p>picture>img {
     display: block;
     margin: 0 auto 8px;
     max-width: 100%;
 }
+
 .Toph p {
     margin: 20px 0;
 }
+
 .Toph .samples pre {
     font-size: 100%;
 }
+
 .Toph pre {
     border-radius: 2px;
 }
-.Toph .pre, code, code[class*=language-], pre, pre[class*=language-] {
-    font-family: Ubuntu Mono,monospace;
+
+.Toph .pre,
+code,
+code[class*=language-],
+pre,
+pre[class*=language-] {
+    font-family: Ubuntu Mono, monospace;
     font-size: 1.05em;
 }
+
 .Toph pre {
     display: block;
     padding: 9.5px;
@@ -250,6 +319,7 @@ body{
     word-wrap: break-word;
     background-color: #f5f5f5;
 }
+
 .Toph pre code {
     padding: 0;
     font-size: inherit;
@@ -258,83 +328,113 @@ body{
     background-color: transparent;
     border-radius: 0;
 }
+
 .Toph code {
     border: none;
     box-shadow: none;
-}   
+}
+
 @font-face {
     font-family: "myfont";
     src: url("../fonts/ubuntu-m-webfont.woff2") format('woff2');
 }
+
 @font-face {
     font-family: "myfont";
     src: url("../fonts/ubuntu-r-webfont.woff2") format('woff2');
 }
+
 /* Toph Part End */
 
 /* URI Part Start */
-.URI table{
+.URI table {
     border-bottom: #BBB solid 1px;
     border-collapse: collapse;
     border-top: #BBB solid 1px;
     margin: 15px 0;
     width: 100%;
 }
+
 .URI table thead {
     font-weight: bold;
     text-align: center;
 }
+
 .URI table tbody {
     font-family: "Courier New", Courier, "Nimbus Mono L", monospace;
     background: #EFEFEF;
 }
-.URI table tbody td{
+
+.URI table tbody td {
     border-bottom: #BBB solid 1px;
     border-top: #BBB solid 1px;
     padding: 5px;
     vertical-align: text-top;
     width: 50%;
 }
+
 .URI .division {
     border-right: #BBB solid 1px;
 }
-.URI .footer{
+
+.URI .footer {
     font-size: 10px;
     line-height: 12px;
 }
-.URI .center{
+
+.URI .center {
     text-align: center;
 }
-.URI .description p, .URI .input p, .URI .output p {
+
+.URI .description p,
+.URI .input p,
+.URI .output p {
     margin: 0 0 10px 0;
 }
+
 .URI .description ul {
     margin: 0px 0px 10px 40px;
 }
+
 .URI .tables-fifty {
     margin: 0 10px 10px 0;
     width: 50%;
 }
+
 .URI .tables-model-two {
     margin: 10px 10px 0 0;
     width: 49%;
 }
+
 .URI .tables-model-two-inline {
     width: 49%;
 }
-.URI .tables-fifty, .URI .tables-hundred, .URI .tables-model-two, .URI .tables-model-two-inline {
+
+.URI .tables-fifty,
+.URI .tables-hundred,
+.URI .tables-model-two,
+.URI .tables-model-two-inline {
     border-collapse: collapse;
     display: inline-table;
     background: none;
 }
-.URI .tables-fifty tbody, .URI .tables-hundred tbody, .URI .tables-model-two tbody, .URI .tables-model-two-inline tbody {
+
+.URI .tables-fifty tbody,
+.URI .tables-hundred tbody,
+.URI .tables-model-two tbody,
+.URI .tables-model-two-inline tbody {
     background: none;
 }
-.URI .tables-fifty tr td, .URI .tables-hundred tr td, .URI .tables-model-two tr td, .URI .tables-model-two-inline tr td {
+
+.URI .tables-fifty tr td,
+.URI .tables-hundred tr td,
+.URI .tables-model-two tr td,
+.URI .tables-model-two-inline tr td {
     border: #BBB solid 1px;
     padding: 5px;
     width: 0%;
 }
+
 .URI caption {
     font-weight: bold;
     background: #efefef;
@@ -342,50 +442,68 @@ body{
     margin: 0 0 5px 0;
     padding: 5px;
 }
+
 .URI .half-column {
     width: 50%;
 }
+
 .URI h2 {
     margin-top: 30px;
     margin-bottom: 15px;
 }
-.URI ul,.URI ol {
+
+.URI ul,
+.URI ol {
     margin-left: 30px;
 }
+
 /* URI Part End */
 
 /* VJudge Part Start */
 .VJudge h1 {
     margin-bottom: 8px;
 }
-.VJudge h3, .VJudge h2{
+
+.VJudge h3,
+.VJudge h2 {
     margin-top: 22px;
     margin-bottom: 8px;
 }
-.VJudge p,.VJudge pre {
+
+.VJudge p,
+.VJudge pre {
     margin-bottom: 8px;
 }
-.VJudge ul,.VJudge ol {
+
+.VJudge ul,
+.VJudge ol {
     margin-left: 30px;
     margin-bottom: 8px;
 }
+
 .VJudge img {
     max-width: 100%;
 }
+
 .VJudge .sample {
     width: 100%;
     border-collapse: collapse;
 }
-.VJudge .sample td{
+
+.VJudge .sample td {
     width: 50%;
 }
-.VJudge .sample td pre{
+
+.VJudge .sample td pre {
     white-space: pre-wrap;
 }
+
 .VJudge .statText table {
     width: 100%;
 }
+
 .VJudge .problem_par {
     margin-bottom: 10px;
 }
+
 /* VJudge Part End */
