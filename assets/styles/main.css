@@ -2,6 +2,7 @@
     margin: 0 auto;
     padding: 0;
     box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 body {
@@ -246,14 +247,11 @@ a {
     padding-right: 0px;
 }
 
-#probDes {
-    display: flex;
-}
+
 
 .leftContent {
     text-align: justify;
     background-color: white;
-    width: 70%;
     margin: 10px;
     border: 1px solid lightsteelblue;
     border-radius: 2px;
@@ -263,7 +261,6 @@ a {
 }
 
 #rightContent {
-    width: 25%;
     margin: 10px;
 }
 
@@ -1295,6 +1292,7 @@ pre[class*=language-] {
 .aboutUs {
     display: flex;
     justify-content: space-between;
+    margin: 0px 5px;
 }
 
 .aboutUs h2 {
