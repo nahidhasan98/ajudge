@@ -6,71 +6,83 @@
     <p id="contestID" style="display:none;">0</p>
 
     <div id="probDes">
-        <div class="leftContent">
-            <h1 style="text-align:center;color:#1b6698; margin-top: 15px;margin-bottom:30px;">{{ .PName }}</h1>
-            <object id="problemDescription">
-                {{ if eq .OJ "DimikOJ" }}
-                    {{ .DimikOJProblem.Des }}
-                {{ else if eq .OJ "Toph" }}
-                    {{ .TophProblem.Des }}
-                {{ else if eq .OJ "URI" }}
-                    {{ .URIProblem.Des }}
-                {{ else }}
-                    {{ .VJProblem.Des }}
-                {{ end }}
-            </object>
-        </div>
-        <div id="rightContent">
-        {{ if eq .AllowSubmit true }}
-            <button id="submitAllow" style="text-decoration:none;color:white;display: block;padding: 7px;">Submit</button>
-        {{ else }}
-            <button id="submitDisable"><a style="text-decoration:none;color:white;display: block;padding: 7px;" title="Submit is not Allowed for this problem. System Error.">Submit</a></button>
-        {{ end }}
-            <div>
-                <table style="border-collapse:collapse;width:100%;">
-                    <tr>
-                        <td class="colLimit">Memory Limit</td>
-                        <td>
-                            {{ if or (eq .MemoryLimit "-") (eq .MemoryLimit "") }}
-                            : -
-                            {{ else }}
-                            : {{ .MemoryLimit }}
-                            {{ end }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="colLimit">Time Limit</td>
-                        <td>
-                            {{ if or (eq .TimeLimit "-") (eq .TimeLimit "") }}
-                            : -
-                            {{ else }}
-                            : {{ .TimeLimit }}
-                            {{ end }}
-                        </td>
-                    </tr>
-                                        <tr>
-                        <td class="colLimit">Source Limit</td>
-                        <td>
-                            {{ if or (eq .SourceLimit "-") (eq .SourceLimit "") }}
-                            : -
-                            {{ else }}
-                            : {{ .SourceLimit }}
-                            {{ end }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="padding: 5px 0px;"><b>Origin</b>
-                            {{ $origin := (printf "/origin/%s-%s" .OJ .PNum) }}
-                            <a href="{{ $origin }}" target="_blank">: {{ .OJ }} - {{ .PNum }}</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div id="subHistory" style="padding:0px;">
-                <div id="subHistoryHeader" style="margin-top: 0px;border: 0px;min-height: 56px;border-bottom: 1px solid #a8d3f0;">
-                    <p style="text-align:center;font-weight:bold;margin-bottom:0px;">Your submission status<br>for this problem</p>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="leftContent">
+                    <h1 style="text-align:center;color:#1b6698; margin-top: 15px;margin-bottom:30px;">{{ .PName }}</h1>
+                    <object id="problemDescription">
+                        {{ if eq .OJ "DimikOJ" }}
+                        {{ .DimikOJProblem.Des }}
+                        {{ else if eq .OJ "Toph" }}
+                        {{ .TophProblem.Des }}
+                        {{ else if eq .OJ "URI" }}
+                        {{ .URIProblem.Des }}
+                        {{ else }}
+                        {{ .VJProblem.Des }}
+                        {{ end }}
+                    </object>
                 </div>
-                <div id="subHistoryTable" style="border: 0px;margin-top: 1px;padding:5px;box-shadow: 0px 10px 8px -10px rgba(0, 0, 0, 0.1) inset;">
+            </div>
+            <div class="col-md-4">
+                <div id="rightContent">
+                    {{ if eq .AllowSubmit true }}
+                    <button id="submitAllow"
+                        style="text-decoration:none;color:white;display: block;padding: 7px;">Submit</button>
+                    {{ else }}
+                    <button id="submitDisable"><a style="text-decoration:none;color:white;display: block;padding: 7px;"
+                            title="Submit is not Allowed for this problem. System Error.">Submit</a></button>
+                    {{ end }}
+                    <div>
+                        <table style="border-collapse:collapse;width:100%;">
+                            <tr>
+                                <td class="colLimit">Memory Limit</td>
+                                <td>
+                                    {{ if or (eq .MemoryLimit "-") (eq .MemoryLimit "") }}
+                                    : -
+                                    {{ else }}
+                                    : {{ .MemoryLimit }}
+                                    {{ end }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="colLimit">Time Limit</td>
+                                <td>
+                                    {{ if or (eq .TimeLimit "-") (eq .TimeLimit "") }}
+                                    : -
+                                    {{ else }}
+                                    : {{ .TimeLimit }}
+                                    {{ end }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="colLimit">Source Limit</td>
+                                <td>
+                                    {{ if or (eq .SourceLimit "-") (eq .SourceLimit "") }}
+                                    : -
+                                    {{ else }}
+                                    : {{ .SourceLimit }}
+                                    {{ end }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="padding: 5px 0px;"><b>Origin</b>
+                                    {{ $origin := (printf "/origin/%s-%s" .OJ .PNum) }}
+                                    <a href="{{ $origin }}" target="_blank">: {{ .OJ }} - {{ .PNum }}</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="subHistory" style="padding:0px;">
+                        <div id="subHistoryHeader"
+                            style="margin-top: 0px;border: 0px;min-height: 56px;border-bottom: 1px solid #a8d3f0;">
+                            <p style="text-align:center;font-weight:bold;margin-bottom:0px;">Your submission
+                                status<br>for
+                                this problem</p>
+                        </div>
+                        <div id="subHistoryTable"
+                            style="border: 0px;margin-top: 1px;padding:5px;box-shadow: 0px 10px 8px -10px rgba(0, 0, 0, 0.1) inset;">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -83,7 +95,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="submissionModalLabel">Submit Your Solution</h5>
-                    <span class="modal-close-icon" aria-hidden="true" data-dismiss="modal" aria-label="Close">&times;</span>
+                    <span class="modal-close-icon" aria-hidden="true" data-dismiss="modal"
+                        aria-label="Close">&times;</span>
                 </div>
                 <div class="modal-body">
                     <div id="submission" style="padding: 0px;">
@@ -102,11 +115,15 @@
                                     <select name="language" id="submit-language">
                                     </select>
                                 </div>
-                                <center><input type="submit" value="Submit" name="" id="submit-btn" style="margin-top:30px;"></center>
+                                <center><input type="submit" value="Submit" name="" id="submit-btn"
+                                        style="margin-top:30px;"></center>
                             </div>
                             <div id="submissionRight">
-                                <label for="submit-solution" class="">Solution:<p id="emptyWarning" style="float: right;color: #ff8080;right: 0px;margin-left: 10px;"></p></label>
-                                <textarea spellcheck="false" style="width: 95%; min-height: 400px; margin-top:2px; padding:8px 8px; resize: vertical; font-size:14px;" name="source" id="submit-solution" placeholder="" required></textarea>
+                                <label for="submit-solution" class="">Solution:<p id="emptyWarning"
+                                        style="float: right;color: #ff8080;right: 0px;margin-left: 10px;"></p></label>
+                                <textarea spellcheck="false"
+                                    style="width: 95%; min-height: 400px; margin-top:2px; padding:8px 8px; resize: vertical; font-size:14px;"
+                                    name="source" id="submit-solution" placeholder="" required></textarea>
                             </div>
                         </form>
                     </div>
@@ -119,12 +136,14 @@
     </div>
 
     {{/* verdict Modal */}}
-    <div class="modal fade" id="verdictModal" tabindex="-1" role="dialog" aria-labelledby="verdictModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal fade" id="verdictModal" tabindex="-1" role="dialog" aria-labelledby="verdictModalLabel"
+        aria-hidden="true" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="verdictModalLabel">Submission Result</h5>
-                    <span class="modal-close-icon" aria-hidden="true" data-dismiss="modal" aria-label="Close">&times;</span>
+                    <span class="modal-close-icon" aria-hidden="true" data-dismiss="modal"
+                        aria-label="Close">&times;</span>
                 </div>
                 <div class="modal-body">
                     <div id="resultPart">
@@ -144,9 +163,12 @@
                                 <td id="OJtd"></td>
                                 <td><a href="" id="pNumLink"></a></td>
                                 <td>
-                                    <img src="../assets/images/loadingVerdict.gif" id="loadingVerdictGif" style="width: 80px;margin-top:4px;display:none;">
-                                    <img src="../assets/images/loadingMini.gif" id="judging" style="width: 20px; display:none; cursor:pointer;" title="Judging...">
-                                    <img src="../assets/images/rejudge.png" id="rejudge" style="width: 20px; display:none; cursor:pointer;" title="Click to rejudge">
+                                    <img src="../assets/images/loadingVerdict.gif" id="loadingVerdictGif"
+                                        style="width: 80px;margin-top:4px;display:none;">
+                                    <img src="../assets/images/loadingMini.gif" id="judging"
+                                        style="width: 20px; display:none; cursor:pointer;" title="Judging...">
+                                    <img src="../assets/images/rejudge.png" id="rejudge"
+                                        style="width: 20px; display:none; cursor:pointer;" title="Click to rejudge">
                                     <p id="verdict"></p>
                                 </td>
                                 <td id="time"></td>
