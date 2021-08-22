@@ -81,14 +81,14 @@ $(document).ready(function () {
                                 }
                             },
                             error: function () {
-                                alert('Internal Server Error. Please try again after sometime or send us a feedback.');
+                                console.log('Internal Server Error. Please try again after sometime or send us a feedback.');
                             }
                         });
                     }
                 }
             },
             error: function () {
-                alert('Internal Server Error. Please try again after sometime or send us a feedback.');
+                console.log('Internal Server Error. Please try again after sometime or send us a feedback.');
             }
         });
 
