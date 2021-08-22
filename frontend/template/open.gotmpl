@@ -2,27 +2,35 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>{{ .PageTitle }}</title>
-        <meta charset="UTF-8">
-        <link rel="icon" type="image/png" href="../assets/images/favicon.png">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../assets/styles/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="../assets/styles/main.css" type="text/css">
 
-        {{ if or (eq .PageName "Profile") (eq .PageName "ContestGround") (eq .PageName "ProblemView")}}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/night-owl.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js"></script>
-        {{ end }}
+<head>
+    <title>{{ .PageTitle }}</title>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="../assets/images/favicon.png">
 
-        {{ if or (eq .PageName "Contact") (eq .PageName "Registration")}}
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-        {{ end }}
-    </head>
-    <body>
-        <div id="main">
-            {{ template "header" . }}
-            {{ template "navbar" . }}
+    <meta name="keywords"
+        content="Any judge, DimikOJ,HackerRank, problem solve, golang, javascript, c, c++, c#, programming language, programming problem, ajudge, urionlinejudge,">
+    <meta name="description"
+        content="AnyJudge is a problem solving platform. We have no own created problem. We gather problems from different Online Judge & allow you to submit them. AnyJudge supports many online judges. Some of them are">
+    <meta name="author" content="Nahid Hasan">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/styles/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../assets/styles/main.css" type="text/css">
+
+    {{ if or (eq .PageName "Profile") (eq .PageName "ContestGround") (eq .PageName "ProblemView")}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/night-owl.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js"></script>
+    {{ end }}
+
+    {{ if or (eq .PageName "Contact") (eq .PageName "Registration")}}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    {{ end }}
+</head>
+
+<body>
+    <div id="main">
+        {{ template "header" . }}
+        {{ template "navbar" . }}
 
         {{/* main page content here
             footer here
@@ -31,4 +39,4 @@
     body tag close
 html tag close */}}
 
-{{ end }}
+        {{ end }}
