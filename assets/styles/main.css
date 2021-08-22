@@ -2,7 +2,6 @@
     margin: 0 auto;
     padding: 0;
     box-sizing: border-box;
-    /* overflow-x: hidden; */
 }
 
 body {
@@ -246,8 +245,6 @@ a {
     padding-left: 0px;
     padding-right: 0px;
 }
-
-
 
 .leftContent {
     text-align: justify;
