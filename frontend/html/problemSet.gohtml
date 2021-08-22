@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <link rel="icon" type="image/png" href="../../../assets/images/favicon.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../../assets/styles/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="../../../assets/styles/problemSet.css" type="text/css">
         <base target="_parent">
     </head>
@@ -16,59 +17,65 @@
                 <p id="contestID" style="display:none;">{{ .ContestID }}</p>
                 <p id="serialID" style="display:none;">{{ .SerialIndex }}</p>
                 <div id="probDes">
-                    <div class="leftContent">
-                        {{/* <h1 style="text-align:center;color:#1b6698; margin-top: 15px;margin-bottom:30px;">{{ .PName }}</h1> */}}
-                        <object id="problemDescription">
-                            {{ if eq .OJ "DimikOJ" }}
-                                {{ .DimikOJProblem.Des }}
-                            {{ else if eq .OJ "Toph" }}
-                                {{ .TophProblem.Des }}
-                            {{ else if eq .OJ "URI" }}
-                                {{ .URIProblem.Des }}
-                            {{ else }}
-                                {{ .VJProblem.Des }}
-                            {{ end }}
-                        </object>
-                    </div>
-                    <div id="rightContent">
-                    {{ if eq .AllowSubmit true }}
-                        <button id="submitAllow" style="text-decoration:none;color:white;display: block;padding: 7px;">Submit</button>
-                    {{ else }}
-                        <button id="submitDisable"><a style="text-decoration:none;color:white;display: block;padding: 7px;" title="Submit is not Allowed for this problem. System Error.">Submit</a></button>
-                    {{ end }}
-                        <div>
-                            <table style="border-collapse:collapse;width:100%;">
-                                <tr>
-                                    <td class="colLimit">Memory Limit</td>
-                                    <td>
-                                        {{ if or (eq .MemoryLimit "-") (eq .MemoryLimit "") }}
-                                        : -
-                                        {{ else }}
-                                        : {{ .MemoryLimit }}
-                                        {{ end }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="colLimit">Time Limit</td>
-                                    <td>
-                                        {{ if or (eq .TimeLimit "-") (eq .TimeLimit "") }}
-                                        : -
-                                        {{ else }}
-                                        : {{ .TimeLimit }}
-                                        {{ end }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="colLimit">Source Limit</td>
-                                    <td>
-                                        {{ if or (eq .SourceLimit "-") (eq .SourceLimit "") }}
-                                        : -
-                                        {{ else }}
-                                        : {{ .SourceLimit }}
-                                        {{ end }}
-                                    </td>
-                                </tr>
-                            </table>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="leftContent">
+                                {{/* <h1 style="text-align:center;color:#1b6698; margin-top: 15px;margin-bottom:30px;">{{ .PName }}</h1> */}}
+                                <object id="problemDescription">
+                                    {{ if eq .OJ "DimikOJ" }}
+                                        {{ .DimikOJProblem.Des }}
+                                    {{ else if eq .OJ "Toph" }}
+                                        {{ .TophProblem.Des }}
+                                    {{ else if eq .OJ "URI" }}
+                                        {{ .URIProblem.Des }}
+                                    {{ else }}
+                                        {{ .VJProblem.Des }}
+                                    {{ end }}
+                                </object>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div id="rightContent">
+                                {{ if eq .AllowSubmit true }}
+                                    <button id="submitAllow" style="text-decoration:none;color:white;display: block;padding: 7px;">Submit</button>
+                                {{ else }}
+                                    <button id="submitDisable"><a style="text-decoration:none;color:white;display: block;padding: 7px;" title="Submit is not Allowed for this problem. System Error.">Submit</a></button>
+                                {{ end }}
+                                <div>
+                                    <table style="border-collapse:collapse;width:100%;">
+                                        <tr>
+                                            <td class="colLimit">Memory Limit</td>
+                                            <td>
+                                                {{ if or (eq .MemoryLimit "-") (eq .MemoryLimit "") }}
+                                                : -
+                                                {{ else }}
+                                                : {{ .MemoryLimit }}
+                                                {{ end }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="colLimit">Time Limit</td>
+                                            <td>
+                                                {{ if or (eq .TimeLimit "-") (eq .TimeLimit "") }}
+                                                : -
+                                                {{ else }}
+                                                : {{ .TimeLimit }}
+                                                {{ end }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="colLimit">Source Limit</td>
+                                            <td>
+                                                {{ if or (eq .SourceLimit "-") (eq .SourceLimit "") }}
+                                                : -
+                                                {{ else }}
+                                                : {{ .SourceLimit }}
+                                                {{ end }}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
