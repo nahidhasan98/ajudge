@@ -3,6 +3,7 @@ console.log("Script linked properly");
 //declaring variables
 let shiftX = 32, previousPage = 5, currPage = 1;
 var OJ, pNum, pName;
+let submissionList = [];
 
 //checking cookies for getting recent OJ, pNum, pName searched
 if (document.cookie != "") {
