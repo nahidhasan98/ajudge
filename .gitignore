@@ -1,11 +1,12 @@
-# for extra files for testing purposes
-/Trash
-
 # for downloading and displaying images of problem statement
 /assets/temp/*
 
-#for different login credentials
+# for different login credentials
 /vault/vault.go
 
-#all exe file
+# all exe file
 *.exe
+
+# test files 
+/frontend/html/test.html
+/backend/test.go
