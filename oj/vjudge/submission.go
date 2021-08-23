@@ -2,6 +2,7 @@ package vjudge
 
 import (
 	"encoding/json"
+	"fmt"
 	"html"
 	"io/ioutil"
 	"net/http"
@@ -13,6 +14,7 @@ import (
 	"github.com/nahidhasan98/ajudge/db"
 	"github.com/nahidhasan98/ajudge/errorhandling"
 	"github.com/nahidhasan98/ajudge/model"
+	"github.com/nahidhasan98/nlogger"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -34,6 +36,8 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 		return
 	}
 	//VJudge login success
+	logger := nlogger.NewLogger()
+	logger.Warn("40: vjudge submission: login done", time.Now())
 
 	//preparing data for POST Request
 	postData := url.Values{
@@ -47,7 +51,8 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 
 	//submitting to Vjudge
 	apiURL := "https://vjudge.net/problem/submit"
-	req, _ := http.NewRequest("POST", apiURL, strings.NewReader(postData.Encode()))
+	req, err := http.NewRequest("POST", apiURL, strings.NewReader(postData.Encode()))
+	errorhandling.Check(err)
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
 	req.Header.Add("Content-Length", strconv.Itoa(len(postData.Encode())))
 
@@ -55,25 +60,30 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 	errorhandling.Check(err)
 	defer response.Body.Close()
 	//subbmission done
+	logger.Warn("63: vjudge submission: submission done", time.Now())
 
 	//getting submission ID
-	body, _ := ioutil.ReadAll(response.Body)
+	body, err := ioutil.ReadAll(response.Body)
+	errorhandling.Check(err)
 	type result struct { //json reply gives either error or runID
 		RunID int64  `json:"runId"`
 		Error string `json:"error"`
 	}
 	var res result
 	json.Unmarshal(body, &res)
+	logger.Warn("74: vjudge submission: submission res: "+fmt.Sprintf("%d: ", res.RunID)+res.Error, time.Now())
 
 	if res.Error != "" {
 		model.ErrorType = res.Error
 		model.PopUpCause = "submissionError"
 		http.Redirect(w, r, model.LastPage, http.StatusSeeOther)
+		logger.Warn("80: vjudge submission: submission res error", time.Now())
 		return
 	} else if res.RunID == 0 {
 		model.ErrorType = res.Error
 		model.PopUpCause = "submissionErrorCustom"
 		http.Redirect(w, r, model.LastPage, http.StatusSeeOther)
+		logger.Warn("86: vjudge submission: submission res runid 0", time.Now())
 		return
 	}
 	//fmt.Println(res.RunID)
@@ -84,7 +94,10 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 	//fmt.Println(language)
 
 	//inserting submission records to DB
-	session, _ := model.Store.Get(r, "mysession")
+	session, err := model.Store.Get(r, "mysession")
+	errorhandling.Check(err)
+
+	logger.Warn("100: vjudge submission: before DB", time.Now())
 
 	//connecting to DB
 	DB, ctx, cancel := db.Connect()

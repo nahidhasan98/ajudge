@@ -19,6 +19,7 @@ import (
 	"github.com/nahidhasan98/ajudge/oj/toph"
 	"github.com/nahidhasan98/ajudge/oj/uri"
 	"github.com/nahidhasan98/ajudge/oj/vjudge"
+	"github.com/nahidhasan98/nlogger"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -624,6 +625,8 @@ func SubmitC(w http.ResponseWriter, r *http.Request) {
 				http.Redirect(w, r, "/submit", http.StatusSeeOther)
 				return
 			}
+			logger := nlogger.NewLogger()
+			logger.Warn("629: submitC", time.Now())
 			vjudge.Submit(w, r, contestID, serialIndex)
 			return
 		}
