@@ -10,3 +10,6 @@
 # test files 
 /frontend/html/test.html
 /backend/test.go
+
+# log files
+/log/*
