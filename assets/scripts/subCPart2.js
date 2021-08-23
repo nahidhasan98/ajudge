@@ -29,22 +29,28 @@ $('form').on('submit', function () {
 
     request.done(function (response) {
         //console.log(response)
-        $('#submissionModal').modal('hide');
-        $('#verdictModal').modal('show');
 
-        //resetting previous value for now. These values will be added after getting verdict
-        verdict.text("");
-        time.text("");
-        memory.text("");
-        verdict.css('color', '#000');
+        if (response.error != "") {// for vj, got some error, submission not done
+            $('#emptyWarning').text(response.error);
+        } else {
+            //now hide submission modal
+            $('#submissionModal').modal('hide');
+            $('#verdictModal').modal('show');
 
-        $('#subID').text(response.SubID);
-        $('#pNumtd').text(formData[0].value);
-        $('#language').text(response.Language);
-        $('#submittedAt').text(response.SubmittedAt);
-        addingSourceCode(response.SourceCode);
+            //resetting previous value for now. These values will be added after getting verdict
+            verdict.text("");
+            time.text("");
+            memory.text("");
+            verdict.css('color', '#000');
 
-        getVerdict();
+            $('#subID').text(response.SubID);
+            $('#pNumtd').text(formData[0].value);
+            $('#language').text(response.Language);
+            $('#submittedAt').text(response.SubmittedAt);
+            addingSourceCode(response.SourceCode);
+
+            getVerdict();
+        }
     });
 
     request.fail(function (response) {

@@ -119,20 +119,25 @@ $('form').on('submit', function () {
     });
     request.done(function (response) {
         //console.log(response)
-        $('#submissionModal').modal('hide');
-        $('#verdictModal').modal('show');
 
-        $('#subID').text(response.SubID);
-        $('#OJtd').text(response.OJ);
-        $('#pNumLink').text(response.PNum);
-        $('#pNumLink').attr("href", "/problemView/" + response.OJ + "-" + response.PNum);
-        // time, memory & verdict will be added from result.js
-        $('#language').text(response.Language);
-        $('#submittedAt').text(response.SubmittedAt);
-        addingSourceCode(response.SourceCode);
+        if (response.error != "") {// for vj, got some error, submission not done
+            $('#emptyWarning').text(response.error);
+        } else {
+            //now hide submission modal
+            $('#submissionModal').modal('hide');
+            $('#verdictModal').modal('show');
 
-        getVerdict();
+            $('#subID').text(response.SubID);
+            $('#OJtd').text(response.OJ);
+            $('#pNumLink').text(response.PNum);
+            $('#pNumLink').attr("href", "/problemView/" + response.OJ + "-" + response.PNum);
+            // time, memory & verdict will be added from result.js
+            $('#language').text(response.Language);
+            $('#submittedAt').text(response.SubmittedAt);
+            addingSourceCode(response.SourceCode);
 
+            getVerdict();
+        }
     });
     request.fail(function (response) {
         console.log(response)
