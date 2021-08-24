@@ -124,6 +124,7 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 		SubmittedAt string
 		ContestID   int
 		SerialIndex string
+		Error       string `json:"error"` //for vj submit error
 	}{
 		SubID:       submissionData.SubID, //sending submit id to frontend for getting the verdict with ajax call
 		OJ:          OJ,
@@ -133,6 +134,7 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 		SubmittedAt: submittedAt,
 		ContestID:   contestID,
 		SerialIndex: serialIndex,
+		Error:       "",
 	}
 	w.Header().Set("Content-Type", "application/json")
 	b, _ := json.Marshal(respData)
