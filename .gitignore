@@ -8,8 +8,8 @@
 *.exe
 
 # test files 
-/frontend/html/test.html
-/backend/test.go
+/frontend/html/tester.html
+/backend/tester.go
 
 # log files
 /log/*
