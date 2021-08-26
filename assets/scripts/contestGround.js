@@ -1,8 +1,9 @@
 console.log("Script linked correctly.")
 
 let problemSetLength = parseInt($('#problemSetLength').text().trim());
-let timerCurrentTime
-let timerBeforeStart
+let timerCurrentTime;
+let timerBeforeStart;
+let previousProblemTab;
 
 $(document).ready(function () {
     //v-pills ul
@@ -24,15 +25,8 @@ $(document).ready(function () {
         //console.log(i, String.fromCharCode(i));
         let serialIndex = String.fromCharCode(i);
 
-        //for link design
-        $('#goto' + serialIndex).hover(function () {
-            $(this).css({ 'text-decoration': 'underline', 'cursor': 'pointer' });
-        }, function () {
-            $(this).css({ 'text-decoration': 'none', 'cursor': 'default' });
-        });
-
         //for tab action (if link is clicked in dashboard tab)
-        $('#goto' + serialIndex).click(function () {
+        $('.goto' + serialIndex).click(function () {
             let OJ = $('#problems' + serialIndex + ' #OJ').text();
             let pNum = $('#problems' + serialIndex + ' #pNum').text();
 
@@ -44,6 +38,7 @@ $(document).ready(function () {
             }
 
             gotoTab(serialIndex);
+            previousProblemTab = serialIndex;
         });
 
         //for retrieving problem description (if problem number is clicked)
@@ -90,6 +85,43 @@ $(document).ready(function () {
     } else {
         clearTimeout(callData);
     }
+
+    // add a hash to the URL when the user clicks on a tab
+    $('a[data-toggle="pill"]').on('click', function (e) {
+        let curr = window.location.hash
+        let next = $(this).attr('href');
+        //console.log(curr, next);
+
+        if ((curr == next) || (curr.includes("#problems") && (curr.length > 9) && (next == "#problems")) || (curr == "#problems" && next == "#problemsA")) {
+            // nothing. dont create history
+        } else {
+            history.pushState(null, null, $(this).attr('href'));
+        }
+    });
+
+    // navigate to a tab when the history changes
+    $(window).bind("popstate", function () {
+        let activeTab = $('[href="' + location.hash + '"]');
+        //console.log(activeTab)
+
+        let pre = "#problems" + previousProblemTab;
+        let next = location.hash;
+        //console.log(pre, next)
+
+        // #problemsC -> #problems (means #problemsC -> #problemsA)
+        if (pre.includes("#problems") && (pre.length > 9) && (next == "#problems")) {
+            gotoTab("A");
+            previousProblemTab = "A";
+        } else if (next.includes("#problems") && (next.length > 9)) {
+            problemSerialIndex = next.charAt(next.length - 1);
+            gotoTab(problemSerialIndex);
+            previousProblemTab = problemSerialIndex;
+        } else if (activeTab.length) {
+            activeTab.tab('show');
+        } else {
+            $('.nav-pills a:first').tab('show');
+        }
+    });
 });
 
 function gotoTab(tempSerial) {
