@@ -99,14 +99,17 @@
                     </tr>
                     {{ range .ContestData.ProblemSet }}
                     <tr>
-                        <td>{{ .SerialIndex }}</td>
-                        <td><p id="goto{{ .SerialIndex }}" style="color:#2283c3;">
+                        <td>
+                            <a class="goto{{ .SerialIndex }}" href="#problems{{ .SerialIndex }}">{{ .SerialIndex }}</a>
+                        </td>
+                        <td>
+                            <a class="goto{{ .SerialIndex }}" href="#problems{{ .SerialIndex }}">
                             {{ if eq .CustomName "" }}
                                 {{ .PName }}
                             {{ else }}
                                 {{ .CustomName }}
                             {{ end }}
-                            </p>
+                            </a>
                         </td>
                         <td id="totalStatus{{ .SerialIndex }}"></td>
                         <td id="myStatus{{ .SerialIndex }}"></td>
