@@ -197,7 +197,7 @@
                         <th>Contestant</th>
                         <th>Score</th>
                         {{ range .ContestData.ProblemSet }}
-                            <th>{{ .SerialIndex }}</th>
+                            <th><a class="goto{{ .SerialIndex }}" href="#problems{{ .SerialIndex }}" style="color: white;">{{ .SerialIndex }}</a></th>
                         {{ end }}
                     </tr>
                 </table>

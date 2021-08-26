@@ -215,7 +215,7 @@ function displaySubmissionList() {
             let dataCreate = `<tr class="submissionRow">
                 <td>`+ cSubmissionList[i].SubID + `</td>
                 <td><a href="/profile/`+ cSubmissionList[i].Username + `">` + cSubmissionList[i].Username + `</a></td>
-                <td>`+ cSubmissionList[i].SerialIndex + `</td>
+                <td><a class="goto`+ cSubmissionList[i].SerialIndex + `" href="#problems` + cSubmissionList[i].SerialIndex + `">` + cSubmissionList[i].SerialIndex + `</a></td>
                 <td>`+ checkRejudge(cSubmissionList[i].TerminalVerdict, cSubmissionList[i].SubID, i);
 
             if (cSubmissionList[i].Verdict == "Accepted") {    //color for accepted verdict
