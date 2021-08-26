@@ -27,17 +27,7 @@ $(document).ready(function () {
 
         //for tab action (if link is clicked in dashboard tab)
         $('.goto' + serialIndex).click(function () {
-            let OJ = $('#problems' + serialIndex + ' #OJ').text();
-            let pNum = $('#problems' + serialIndex + ' #pNum').text();
-
-            if ($('#iframeP' + serialIndex).text().trim() == "") {
-                let dataCreate = `<iframe id="myIframe` + serialIndex + `" scrolling="no" frameborder="0" src="/problemSet/` + $('#contestID').text() + `/` + serialIndex + `/` + OJ + `-` + pNum + `" style="width: 100%;"></iframe>
-                        <script src="../assets/scripts/iframeResizer.min.js"></script>
-                        <script>iFrameResize({ log: false }, '#myIframe` + serialIndex + `')</script>`
-                $('#iframeP' + serialIndex).append(dataCreate)
-            }
-
-            gotoTab(serialIndex);
+            switchProblemTab(serialIndex);
             previousProblemTab = serialIndex;
         });
 
@@ -110,11 +100,11 @@ $(document).ready(function () {
 
         // #problemsC -> #problems (means #problemsC -> #problemsA)
         if (pre.includes("#problems") && (pre.length > 9) && (next == "#problems")) {
-            gotoTab("A");
+            switchProblemTab("A");
             previousProblemTab = "A";
         } else if (next.includes("#problems") && (next.length > 9)) {
-            problemSerialIndex = next.charAt(next.length - 1);
-            gotoTab(problemSerialIndex);
+            let problemSerialIndex = next.charAt(next.length - 1);
+            switchProblemTab(problemSerialIndex);
             previousProblemTab = problemSerialIndex;
         } else if (activeTab.length) {
             activeTab.tab('show');
@@ -124,7 +114,19 @@ $(document).ready(function () {
     });
 });
 
-function gotoTab(tempSerial) {
+function switchProblemTab(tempSerial) {
+    // gathering problem description first
+    let OJ = $('#problems' + tempSerial + ' #OJ').text();
+    let pNum = $('#problems' + tempSerial + ' #pNum').text();
+
+    if ($('#iframeP' + tempSerial).text().trim() == "") {
+        let dataCreate = `<iframe id="myIframe` + tempSerial + `" scrolling="no" frameborder="0" src="/problemSet/` + $('#contestID').text() + `/` + tempSerial + `/` + OJ + `-` + pNum + `" style="width: 100%;"></iframe>
+                        <script src="../assets/scripts/iframeResizer.min.js"></script>
+                        <script>iFrameResize({ log: false }, '#myIframe` + tempSerial + `')</script>`
+        $('#iframeP' + tempSerial).append(dataCreate)
+    }
+
+    // now switching tab
     //pills ul
     $('#dashboard-tab').removeClass('active');
     $('#submissions-tab').removeClass('active');
@@ -563,3 +565,82 @@ function checkFirstSolved(conData, contestantSerial, serial) {
 $('.modal-close-icon').click(function () {
     $('#viewCode').removeAttr('class');
 });
+
+$(window).on('load', function () {
+    let hash = window.location.hash;
+    //console.log(hash);
+
+    if (hash.includes("#problems")) {
+        if (hash.length > 9) {
+            let problemSerialIndex = hash.charAt(hash.length - 1);
+            switchProblemTab(problemSerialIndex);
+            previousProblemTab = problemSerialIndex;
+        } else {
+            switchProblemTab("A");
+            previousProblemTab = "A";
+        }
+    } else if (hash != "") {
+        switchMenuTab(hash);
+    }
+});
+
+function switchMenuTab(hash) {
+    if (hash == "#dashboard") {
+        //pills nav
+        $('#problems-tab').removeClass('active');
+        $('#submissions-tab').removeClass('active');
+        $('#standings-tab').removeClass('active');
+
+        $('#problems-tab').attr('aria-selected', 'false');
+        $('#submissions-tab').attr('aria-selected', 'false');
+        $('#standings-tab').attr('aria-selected', 'false');
+
+        $('#dashboard-tab').addClass('active');
+        $('#dashboard-tab').attr('aria-selected', 'true');
+
+        //pills div
+        $('#problems').removeClass('show active');
+        $('#submissions').removeClass('show active');
+        $('#standings').removeClass('show active');
+
+        $('#dashboard').addClass('show active');
+    } else if (hash == "#submissions") {
+        //pills nav
+        $('#dashboard-tab').removeClass('active');
+        $('#problems-tab').removeClass('active');
+        $('#standings-tab').removeClass('active');
+
+        $('#dashboard-tab').attr('aria-selected', 'false');
+        $('#problems-tab').attr('aria-selected', 'false');
+        $('#standings-tab').attr('aria-selected', 'false');
+
+        $('#submissions-tab').addClass('active');
+        $('#submissions-tab').attr('aria-selected', 'true');
+
+        //pills div
+        $('#dashboard').removeClass('show active');
+        $('#problems').removeClass('show active');
+        $('#standings').removeClass('show active');
+
+        $('#submissions').addClass('show active');
+    } else if (hash == "#standings") {
+        //pills nav
+        $('#dashboard-tab').removeClass('active');
+        $('#problems-tab').removeClass('active');
+        $('#submissions-tab').removeClass('active');
+
+        $('#dashboard-tab').attr('aria-selected', 'false');
+        $('#problems-tab').attr('aria-selected', 'false');
+        $('#submissions-tab').attr('aria-selected', 'false');
+
+        $('#standings-tab').addClass('active');
+        $('#standings-tab').attr('aria-selected', 'true');
+
+        //pills div
+        $('#dashboard').removeClass('show active');
+        $('#problems').removeClass('show active');
+        $('#submissions').removeClass('show active');
+
+        $('#standings').addClass('show active');
+    }
+}
