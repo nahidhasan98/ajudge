@@ -146,26 +146,23 @@ function switchProblemTab(tempSerial) {
 
     $('#problems').addClass('show active');
 
+    // removing first
     for (let i = 65; i < (65 + problemSetLength); i++) {
         //console.log(i, String.fromCharCode(i));
         let serialIndex = String.fromCharCode(i);
 
-        if (serialIndex == tempSerial) {
-            //v-pills ul
-            $('#' + tempSerial + '-tab').addClass('active');
-            $('#' + tempSerial + '-tab').attr('aria-selected', 'true');
-
-            //v-pills div
-            $('#problems' + tempSerial).addClass('show active');
-        } else {
-            //v-pills ul
-            $('#' + serialIndex + '-tab').removeClass('active');
-            $('#' + serialIndex + '-tab').attr('aria-selected', 'false');
-
-            //v-pills div
-            $('#problems' + serialIndex).removeClass('show active');
-        }
+        //v-pills ul
+        $('#' + serialIndex + '-tab').removeClass('active');
+        $('#' + serialIndex + '-tab').attr('aria-selected', 'false');
+        //v-pills div
+        $('#problems' + serialIndex).removeClass('show active');
     }
+    // now adding
+    //v-pills ul
+    $('#' + tempSerial + '-tab').addClass('active');
+    $('#' + tempSerial + '-tab').attr('aria-selected', 'true');
+    //v-pills div
+    $('#problems' + tempSerial).addClass('show active');
 }
 
 let cSubmissionList = [];
