@@ -564,21 +564,23 @@ $('.modal-close-icon').click(function () {
 });
 
 $(window).on('load', function () {
-    let hash = window.location.hash;
-    //console.log(hash);
+    $(document).ready(function () {
+        let hash = window.location.hash;
+        //console.log(hash);
 
-    if (hash.includes("#problems")) {
-        if (hash.length > 9) {
-            let problemSerialIndex = hash.charAt(hash.length - 1);
-            switchProblemTab(problemSerialIndex);
-            previousProblemTab = problemSerialIndex;
-        } else {
-            switchProblemTab("A");
-            previousProblemTab = "A";
+        if (hash.includes("#problems")) {
+            if (hash.length > 9) {
+                let problemSerialIndex = hash.charAt(hash.length - 1);
+                switchProblemTab(problemSerialIndex);
+                previousProblemTab = problemSerialIndex;
+            } else {
+                switchProblemTab("A");
+                previousProblemTab = "A";
+            }
+        } else if (hash != "") {
+            switchMenuTab(hash);
         }
-    } else if (hash != "") {
-        switchMenuTab(hash);
-    }
+    });
 });
 
 function switchMenuTab(hash) {
