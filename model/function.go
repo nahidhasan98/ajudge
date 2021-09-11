@@ -35,11 +35,7 @@ func IsAccVerifed(r *http.Request) bool {
 	err := userCollection.FindOne(ctx, bson.M{"username": username}).Decode(&userData)
 	errorhandling.Check(err)
 
-	if userData.IsVerified {
-		return true
-	}
-
-	return false
+	return userData.IsVerified
 }
 
 //Min function
