@@ -179,6 +179,7 @@ function getContestData() {
             displaySubmissionList();
             displaySolvedStatus(data.CSolvedStatus, data.CAttempedStatus, data.CTotalSolved, data.CTotalSubmission)
             displayStandings(data.CContestantData);
+            displayClarifications(data.CClarifications);
         },
         error: function (response) {
             console.log(response);
@@ -642,4 +643,9 @@ function switchMenuTab(hash) {
 
         $('#standings').addClass('show active');
     }
+}
+
+function displayClarifications(clrifications) {
+    console.log(clrifications);
+    //write code here
 }

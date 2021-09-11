@@ -182,16 +182,29 @@ type ProblemSet struct {
 	CustomName  string `bson:"customName"`
 }
 
+//Clarification variable for holding clarification of a contest
+type Clarification struct {
+	SerialIndex   string `bson:"serialIndex"`
+	RequesterName string `bson:"requesterName"`
+	RequestBody   string `bson:"requestBody"`
+	RequestAt     string `bson:"requestAt"`
+	AnsweredBy    string `bson:"answeredBy"`
+	AnswerBody    string `bson:"answerBody"`
+	AnswerAt      string `bson:"answerAt"`
+	IsIgnored     bool   `bson:"isIgnored"`
+}
+
 //ContestData variable for holding data of a single contest
 type ContestData struct {
-	ContestID  int          `bson:"contestID"`
-	Title      string       `bson:"title"`
-	Date       string       `bson:"date"`
-	Time       string       `bson:"time"`
-	StartAt    int64        `bson:"startAt"`
-	Duration   string       `bson:"duration"`
-	Author     string       `bson:"author"`
-	ProblemSet []ProblemSet `bson:"problemSet"`
+	ContestID      int             `bson:"contestID"`
+	Title          string          `bson:"title"`
+	Date           string          `bson:"date"`
+	Time           string          `bson:"time"`
+	StartAt        int64           `bson:"startAt"`
+	Duration       string          `bson:"duration"`
+	Author         string          `bson:"author"`
+	ProblemSet     []ProblemSet    `bson:"problemSet"`
+	Clarifications []Clarification `bson:"clarifications"`
 }
 
 //LastUsedID variable for holding the last ID used for user registration, problem submission & contest creation

@@ -159,14 +159,15 @@ func CreateContest(w http.ResponseWriter, r *http.Request) {
 
 		//preparing data for inserting to DB
 		contestData := model.ContestData{
-			ContestID:  dbQuery.LastContestID + 1,
-			Title:      contestTitle,
-			Date:       contestDate,
-			Time:       contestTime,
-			StartAt:    contestStartAt,
-			Duration:   contestDuration,
-			Author:     session.Values["username"].(string),
-			ProblemSet: probSetData,
+			ContestID:      dbQuery.LastContestID + 1,
+			Title:          contestTitle,
+			Date:           contestDate,
+			Time:           contestTime,
+			StartAt:        contestStartAt,
+			Duration:       contestDuration,
+			Author:         session.Values["username"].(string),
+			ProblemSet:     probSetData,
+			Clarifications: []model.Clarification{},
 		}
 		_, err = contestCollection.InsertOne(ctx, contestData) //inserting contest details to contest table
 		errorhandling.Check(err)
@@ -839,6 +840,7 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 		"CTotalSolved":     totalSolved,
 		"CTotalSubmission": totalSubmission,
 		"CContestantData":  contestantData,
+		"CClarifications":  dbQuery2.Clarifications,
 	}
 	mapB, _ := json.Marshal(mapD)
 	returnData := []byte(mapB)
