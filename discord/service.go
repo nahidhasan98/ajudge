@@ -13,7 +13,7 @@ import (
 )
 
 type discordInterfacer interface {
-	SendMessage(data model.SubmissionData) (*api.WebhookMessage, error)
+	SendMessage(data interface{}, notifier string) (*api.WebhookMessage, error)
 	EditMessage(data model.SubmissionData) (*api.WebhookMessage, error)
 	DeleteMessage(msgID api.Snowflake) error
 }
@@ -22,14 +22,37 @@ type discordStruct struct {
 	repoService repoInterfacer
 }
 
-func (ds discordStruct) SendMessage(data model.SubmissionData) (*api.WebhookMessage, error) {
+func (ds discordStruct) SendMessage(data interface{}, notifier string) (*api.WebhookMessage, error) {
+	var webhookID, webhookToken string
+	var disMsg string
+	var subID int
+
 	// preparing message to send
-	timeDotTime := time.Unix(data.SubmittedAt, 0)
-	formattedTime := timeDotTime.Format("02-Jan-2006 (15:04:05)")
-	disMsg := prepareMessage(data, formattedTime)
+	if notifier == "submission" {
+		temp := data.(model.SubmissionData)
+		subID = temp.SubID
+
+		timeDotTime := time.Unix(temp.SubmittedAt, 0)
+		formattedTime := timeDotTime.Format("02-Jan-2006 (15:04:05)")
+
+		disMsg = prepareSubmissionMessage(temp, formattedTime)
+
+		webhookID = vault.WebhookIDSub
+		webhookToken = vault.WebhookTokenSub
+	} else if notifier == "login" {
+		temp := data.(model.UserData)
+
+		timeDotTime := time.Unix(temp.CreatedAt, 0)
+		formattedTime := timeDotTime.Format("02-Jan-2006 (15:04:05)")
+
+		disMsg = prepareLoginMessage(temp, formattedTime)
+
+		webhookID = vault.WebhookIDLogin
+		webhookToken = vault.WebhookTokenLogin
+	}
 
 	// innitializing webhook
-	webhook, err := disgohook.NewWebhookClientByIDToken(nil, nil, api.Snowflake(vault.WebhookID), vault.WebhookToken)
+	webhook, err := disgohook.NewWebhookClientByIDToken(nil, nil, api.Snowflake(webhookID), webhookToken)
 	errorhandling.Check(err)
 
 	// sending msg to discord
@@ -37,7 +60,7 @@ func (ds discordStruct) SendMessage(data model.SubmissionData) (*api.WebhookMess
 	errorhandling.Check(err)
 
 	// store to DB
-	err = ds.repoService.storeMsgID(data.SubID, fmt.Sprintf("%v", res.ID), disMsg)
+	err = ds.repoService.storeMsgID(subID, fmt.Sprintf("%v", res.ID), disMsg)
 	errorhandling.Check(err)
 
 	return res, err
@@ -49,10 +72,10 @@ func (ds discordStruct) EditMessage(data model.SubmissionData) (*api.WebhookMess
 	errorhandling.Check(err)
 
 	// preparing message to send
-	disMsg := prepareEditedMessage(sentData.Message, data)
+	disMsg := prepareSubmissionEditedMessage(sentData.Message, data)
 
 	// innitializing webhook
-	webhook, err := disgohook.NewWebhookClientByIDToken(nil, nil, api.Snowflake(vault.WebhookID), vault.WebhookToken)
+	webhook, err := disgohook.NewWebhookClientByIDToken(nil, nil, api.Snowflake(vault.WebhookIDSub), vault.WebhookTokenSub)
 	errorhandling.Check(err)
 
 	// editing sent msg to discord
@@ -65,9 +88,10 @@ func (ds discordStruct) EditMessage(data model.SubmissionData) (*api.WebhookMess
 
 	return res, err
 }
+
 func (ds discordStruct) DeleteMessage(msgID api.Snowflake) error {
 	// innitializing webhook
-	webhook, err := disgohook.NewWebhookClientByIDToken(nil, nil, api.Snowflake(vault.WebhookID), vault.WebhookToken)
+	webhook, err := disgohook.NewWebhookClientByIDToken(nil, nil, api.Snowflake(vault.WebhookIDSub), vault.WebhookTokenSub)
 	errorhandling.Check(err)
 
 	// deleting sent msg to discord
@@ -77,28 +101,42 @@ func (ds discordStruct) DeleteMessage(msgID api.Snowflake) error {
 	return err
 }
 
-func prepareMessage(data model.SubmissionData, formattedTime string) string {
+func prepareSubmissionMessage(data model.SubmissionData, formattedTime string) string {
 	disMsg := "```md\n"
 	disMsg += "# " + data.OJ + " - " + data.Username + "\n"
-	disMsg += "Submission ID" + getSpace(4) + ": " + fmt.Sprintf("%v", data.SubID) + "\n"
-	disMsg += "Remote ID" + getSpace(8) + ": " + data.VID + "\n"
-	disMsg += "Username" + getSpace(9) + ": " + data.Username + "\n"
-	disMsg += "OJ" + getSpace(15) + ": " + data.OJ + "\n"
-	disMsg += "Problem Number" + getSpace(3) + ": " + data.PNum + "\n"
-	disMsg += "Problem Name" + getSpace(5) + ": " + data.PName + "\n"
-	disMsg += "Language" + getSpace(9) + ": " + data.Language + "\n"
-	disMsg += "Time" + getSpace(13) + ": " + data.TimeExec + "\n"
-	disMsg += "Memory" + getSpace(11) + ": " + data.MemoryExec + "\n"
-	disMsg += "Submitted At" + getSpace(5) + ": " + formattedTime + "\n"
-	disMsg += "Verdict" + getSpace(10) + ": " + data.Verdict + "\n"
-	disMsg += "Contest ID" + getSpace(7) + ": " + fmt.Sprintf("%v", data.ContestID) + "\n"
-	disMsg += "SerialIndex" + getSpace(6) + ": " + data.SerialIndex + "\n"
+	disMsg += "Submission ID" + getSpace(3) + ": " + fmt.Sprintf("%v", data.SubID) + "\n"
+	disMsg += "Remote ID" + getSpace(7) + ": " + data.VID + "\n"
+	disMsg += "Username" + getSpace(8) + ": " + data.Username + "\n"
+	disMsg += "OJ" + getSpace(14) + ": " + data.OJ + "\n"
+	disMsg += "Problem Number" + getSpace(2) + ": " + data.PNum + "\n"
+	disMsg += "Problem Name" + getSpace(4) + ": " + data.PName + "\n"
+	disMsg += "Language" + getSpace(8) + ": " + data.Language + "\n"
+	disMsg += "Time" + getSpace(12) + ": " + data.TimeExec + "\n"
+	disMsg += "Memory" + getSpace(10) + ": " + data.MemoryExec + "\n"
+	disMsg += "Submitted At" + getSpace(4) + ": " + formattedTime + "\n"
+	disMsg += "Verdict" + getSpace(9) + ": " + data.Verdict + "\n"
+	disMsg += "Contest ID" + getSpace(6) + ": " + fmt.Sprintf("%v", data.ContestID) + "\n"
+	disMsg += "Serial Index" + getSpace(4) + ": " + data.SerialIndex + "\n"
 	disMsg += "```"
 
 	return disMsg
 }
 
-func prepareEditedMessage(old string, data model.SubmissionData) string {
+func prepareLoginMessage(data model.UserData, formattedTime string) string {
+	disMsg := "```md\n"
+	disMsg += "# " + data.Username + "\n"
+	disMsg += "Username" + getSpace(4) + ": " + data.Username + "\n"
+	disMsg += "Email" + getSpace(7) + ": " + data.Email + "\n"
+	disMsg += "Full Name" + getSpace(3) + ": " + data.FullName + "\n"
+	disMsg += "Verified" + getSpace(4) + ": " + fmt.Sprintf("%v", data.IsVerified) + "\n"
+	disMsg += "Member Since" + getSpace(0) + ": " + formattedTime + "\n"
+	disMsg += "Total Solved" + getSpace(0) + ": " + fmt.Sprintf("%v", data.TotalSolved) + "\n"
+	disMsg += "```"
+
+	return disMsg
+}
+
+func prepareSubmissionEditedMessage(old string, data model.SubmissionData) string {
 	// tt := "Time1234567891234: ---\nMemory"
 	idx1 := strings.Index(old, "Time")
 	idx2 := strings.Index(old, "Memory")

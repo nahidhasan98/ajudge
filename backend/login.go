@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/nahidhasan98/ajudge/db"
+	"github.com/nahidhasan98/ajudge/discord"
 	"github.com/nahidhasan98/ajudge/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -77,7 +78,14 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			model.Info["IsLogged"] = session.Values["isLogin"]
 
 			http.Redirect(w, r, model.LastPage, http.StatusSeeOther)
+
+			// notofy to discord
+			disData := userData
+			discord := discord.Init()
+			discord.SendMessage(disData, "login")
+
 			return
+
 		}
 		//if password not matched
 		model.Info["Username"] = username

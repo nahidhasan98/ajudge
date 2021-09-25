@@ -180,6 +180,6 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 
 	// notofy to discord
 	discord := discord.Init()
-	discord.SendMessage(submissionData)
+	discord.SendMessage(submissionData, "submission")
 
 }
