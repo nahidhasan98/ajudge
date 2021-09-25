@@ -74,6 +74,14 @@ func (ds discordStruct) SendMessage(data interface{}, notifier string) (*api.Web
 
 		webhookID = vault.WebhookIDContest
 		webhookToken = vault.WebhookTokenContest
+
+	case "resetPass":
+		temp := data.(model.UserData)
+
+		disMsg = prepareResetMessage(temp)
+
+		webhookID = vault.WebhookIDReset
+		webhookToken = vault.WebhookTokenReset
 	}
 
 	// innitializing webhook
@@ -169,6 +177,14 @@ func prepareContestMessage(data model.ContestData, formattedTime string) string 
 	disMsg += "Start At" + getSpace(4) + ": " + formattedTime + "\n"
 	disMsg += "Duration" + getSpace(4) + ": " + fmt.Sprintf("%v", data.Duration) + "\n"
 	disMsg += "Author" + getSpace(6) + ": " + data.Author + "\n"
+	disMsg += "```"
+
+	return disMsg
+}
+
+func prepareResetMessage(data model.UserData) string {
+	disMsg := "```md\n"
+	disMsg += "Username" + getSpace(0) + ": " + data.Username + "\n"
 	disMsg += "```"
 
 	return disMsg

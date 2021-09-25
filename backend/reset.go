@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/nahidhasan98/ajudge/db"
+	"github.com/nahidhasan98/ajudge/discord"
 	"github.com/nahidhasan98/ajudge/errorhandling"
 	"github.com/nahidhasan98/ajudge/model"
 	"go.mongodb.org/mongo-driver/bson"
@@ -110,6 +111,7 @@ func Reset(w http.ResponseWriter, r *http.Request) { //calling from submit of 1.
 //PassReset function for resetting a user's password
 func PassReset(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
+	session, _ := model.Store.Get(r, "mysession")
 
 	//connecting to DB
 	DB, ctx, cancel := db.Connect()
@@ -143,7 +145,6 @@ func PassReset(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 			return
 		}
-		session, _ := model.Store.Get(r, "mysession")
 
 		model.Info["Username"] = session.Values["username"]
 		model.Info["Password"] = session.Values["password"]
@@ -171,6 +172,14 @@ func PassReset(w http.ResponseWriter, r *http.Request) {
 
 		model.PopUpCause = "passwordReset"
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+
+		// notofy to discord
+		disData := model.UserData{
+			Username: session.Values["username"].(string),
+		}
+		discord := discord.Init()
+		discord.SendMessage(disData, "resetPass")
+
 		return
 	}
 }
