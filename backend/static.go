@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/nahidhasan98/ajudge/discord"
 	"github.com/nahidhasan98/ajudge/errorhandling"
 	"github.com/nahidhasan98/ajudge/model"
 	"github.com/nahidhasan98/ajudge/vault"
@@ -99,6 +100,16 @@ func Contact(w http.ResponseWriter, r *http.Request) {
 
 		model.PopUpCause = "userFeedback"
 		http.Redirect(w, r, "/contact", http.StatusSeeOther)
+
+		// notofy to discord
+		disData := model.FeedbackData{
+			Name:    name,
+			Email:   email,
+			Message: message,
+		}
+		discord := discord.Init()
+		discord.SendMessage(disData, "feedback")
+
 		return
 	}
 }

@@ -248,3 +248,11 @@ type UserData struct {
 	PassResetTokenSentAt int64  `bson:"passResetTokenSentAt"`
 	TotalSolved          int    `bson:"totalSolved"`
 }
+
+//FeedbackData variable for holding a feedback details
+type FeedbackData struct {
+	Name    string `bson:"name"`
+	Email   string `bson:"email"`
+	Message string `bson:"mesasge"`
+	SentAt  int64  `bson:"sentAt"`
+}

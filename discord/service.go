@@ -82,6 +82,14 @@ func (ds discordStruct) SendMessage(data interface{}, notifier string) (*api.Web
 
 		webhookID = vault.WebhookIDReset
 		webhookToken = vault.WebhookTokenReset
+
+	case "feedback":
+		temp := data.(model.FeedbackData)
+
+		disMsg = prepareFeedbackMessage(temp)
+
+		webhookID = vault.WebhookIDFeedback
+		webhookToken = vault.WebhookTokenFeedback
 	}
 
 	// innitializing webhook
@@ -93,7 +101,7 @@ func (ds discordStruct) SendMessage(data interface{}, notifier string) (*api.Web
 	errorhandling.Check(err)
 
 	// store to DB
-	err = ds.repoService.storeMsgID(subID, fmt.Sprintf("%v", res.ID), disMsg)
+	err = ds.repoService.storeMsgID(subID, fmt.Sprintf("%v", res.ID), disMsg, notifier)
 	errorhandling.Check(err)
 
 	return res, err
@@ -185,6 +193,17 @@ func prepareContestMessage(data model.ContestData, formattedTime string) string 
 func prepareResetMessage(data model.UserData) string {
 	disMsg := "```md\n"
 	disMsg += "Username" + getSpace(0) + ": " + data.Username + "\n"
+	disMsg += "```"
+
+	return disMsg
+}
+
+func prepareFeedbackMessage(data model.FeedbackData) string {
+	disMsg := "```md\n"
+	disMsg += "# " + data.Email + "\n"
+	disMsg += "Name" + getSpace(4) + ": " + data.Name + "\n"
+	disMsg += "Email" + getSpace(3) + ": " + data.Email + "\n"
+	disMsg += "Message" + getSpace(1) + ": " + data.Message + "\n"
 	disMsg += "```"
 
 	return disMsg

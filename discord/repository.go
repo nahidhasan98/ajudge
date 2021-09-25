@@ -7,7 +7,7 @@ import (
 )
 
 type repoInterfacer interface {
-	storeMsgID(subID int, msgID, msg string) error
+	storeMsgID(subID int, msgID, msg, notifier string) error
 	getDetails(subID int) (discordModel, error)
 	updateMsg(subID int, msgID, msg string) error
 }
@@ -16,7 +16,7 @@ type repoStruct struct {
 	DBTable string
 }
 
-func (r *repoStruct) storeMsgID(subID int, msgID, msg string) error {
+func (r *repoStruct) storeMsgID(subID int, msgID, msg, notifier string) error {
 	// connecting to DB
 	DB, ctx, cancel := db.Connect()
 	defer cancel()
@@ -29,7 +29,7 @@ func (r *repoStruct) storeMsgID(subID int, msgID, msg string) error {
 		SubID:            subID,
 		MessageID:        msgID,
 		Message:          msg,
-		NotificationType: "submission",
+		NotificationType: notifier,
 	}
 
 	// inserting info to DB
