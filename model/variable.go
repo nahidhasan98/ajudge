@@ -220,6 +220,7 @@ type SubmissionData struct {
 	Username        string `bson:"username"`
 	OJ              string `bson:"OJ"`
 	PNum            string `bson:"pNum"`
+	PName           string `bson:"pName"`
 	Language        string `bson:"language"`
 	SubmittedAt     int64  `bson:"submittedAt"`
 	VID             string `bson:"vID"`

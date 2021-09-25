@@ -3,6 +3,7 @@ module github.com/nahidhasan98/ajudge
 go 1.15
 
 require (
+	github.com/DisgoOrg/disgohook v1.4.4
 	github.com/PuerkitoBio/goquery v1.6.1
 	github.com/gomarkdown/markdown v0.0.0-20201113031856-722100d81a8e
 	github.com/gorilla/mux v1.8.0

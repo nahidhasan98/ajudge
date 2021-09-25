@@ -35,6 +35,10 @@ var (
 
 	//CaptchaKey variable
     CaptchaKey string
+	
+	//discoed webhook variable
+	WebhookID    string
+	WebhookToken string
 )
 
 func init() {
@@ -60,4 +64,7 @@ func init() {
 	VJudgePassword = password
 
 	CaptchaKey = captchaKey
+
+	WebhookID = webhookID
+	WebhookToken = webhookToken
 }

@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/nahidhasan98/ajudge/db"
+	"github.com/nahidhasan98/ajudge/discord"
 	"github.com/nahidhasan98/ajudge/errorhandling"
 	"github.com/nahidhasan98/ajudge/model"
 	"github.com/nahidhasan98/nlogger"
@@ -176,4 +177,9 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 	w.Header().Set("Content-Type", "application/json")
 	b, _ := json.Marshal(respData)
 	w.Write(b)
+
+	// notofy to discord
+	discord := discord.Init()
+	discord.SendMessage(submissionData)
+
 }

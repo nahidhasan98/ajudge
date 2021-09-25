@@ -14,6 +14,7 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/nahidhasan98/ajudge/db"
+	"github.com/nahidhasan98/ajudge/discord"
 	"github.com/nahidhasan98/ajudge/errorhandling"
 	"github.com/nahidhasan98/ajudge/model"
 	"github.com/nahidhasan98/ajudge/oj/dimik"
@@ -506,6 +507,16 @@ func Verdict(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(returnData)
+
+	// notofy to discord
+	disData := model.SubmissionData{
+		SubID:      subID,
+		TimeExec:   rRuntime,
+		MemoryExec: rMemory,
+		Verdict:    rVerdict,
+	}
+	discord := discord.Init()
+	discord.EditMessage(disData)
 }
 
 //Rejudge function for rejudging verdict from OJ
@@ -756,6 +767,16 @@ func Rejudge(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(returnData)
+
+	// notofy to discord
+	disData := model.SubmissionData{
+		SubID:      subID,
+		TimeExec:   rRuntime,
+		MemoryExec: rMemory,
+		Verdict:    rVerdict,
+	}
+	discord := discord.Init()
+	discord.EditMessage(disData)
 }
 
 //GetRankList function for retrieving rank list for OJ/User
