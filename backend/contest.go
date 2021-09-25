@@ -13,6 +13,7 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/nahidhasan98/ajudge/db"
+	"github.com/nahidhasan98/ajudge/discord"
 	"github.com/nahidhasan98/ajudge/errorhandling"
 	"github.com/nahidhasan98/ajudge/model"
 	"github.com/nahidhasan98/ajudge/oj/dimik"
@@ -183,6 +184,12 @@ func CreateContest(w http.ResponseWriter, r *http.Request) {
 
 		model.PopUpCause = "contestCreated"
 		http.Redirect(w, r, "/contest", http.StatusSeeOther)
+
+		// notofy to discord
+		disData := contestData
+		discord := discord.Init()
+		discord.SendMessage(disData, "contest")
+
 		return
 	}
 }

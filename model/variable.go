@@ -248,3 +248,11 @@ type UserData struct {
 	PassResetTokenSentAt int64  `bson:"passResetTokenSentAt"`
 	TotalSolved          int    `bson:"totalSolved"`
 }
+
+var c = ContestData{
+	ContestID: 34,
+	Title:     "",
+	StartAt:   324242,
+	Duration:  "",
+	Author:    "",
+}

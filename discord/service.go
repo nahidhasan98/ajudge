@@ -63,6 +63,17 @@ func (ds discordStruct) SendMessage(data interface{}, notifier string) (*api.Web
 
 		webhookID = vault.WebhookIDReg
 		webhookToken = vault.WebhookTokenReg
+
+	case "contest":
+		temp := data.(model.ContestData)
+
+		timeDotTime := time.Unix(temp.StartAt, 0)
+		formattedTime := timeDotTime.Format("02-Jan-2006 (15:04:05)")
+
+		disMsg = prepareContestMessage(temp, formattedTime)
+
+		webhookID = vault.WebhookIDContest
+		webhookToken = vault.WebhookTokenContest
 	}
 
 	// innitializing webhook
@@ -145,6 +156,19 @@ func prepareLoginRegMessage(data model.UserData, formattedTime string) string {
 	disMsg += "Verified" + getSpace(4) + ": " + fmt.Sprintf("%v", data.IsVerified) + "\n"
 	disMsg += "Member Since" + getSpace(0) + ": " + formattedTime + "\n"
 	disMsg += "Total Solved" + getSpace(0) + ": " + fmt.Sprintf("%v", data.TotalSolved) + "\n"
+	disMsg += "```"
+
+	return disMsg
+}
+
+func prepareContestMessage(data model.ContestData, formattedTime string) string {
+	disMsg := "```md\n"
+	disMsg += "# " + fmt.Sprintf("%v", data.ContestID) + " - " + data.Title + "\n"
+	disMsg += "Contest ID" + getSpace(2) + ": " + fmt.Sprintf("%v", data.ContestID) + "\n"
+	disMsg += "Title" + getSpace(7) + ": " + data.Title + "\n"
+	disMsg += "Start At" + getSpace(4) + ": " + formattedTime + "\n"
+	disMsg += "Duration" + getSpace(4) + ": " + fmt.Sprintf("%v", data.Duration) + "\n"
+	disMsg += "Author" + getSpace(6) + ": " + data.Author + "\n"
 	disMsg += "```"
 
 	return disMsg
