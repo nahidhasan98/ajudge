@@ -1,0 +1,352 @@
+{{ template "open" . }}
+
+<div class="container">
+    <span id="contestID" style="display:none;">{{ .ContestData.ContestID }}</span>
+    <span id="contestUser" style="display:none;">{{ .Username }}</span>
+    <span id="contestAuthor" style="display:none;">{{ .ContestData.Author }}</span>
+    <span id="contestDateTime" style="display:none;">{{ .ContestData.Date }} {{ .ContestData.Time }}</span>
+    <span id="contestDuration" style="display:none;">{{ .ContestData.Duration }}</span>
+    <span id="contestStartAt" style="display:none;">{{ .ContestData.StartAt }}</span>
+    <span id="problemSetLength" style="display:none;">{{ len .ContestData.ProblemSet }}</span>
+
+    {{/* timing section */}}
+    {{ if (eq .RunningStatus "BeforeContest")}}
+    <div class="row mb-1" style="min-height:15vh;background:white;padding:1%;text-align:center;">
+        <div class="col-sm-4 clock">
+            <p class="h4" id="currentTimeLabel">Current Time</p>
+            <p class="h1" id="currentTime" style="color: steelblue;padding: 3% 0%;"></p>
+            <p id="currentDate"></p>
+        </div>
+        <div class="col-sm-4 clock">
+            <p class="h4" id="cDurationLabel">Contest Duration</p>
+            <p class="h1" id="cDuration" style="color: steelblue;padding: 3% 0%;">{{ .ContestData.Duration }}:00</p>
+        </div>
+        <div class="col-sm-4 clock">
+            <p class="h4" id="beforeStartLabel">Before Start</p>
+            <p class="h1" id="beforeStart" style="color: steelblue;padding: 3% 0%;"></p>
+        </div>
+    </div>
+    {{ else if (eq .RunningStatus "RunningContest")}}
+    <div class="row mb-1" style="min-height:15vh;background:white;padding:1%;text-align:center;">
+        <div class="col-sm-4 clock">
+            <p class="h4" id="currentTimeLabel">Contest Running</p>
+            <p class="h1" id="currentTime" style="color: steelblue;padding: 3% 0%;"></p>
+            <p id="currentDate" style="display:none;"></p>
+        </div>
+        <div class="col-sm-4 clock">
+            <p class="h4" id="cDurationLabel">Contest Duration</p>
+            <p class="h1" id="cDuration" style="color: steelblue;padding: 3% 0%;">{{ .ContestData.Duration }}:00</p>
+        </div>
+        <div class="col-sm-4 clock">
+            <p class="h4" id="beforeStartLabel">Before Finish</p>
+            <p class="h1" id="beforeStart" style="color: steelblue;padding: 3% 0%;"></p>
+        </div>
+    </div>
+    {{ else }}
+    <div class="row mb-1" style="min-height:15vh;background:white;padding:1%;text-align:center;">
+        <div class="col-sm-4 clock">
+            <p class="h4" id="currentTimeLabel">Full Time</p>
+            <p class="h1" id="currentTime" style="color: steelblue;padding: 3% 0%;">{{ .ContestData.Duration }}:00</p>
+            <p id="currentDate" style="display:none;"></p>
+        </div>
+        <div class="col-sm-4 clock">
+            <p class="h4" id="cDurationLabel">Contest Duration</p>
+            <p class="h1" id="cDuration" style="color: steelblue;padding: 3% 0%;">{{ .ContestData.Duration }}:00</p>
+        </div>
+        <div class="col-sm-4 clock">
+            <p class="h4" id="beforeStartLabel">Contest Finished</p>
+            <p class="h1" id="beforeStart" style="color: steelblue;padding: 3% 0%;">00:00:00</p>
+        </div>
+    </div>
+    {{ end }}
+
+    {{/* problem Section */}}
+    {{ if (or (ne .RunningStatus "BeforeContest") (eq .Username .ContestData.Author))}}
+    <div class="mb-1" style="background:white;padding:0px 10px;">
+        <nav class="navbar navbar-expand-sm" style="border-bottom: 1px solid #e9f4fb;padding:1% 0%">
+            <div class="navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-0 nav nav-pills" id="pills-tab">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="dashboard-tab" data-toggle="pill" href="#dashboard" role="tab"
+                            aria-controls="dashboard" aria-selected="true">Dashboard</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="problems-tab" data-toggle="pill" href="#problems" role="tab"
+                            aria-controls="problems" aria-selected="false">Problems</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="submissions-tab" data-toggle="pill" href="#submissions" role="tab"
+                            aria-controls="submissions" aria-selected="false">Submissions</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="standings-tab" data-toggle="pill" href="#standings" role="tab"
+                            aria-controls="standings" aria-selected="false">Standings</a>
+                    </li>
+                </ul>
+                {{ if (eq .Username .ContestData.Author)}}
+                <ul class="navbar-nav mr-0" id="update-tab">
+                    <li class="">
+                        <a href="/contestUpdate/{{ .ContestData.ContestID }}"
+                            style="float: right;padding: 5px 10px;background: #7dbde8;outline: none;border: 1px solid #2691d9;border-radius: 5px;color: white;">Update</a>
+                    </li>
+                </ul>
+                {{ end }}
+            </div>
+        </nav>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab"
+                style="min-height: 50vh;overflow:auto;">
+                <table class="table" id="overviewTable" style="text-align: center;">
+                    <tr>
+                        <th>Number</th>
+                        <th>Problem</th>
+                        <th>Overall Solved/Submission</th>
+                        <th>My Status</th>
+                    </tr>
+                    {{ range .ContestData.ProblemSet }}
+                    <tr>
+                        <td>
+                            <a class="goto{{ .SerialIndex }}" href="#problems{{ .SerialIndex }}">{{ .SerialIndex }}</a>
+                        </td>
+                        <td>
+                            <a class="goto{{ .SerialIndex }}" href="#problems{{ .SerialIndex }}">
+                                {{ if eq .CustomName "" }}
+                                {{ .PName }}
+                                {{ else }}
+                                {{ .CustomName }}
+                                {{ end }}
+                            </a>
+                        </td>
+                        <td id="totalStatus{{ .SerialIndex }}"></td>
+                        <td id="myStatus{{ .SerialIndex }}"></td>
+                    </tr>
+                    {{ end }}
+                </table>
+            </div>
+            <div class="tab-pane fade" id="problems" role="tabpanel" aria-labelledby="problems-tab">
+                <div class="row">
+                    <div class="col-sm-1" style="margin-left: -1%;margin-right: -4%;">
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
+                            aria-orientation="vertical">
+                            {{ range $key, $value := .ContestData.ProblemSet }}
+                            <a class="nav-link" id="{{ .SerialIndex }}-tab" data-toggle="pill"
+                                href="#problems{{ .SerialIndex }}" role="tab" aria-controls="{{ .SerialIndex }}"
+                                aria-selected="">{{ .SerialIndex }}</a>
+                            {{ end }}
+                        </div>
+                    </div>
+                    <div class="col-11" style="background:white;min-height:100vh;">
+                        <div class="tab-content" id="v-pills-tabContent">
+                            {{ range $key, $value := .ContestData.ProblemSet }}
+                            <div class="tab-pane fade" id="problems{{ .SerialIndex }}" role="tabpanel"
+                                aria-labelledby="{{ .SerialIndex }}-tab">
+                                <span style="display:none;" id="OJ">{{ .OJ }}</span>
+                                <span style="display:none;" id="pNum">{{ .PNum }}</span>
+                                <div class="row">
+                                    {{ if eq .CustomName "" }}
+                                    <p class="h1" style="text-align:center;color:#1b6698; margin-top: 15px;">{{ .PName
+                                        }}</p>
+                                    {{ else }}
+                                    <p class="h1" style="text-align:center;color:#1b6698; margin-top: 15px;">{{
+                                        .CustomName }}</p>
+                                    {{ end }}
+                                </div>
+                                <div class="row" style="" id="iframeP{{ .SerialIndex }}">
+                                    {{/* <iframe id="myIframe{{ .SerialIndex }}" scrolling="no" frameborder="0"
+                                        src="/problemSet/{{ .OJ }}-{{ .PNum }}" style="width: 100%;"></iframe>
+                                    <script src="../assets/scripts/iframeResizer.min.js"></script>
+                                    <script>iFrameResize({ log: false }, '#myIframe' + {{ .SerialIndex }})</script> */}}
+                                </div>
+                            </div>
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="submissions" role="tabpanel" aria-labelledby="submissions-tab"
+                style="min-height: 50vh;overflow:auto;">
+                <table class="table" id="submissionTable" style="text-align: center;">
+                    <tr>
+                        <th>Submission ID</th>
+                        <th>Username<br>
+                            <input type="text" name="usernameDF" value="" placeholder="">
+                            <img src="../assets/images/loadingMini.gif" id="loadingGifPNum"
+                                style="width: 20px; margin-left: -23px; margin-top:4px; position: absolute; display:none;">
+                        </th>
+                        <th>Problem<br>
+                            <select name="OJDF">
+                                <option value="All">All</option>
+                                <option value="51Nod">51Nod</option>
+                            </select>
+                            <img src="../assets/images/loadingMini.gif" id="loadingGifOJ"
+                                style="width: 20px; margin-left: -23px; margin-top:4px; position: absolute; display:none;">
+                        </th>
+                        <th>Verdict</th>
+                        <th>Time</th>
+                        <th>Memory</th>
+                        <th>Language</th>
+                        <th>Submitted At</th>
+                        <th>Source Code</th>
+                    </tr>
+                </table>
+                <div>
+                    <center id="loadingGif"><img src="../assets/images/loading.gif" style="width: 30%;"></center>
+                    <center id="notFound" style="padding:10px;"></center>
+                </div>
+                {{/* view code modal*/}}
+                <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+                    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalLabel">Submitted Solution</h5>
+                                <span class="modal-close-icon" aria-hidden="true" data-dismiss="modal"
+                                    aria-label="Close">&times;</span>
+                            </div>
+                            <div class="modal-body">
+                                <pre style="">
+                                    <span id="lineNumber"></span>
+                                    <code id="viewCode"></code>
+                                </pre>
+                            </div>
+                            {{/* <div class="modal-footer">
+                                <button type="button" class="btn modal-close-btn" data-dismiss="modal">Close</button>
+                            </div> */}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="standings" role="tabpanel" aria-labelledby="standings-tab"
+                style="min-height: 50vh;overflow:auto;">
+                <table class="table" id="standingTable" style="text-align: center;">
+                    <tr>
+                        <th>#</th>
+                        <th>Contestant</th>
+                        <th>Score</th>
+                        {{ range .ContestData.ProblemSet }}
+                        <th><a class="goto{{ .SerialIndex }}" href="#problems{{ .SerialIndex }}"
+                                style="color: white;">{{ .SerialIndex }}</a></th>
+                        {{ end }}
+                    </tr>
+                </table>
+                <div>
+                    <center id="loadingGifStanding"><img src="../assets/images/loading.gif" style="width: 30%;">
+                    </center>
+                    <center id="notFound" style="padding:10px;"></center>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ else }}
+    <div class="mb-1" style="background:white;padding:0px 10px;min-height:50vh;">
+        <center class="h3" style="text-align:center;padding-top:15%;">Problem-set will be revealed after the start of
+            the contest.</center>
+    </div>
+    {{ end }}
+</div>
+
+{{/* submission modal */}}
+<div class="modal fade" id="submissionModal" tabindex="-1" role="dialog" aria-labelledby="submissionModalLabel"
+    aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="submissionModalLabel">Submit Your Solution</h5>
+                <span class="modal-close-icon" aria-hidden="true" data-dismiss="modal" aria-label="Close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="submission" style="padding: 0px;">
+                    <form method="POST" id="subForm">
+                        <div id="submissionLeft">
+                            <div>
+                                <label>Problem:</label>
+                                <input type="text" name="conIDSerial" id="conIDSerial"
+                                    value="{{ .ContestID }} - {{ .SerialIndex }}" readonly>
+                            </div>
+                            <div>
+                                <label hidden>OJ:</label>
+                                <input type="text" name="OJ" id="OJform" value="{{ .OJ }}" hidden>
+                            </div>
+                            <div>
+                                <label hidden>Problem Number:</label>
+                                <input type="text" name="pNum" id="pNumform" value="{{ .PNum }}" hidden>
+                            </div>
+                            <div>
+                                <label for="submit-language">Language:</label>
+                                <select name="language" id="submit-language">
+                                </select>
+                            </div>
+                            <center><input type="submit" value="Submit" name="" id="submit-btn"
+                                    style="margin-top:30px;"></center>
+                        </div>
+                        <div id="submissionRight">
+                            <label for="submit-solution" class="">Solution:<p id="emptyWarning"
+                                    style="float: right;color: #ff8080;right: 0px;margin-left: 10px;"></p></label>
+                            <textarea spellcheck="false"
+                                style="width: 95%; min-height: 400px; margin-top:2px; padding:8px 8px; resize: vertical; font-size:14px;"
+                                name="source" id="submit-solution" placeholder="" required></textarea>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {{/* <div class="modal-footer">
+                <button type="button" class="btn modal-close-btn" data-dismiss="modal">Close</button>
+            </div> */}}
+        </div>
+    </div>
+</div>
+
+{{/* verdict Modal */}}
+<div class="modal fade" id="verdictModal" tabindex="-1" role="dialog" aria-labelledby="verdictModalLabel"
+    aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="verdictModalLabel">Submission Result</h5>
+                <span class="modal-close-icon" aria-hidden="true" data-dismiss="modal" aria-label="Close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="resultPart">
+                    <table style="border-collapse: collapse; width:100%; text-align:center;">
+                        <tr>
+                            <th>Submission ID</th>
+                            <th>Problem Number</th>
+                            <th>Verdict</th>
+                            <th>Time</th>
+                            <th>Memory</th>
+                            <th>Language</th>
+                            <th>Submitted At</th>
+                        </tr>
+                        <tr>
+                            <td id="subID"></td>
+                            <td id="pNumtd"></td>
+                            <td>
+                                <img src="../assets/images/loadingVerdict.gif" id="loadingVerdictGif"
+                                    style="width: 80px;margin-top:4px;display:none;">
+                                <img src="../assets/images/loadingMini.gif" id="judging"
+                                    style="width: 20px; display:none; cursor:pointer;" title="Judging...">
+                                <img src="../assets/images/rejudge.png" id="rejudge"
+                                    style="width: 20px; display:none; cursor:pointer;" title="Click to rejudge">
+                                <p id="verdict"></p>
+                            </td>
+                            <td id="time"></td>
+                            <td id="memory"></td>
+                            <td id="language"></td>
+                            <td id="submittedAt"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="8" style="padding: 5px 0px; border:0px">
+                                <pre id="sourceC">
+                                    <span id="lineNumberC"></span>
+                                    <code id="viewCodeC"></code>
+                                </pre>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ template "close" . }}
