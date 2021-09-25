@@ -28,7 +28,9 @@ func (ds discordStruct) SendMessage(data interface{}, notifier string) (*api.Web
 	var subID int
 
 	// preparing message to send
-	if notifier == "submission" {
+	switch notifier {
+
+	case "submission":
 		temp := data.(model.SubmissionData)
 		subID = temp.SubID
 
@@ -39,16 +41,28 @@ func (ds discordStruct) SendMessage(data interface{}, notifier string) (*api.Web
 
 		webhookID = vault.WebhookIDSub
 		webhookToken = vault.WebhookTokenSub
-	} else if notifier == "login" {
+
+	case "login":
 		temp := data.(model.UserData)
 
 		timeDotTime := time.Unix(temp.CreatedAt, 0)
 		formattedTime := timeDotTime.Format("02-Jan-2006 (15:04:05)")
 
-		disMsg = prepareLoginMessage(temp, formattedTime)
+		disMsg = prepareLoginRegMessage(temp, formattedTime)
 
 		webhookID = vault.WebhookIDLogin
 		webhookToken = vault.WebhookTokenLogin
+
+	case "registration":
+		temp := data.(model.UserData)
+
+		timeDotTime := time.Unix(temp.CreatedAt, 0)
+		formattedTime := timeDotTime.Format("02-Jan-2006 (15:04:05)")
+
+		disMsg = prepareLoginRegMessage(temp, formattedTime)
+
+		webhookID = vault.WebhookIDReg
+		webhookToken = vault.WebhookTokenReg
 	}
 
 	// innitializing webhook
@@ -122,7 +136,7 @@ func prepareSubmissionMessage(data model.SubmissionData, formattedTime string) s
 	return disMsg
 }
 
-func prepareLoginMessage(data model.UserData, formattedTime string) string {
+func prepareLoginRegMessage(data model.UserData, formattedTime string) string {
 	disMsg := "```md\n"
 	disMsg += "# " + data.Username + "\n"
 	disMsg += "Username" + getSpace(4) + ": " + data.Username + "\n"

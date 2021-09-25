@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/nahidhasan98/ajudge/db"
+	"github.com/nahidhasan98/ajudge/discord"
 	"github.com/nahidhasan98/ajudge/errorhandling"
 	"github.com/nahidhasan98/ajudge/model"
 	"go.mongodb.org/mongo-driver/bson"
@@ -84,6 +85,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 		model.PopUpCause = "registrationDone" //login page will give a popup
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
+
+		// notofy to discord
+		disData := userData
+		discord := discord.Init()
+		discord.SendMessage(disData, "registration")
+
 		return
 	}
 }
