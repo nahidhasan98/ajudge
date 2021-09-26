@@ -1,25 +1,32 @@
 $(document).ready(function () {
-    var testing = false;
+    let submit = false;
     $('form').on('submit', function () {
-        $('form').bind(); //prevent default submitting
-        $.ajax({
+        $('#send-btn').prop('disabled', true);
+        $('#send-btn').val("Please wait...");
+
+        let request = $.ajax({
             url: "/captcha/" + grecaptcha.getResponse(),
             type: 'GET',
             async: false,
-            success: function (data) {
-                if (data.success == true) {
-                    testing = true;
-                    $("#errCaptcha").text("");
-                } else {
-                    $("#errCaptcha").text("Captcha Error. Please fix this.");
-                }
-            },
-            error: function () {
-                console.log('Internal Server Error. Please try again after sometime or send us a feedback.');
+        });
+        request.done(function (data) {
+            if (data.success == true) {
+                $("#errCaptcha").text("");
+                submit = true;
+            } else {
+                $("#errCaptcha").text("Captcha Error. Please fix this.");
+                $('#send-btn').prop('disabled', false);
+                $('#send-btn').val("Submit");
             }
         });
+        request.fail(function (response) {
+            console.log(response)
+        });
+        request.always(function () {
 
-        return testing;
+        });
+
+        return submit;
     });
 
     $("#mailName").click(function () {
