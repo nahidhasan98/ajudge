@@ -9,8 +9,8 @@ $(document).ready(function () {
             type: 'GET',
             async: false,
         });
-        request.done(function (data) {
-            if (data.success == true) {
+        request.done(function (response) {
+            if (response.success == true) {
                 $("#errCaptcha").text("");
                 submit = true;
             } else {
