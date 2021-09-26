@@ -17,7 +17,6 @@ import (
 func resetCommon(w http.ResponseWriter, r *http.Request, title string) {
 	session, _ := model.Store.Get(r, "mysession")
 	model.Info["Username"] = session.Values["username"]
-	model.Info["Password"] = session.Values["password"]
 	model.Info["IsLogged"] = session.Values["isLogin"]
 	model.Info["PageName"] = "Reset"
 	model.Info["PageTitle"] = title + " | AJudge"
@@ -147,7 +146,6 @@ func PassReset(w http.ResponseWriter, r *http.Request) {
 		}
 
 		model.Info["Username"] = session.Values["username"]
-		model.Info["Password"] = session.Values["password"]
 		model.Info["IsLogged"] = session.Values["isLogin"]
 		model.Info["PageName"] = "Reset Password"
 		model.Info["PageTitle"] = "Reset Password | AJudge"

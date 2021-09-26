@@ -21,7 +21,6 @@ func Rank(w http.ResponseWriter, r *http.Request) {
 	rankType := path[5:]
 
 	model.Info["Username"] = session.Values["username"]
-	model.Info["Password"] = session.Values["password"]
 	model.Info["IsLogged"] = session.Values["isLogin"]
 	model.Info["PageName"] = "Rank"
 	model.Info["PageTitle"] = rankType + " Rank | AJudge"

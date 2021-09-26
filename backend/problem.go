@@ -26,7 +26,6 @@ func Problem(w http.ResponseWriter, r *http.Request) {
 	//problem list will be gathered by frontend ajax call
 
 	model.Info["Username"] = session.Values["username"]
-	model.Info["Password"] = session.Values["password"]
 	model.Info["IsLogged"] = session.Values["isLogin"]
 	model.Info["PageName"] = "Problem"
 	model.Info["PageTitle"] = "Problem | AJudge"
@@ -132,7 +131,6 @@ func ProblemView(w http.ResponseWriter, r *http.Request) {
 	session, _ := model.Store.Get(r, "mysession")
 
 	model.Info["Username"] = session.Values["username"]
-	model.Info["Password"] = session.Values["password"]
 	model.Info["IsLogged"] = session.Values["isLogin"]
 	model.Info["PageName"] = "ProblemView"
 	model.Info["PageTitle"] = model.PTitle + " | AJudge"

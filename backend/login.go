@@ -68,13 +68,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 		if checkPasswordHash(password, userData.Password) { //if password matched
 			session.Values["username"] = username
-			session.Values["password"] = password
 			session.Values["isLogin"] = true
 			session.Save(r, w)
 
 			//preparing info for sending to frontend
 			model.Info["Username"] = session.Values["username"]
-			model.Info["Password"] = session.Values["password"]
 			model.Info["IsLogged"] = session.Values["isLogin"]
 
 			http.Redirect(w, r, model.LastPage, http.StatusSeeOther)
@@ -100,7 +98,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 func Logout(w http.ResponseWriter, r *http.Request) {
 	session, _ := model.Store.Get(r, "mysession")
 	session.Values["username"] = ""
-	session.Values["password"] = ""
 	session.Values["isLogin"] = false
 
 	session.Options.MaxAge = -1 //cookies will be deleted immediately.

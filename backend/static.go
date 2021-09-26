@@ -25,7 +25,6 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	session, _ := model.Store.Get(r, "mysession")
 
 	model.Info["Username"] = session.Values["username"]
-	model.Info["Password"] = session.Values["password"]
 	model.Info["IsLogged"] = session.Values["isLogin"]
 	model.Info["PageName"] = "Homepage"
 	model.Info["PageTitle"] = "AJudge | All your favourite OJ's are in one platform"
@@ -47,7 +46,6 @@ func About(w http.ResponseWriter, r *http.Request) {
 	session, _ := model.Store.Get(r, "mysession")
 
 	model.Info["Username"] = session.Values["username"]
-	model.Info["Password"] = session.Values["password"]
 	model.Info["IsLogged"] = session.Values["isLogin"]
 	model.Info["PageName"] = "About"
 	model.Info["PageTitle"] = "About | AJudge"
@@ -64,7 +62,6 @@ func Contact(w http.ResponseWriter, r *http.Request) {
 		session, _ := model.Store.Get(r, "mysession")
 
 		model.Info["Username"] = session.Values["username"]
-		model.Info["Password"] = session.Values["password"]
 		model.Info["IsLogged"] = session.Values["isLogin"]
 		model.Info["PageName"] = "Contact"
 		model.Info["PageTitle"] = "Contact | AJudge"

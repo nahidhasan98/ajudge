@@ -33,7 +33,6 @@ func Contest(w http.ResponseWriter, r *http.Request) {
 	session, _ := model.Store.Get(r, "mysession")
 
 	model.Info["Username"] = session.Values["username"]
-	model.Info["Password"] = session.Values["password"]
 	model.Info["IsLogged"] = session.Values["isLogin"]
 	model.Info["PageName"] = "ContestList"
 	model.Info["PageTitle"] = "Contest List | AJudge"
@@ -91,7 +90,6 @@ func CreateContest(w http.ResponseWriter, r *http.Request) {
 		if session.Values["isLogin"] == true {
 			if model.IsAccVerifed(r) {
 				model.Info["Username"] = session.Values["username"]
-				model.Info["Password"] = session.Values["password"]
 				model.Info["IsLogged"] = session.Values["isLogin"]
 				model.Info["PageName"] = "CreateContest"
 				model.Info["PageTitle"] = "Create Contest | AJudge"
@@ -243,7 +241,6 @@ func ContestUpadte(w http.ResponseWriter, r *http.Request) {
 		if session.Values["isLogin"] == true {
 			if model.IsAccVerifed(r) {
 				model.Info["Username"] = session.Values["username"]
-				model.Info["Password"] = session.Values["password"]
 				model.Info["IsLogged"] = session.Values["isLogin"]
 				model.Info["PageName"] = "UpdateContest"
 				model.Info["PageTitle"] = "Update Contest | AJudge"
@@ -361,7 +358,6 @@ func ContestGround(w http.ResponseWriter, r *http.Request) {
 	} else {
 		model.Info["Username"] = session.Values["username"]
 	}
-	model.Info["Password"] = session.Values["password"]
 	model.Info["IsLogged"] = session.Values["isLogin"]
 	model.Info["PageName"] = "ContestGround"
 	model.Info["PageTitle"] = "Contest Ground | AJudge"
@@ -476,7 +472,6 @@ func GetProblemSet(w http.ResponseWriter, r *http.Request) {
 	session, _ := model.Store.Get(r, "mysession")
 
 	model.Info["Username"] = session.Values["username"]
-	model.Info["Password"] = session.Values["password"]
 	model.Info["IsLogged"] = session.Values["isLogin"]
 	model.Info["PageName"] = "ProblemSet"
 	model.Info["PageTitle"] = model.PTitle + " | AJudge"

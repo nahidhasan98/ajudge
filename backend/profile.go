@@ -55,7 +55,6 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 
 	//preparing info for sending to frontend
 	model.Info["Username"] = session.Values["username"]
-	model.Info["Password"] = session.Values["password"]
 	model.Info["IsLogged"] = session.Values["isLogin"]
 	model.Info["PageName"] = "Profile"
 	model.Info["PageTitle"] = user + `'s Profile | AJudge`
