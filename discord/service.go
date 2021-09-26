@@ -213,17 +213,17 @@ func prepareSubmissionEditedMessage(old string, data model.SubmissionData) strin
 	// tt := "Time1234567891234: ---\nMemory"
 	idx1 := strings.Index(old, "Time")
 	idx2 := strings.Index(old, "Memory")
-	disMsgV1 := old[:idx1+19] + data.TimeExec + "\n" + old[idx2:]
+	disMsgV1 := old[:idx1+18] + data.TimeExec + "\n" + old[idx2:]
 
 	// tt := "Memory12345678912: ---\nSubmitted"
 	idx1 = strings.Index(disMsgV1, "Memory")
 	idx2 = strings.Index(disMsgV1, "Submitted")
-	disMsgV2 := disMsgV1[:idx1+19] + data.MemoryExec + "\n" + disMsgV1[idx2:]
+	disMsgV2 := disMsgV1[:idx1+18] + data.MemoryExec + "\n" + disMsgV1[idx2:]
 
 	// tt := "Verdict1234567891: ---\nContest"
 	idx1 = strings.Index(disMsgV2, "Verdict")
 	idx2 = strings.Index(disMsgV2, "Contest")
-	disMsg := disMsgV2[:idx1+19] + data.Verdict + "\n" + disMsgV2[idx2:]
+	disMsg := disMsgV2[:idx1+18] + data.Verdict + "\n" + disMsgV2[idx2:]
 
 	return disMsg
 }
