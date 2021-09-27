@@ -3,143 +3,43 @@ package discord
 import (
 	"fmt"
 	"strings"
-	"time"
 
-	"github.com/DisgoOrg/disgohook"
 	"github.com/DisgoOrg/disgohook/api"
-	"github.com/nahidhasan98/ajudge/errorhandling"
 	"github.com/nahidhasan98/ajudge/model"
-	"github.com/nahidhasan98/ajudge/vault"
 )
 
 type discordInterfacer interface {
-	SendMessage(data interface{}, notifier string) (*api.WebhookMessage, error)
-	EditMessage(data model.SubmissionData) (*api.WebhookMessage, error)
-	DeleteMessage(msgID api.Snowflake) error
+	SendMessage(data interface{}, notifier string)
+	EditMessage(data model.SubmissionData)
+	DeleteMessage(msgID api.Snowflake)
 }
 
 type discordStruct struct {
 	repoService repoInterfacer
 }
 
-func (ds discordStruct) SendMessage(data interface{}, notifier string) (*api.WebhookMessage, error) {
-	var webhookID, webhookToken string
-	var disMsg string
-	var subID int
+func (ds discordStruct) SendMessage(data interface{}, notifier string) {
+	jobs := make(chan int, 5)
+	go sendWorker(jobs, data, notifier, ds)
 
-	// preparing message to send
-	switch notifier {
-
-	case "submission":
-		temp := data.(model.SubmissionData)
-		subID = temp.SubID
-
-		timeDotTime := time.Unix(temp.SubmittedAt, 0)
-		formattedTime := timeDotTime.Format("02-Jan-2006 (15:04:05)")
-
-		disMsg = prepareSubmissionMessage(temp, formattedTime)
-
-		webhookID = vault.WebhookIDSub
-		webhookToken = vault.WebhookTokenSub
-
-	case "login":
-		temp := data.(model.UserData)
-
-		timeDotTime := time.Unix(temp.CreatedAt, 0)
-		formattedTime := timeDotTime.Format("02-Jan-2006 (15:04:05)")
-
-		disMsg = prepareLoginRegMessage(temp, formattedTime)
-
-		webhookID = vault.WebhookIDLogin
-		webhookToken = vault.WebhookTokenLogin
-
-	case "registration":
-		temp := data.(model.UserData)
-
-		timeDotTime := time.Unix(temp.CreatedAt, 0)
-		formattedTime := timeDotTime.Format("02-Jan-2006 (15:04:05)")
-
-		disMsg = prepareLoginRegMessage(temp, formattedTime)
-
-		webhookID = vault.WebhookIDReg
-		webhookToken = vault.WebhookTokenReg
-
-	case "contest":
-		temp := data.(model.ContestData)
-
-		timeDotTime := time.Unix(temp.StartAt, 0)
-		formattedTime := timeDotTime.Format("02-Jan-2006 (15:04:05)")
-
-		disMsg = prepareContestMessage(temp, formattedTime)
-
-		webhookID = vault.WebhookIDContest
-		webhookToken = vault.WebhookTokenContest
-
-	case "resetPass":
-		temp := data.(model.UserData)
-
-		disMsg = prepareResetMessage(temp)
-
-		webhookID = vault.WebhookIDReset
-		webhookToken = vault.WebhookTokenReset
-
-	case "feedback":
-		temp := data.(model.FeedbackData)
-
-		disMsg = prepareFeedbackMessage(temp)
-
-		webhookID = vault.WebhookIDFeedback
-		webhookToken = vault.WebhookTokenFeedback
-	}
-
-	// innitializing webhook
-	webhook, err := disgohook.NewWebhookClientByIDToken(nil, nil, api.Snowflake(webhookID), webhookToken)
-	errorhandling.Check(err)
-
-	// sending msg to discord
-	res, err := webhook.SendContent(disMsg)
-	errorhandling.Check(err)
-
-	// store to DB
-	err = ds.repoService.storeMsgID(subID, fmt.Sprintf("%v", res.ID), disMsg, notifier)
-	errorhandling.Check(err)
-
-	return res, err
+	jobs <- 1
+	close(jobs)
 }
 
-func (ds discordStruct) EditMessage(data model.SubmissionData) (*api.WebhookMessage, error) {
-	// getting sent msg details by subID
-	sentData, err := ds.repoService.getDetails(data.SubID)
-	errorhandling.Check(err)
+func (ds discordStruct) EditMessage(data model.SubmissionData) {
+	jobs := make(chan int, 5)
+	go editWorker(jobs, data, ds)
 
-	// preparing message to send
-	disMsg := prepareSubmissionEditedMessage(sentData.Message, data)
-
-	// innitializing webhook
-	webhook, err := disgohook.NewWebhookClientByIDToken(nil, nil, api.Snowflake(vault.WebhookIDSub), vault.WebhookTokenSub)
-	errorhandling.Check(err)
-
-	// editing sent msg to discord
-	res, err := webhook.EditContent(api.Snowflake(sentData.MessageID), disMsg)
-	errorhandling.Check(err)
-
-	// update sent msg info to DB
-	err = ds.repoService.updateMsg(data.SubID, fmt.Sprintf("%v", res.ID), disMsg)
-	errorhandling.Check(err)
-
-	return res, err
+	jobs <- 1
+	close(jobs)
 }
 
-func (ds discordStruct) DeleteMessage(msgID api.Snowflake) error {
-	// innitializing webhook
-	webhook, err := disgohook.NewWebhookClientByIDToken(nil, nil, api.Snowflake(vault.WebhookIDSub), vault.WebhookTokenSub)
-	errorhandling.Check(err)
+func (ds discordStruct) DeleteMessage(msgID api.Snowflake) {
+	jobs := make(chan int, 5)
+	go deleteWorker(jobs, msgID)
 
-	// deleting sent msg to discord
-	err = webhook.DeleteMessage(msgID)
-	errorhandling.Check(err)
-
-	return err
+	jobs <- 1
+	close(jobs)
 }
 
 func prepareSubmissionMessage(data model.SubmissionData, formattedTime string) string {
