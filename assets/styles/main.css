@@ -999,7 +999,8 @@ pre[class*=language-] {
 /* VJudge Part End */
 
 #homepageTable {
-    width: 60%;
+    width: 75%;
+    margin-top: 10px;
 }
 
 #homepageTable img {
@@ -1024,6 +1025,30 @@ pre[class*=language-] {
 
 #homepageTable tr {
     height: 65px;
+}
+
+#homepageTable .row1 {
+    background: #e9f4fb;
+    border: 1px solid #67b2e4;
+}
+
+#homepageTable .col1 {
+    width: 25%;
+}
+
+#homepageTable .col2 {
+    padding-left: 3%;
+    width: 25%;
+}
+
+#homepageTable .col3 {
+    padding-left: 6%;
+    width: 25%;
+}
+
+#homepageTable .col4 {
+    padding-left: 9%;
+    width: 25%;
 }
 
 .formGroup {
