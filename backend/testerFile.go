@@ -26,22 +26,3 @@ func Test(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Happy coding.")
 	//model.Tpl.ExecuteTemplate(w, "test.html", nil)
 }
-
-func worker(jobs <-chan int) {
-	fmt.Println("Register the worker")
-	for i := range jobs {
-		fmt.Println("worker processing job", i)
-		d1 := discord.Init()
-
-		t := model.SubmissionData{
-			SubID:    123,
-			Username: "Nahid",
-		}
-
-		d1.SendMessage(t, "submission")
-		fmt.Println("Msg sent")
-
-		fmt.Println("worker exiting job", i)
-		//time.Sleep(time.Second * 5)
-	}
-}

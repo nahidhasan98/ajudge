@@ -8,7 +8,7 @@ import (
 
 type repoInterfacer interface {
 	storeMsgID(subID int, msgID, msg, notifier string) error
-	getDetails(subID int) (discordModel, error)
+	getDetails(subID int, notifier string) (discordModel, error)
 	updateMsg(subID int, msgID, msg string) error
 }
 
@@ -39,7 +39,7 @@ func (r *repoStruct) storeMsgID(subID int, msgID, msg, notifier string) error {
 	return err
 }
 
-func (r *repoStruct) getDetails(subID int) (discordModel, error) {
+func (r *repoStruct) getDetails(subID int, notifier string) (discordModel, error) {
 	// connecting to DB
 	DB, ctx, cancel := db.Connect()
 	defer cancel()
@@ -50,7 +50,7 @@ func (r *repoStruct) getDetails(subID int) (discordModel, error) {
 
 	//getting msgID from DB
 	var temp discordModel
-	err := coll.FindOne(ctx, bson.M{"subID": subID, "notificationType": "submission"}).Decode(&temp)
+	err := coll.FindOne(ctx, bson.M{"subID": subID, "notificationType": notifier}).Decode(&temp)
 	errorhandling.Check(err)
 
 	return temp, err

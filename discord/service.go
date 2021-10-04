@@ -10,7 +10,7 @@ import (
 
 type discordInterfacer interface {
 	SendMessage(data interface{}, notifier string)
-	EditMessage(data model.SubmissionData)
+	EditMessage(data interface{}, notifier string)
 	DeleteMessage(msgID api.Snowflake)
 }
 
@@ -26,9 +26,9 @@ func (ds discordStruct) SendMessage(data interface{}, notifier string) {
 	close(jobs)
 }
 
-func (ds discordStruct) EditMessage(data model.SubmissionData) {
+func (ds discordStruct) EditMessage(data interface{}, notifier string) {
 	jobs := make(chan int, 5)
-	go editWorker(jobs, data, ds)
+	go editWorker(jobs, data, notifier, ds)
 
 	jobs <- 1
 	close(jobs)
@@ -124,6 +124,25 @@ func prepareSubmissionEditedMessage(old string, data model.SubmissionData) strin
 	idx1 = strings.Index(disMsgV2, "Verdict")
 	idx2 = strings.Index(disMsgV2, "Contest")
 	disMsg := disMsgV2[:idx1+18] + data.Verdict + "\n" + disMsgV2[idx2:]
+
+	return disMsg
+}
+
+func prepareContestEditedMessage(old string, data model.ContestData) string {
+	// tt := "- some contest title\nContest ID"
+	idx1 := strings.Index(old, "-")
+	idx2 := strings.Index(old, "Contest ID")
+	disMsgV1 := old[:idx1+2] + data.Title + "\n" + old[idx2:]
+
+	// tt := "Title1234567: some contest title\nStart At"
+	idx1 = strings.Index(disMsgV1, "Title")
+	idx2 = strings.Index(disMsgV1, "Start At")
+	disMsgV2 := disMsgV1[:idx1+14] + data.Title + "\n" + disMsgV1[idx2:]
+
+	// tt := "Duration1234: --:--\nAuthor"
+	idx1 = strings.Index(disMsgV2, "Duration")
+	idx2 = strings.Index(disMsgV2, "Author")
+	disMsg := disMsgV2[:idx1+14] + data.Duration + "\n" + disMsgV2[idx2:]
 
 	return disMsg
 }

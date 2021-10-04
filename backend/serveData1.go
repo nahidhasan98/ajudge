@@ -516,7 +516,7 @@ func Verdict(w http.ResponseWriter, r *http.Request) {
 		Verdict:    rVerdict,
 	}
 	discord := discord.Init()
-	discord.EditMessage(disData)
+	discord.EditMessage(disData, "submission")
 }
 
 //Rejudge function for rejudging verdict from OJ
@@ -776,7 +776,7 @@ func Rejudge(w http.ResponseWriter, r *http.Request) {
 		Verdict:    rVerdict,
 	}
 	discord := discord.Init()
-	discord.EditMessage(disData)
+	discord.EditMessage(disData, "submission")
 }
 
 //GetRankList function for retrieving rank list for OJ/User

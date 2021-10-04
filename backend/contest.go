@@ -296,6 +296,16 @@ func ContestUpadte(w http.ResponseWriter, r *http.Request) {
 
 		model.PopUpCause = "contestUpdated"
 		http.Redirect(w, r, "/contest", http.StatusSeeOther)
+
+		// notofy to discord
+		disData := dbQuery
+		disData.Title = contestTitle
+		disData.Duration = contestDuration
+		disData.ProblemSet = probSetData
+
+		discord := discord.Init()
+		discord.EditMessage(disData, "contest")
+
 		return
 	}
 }

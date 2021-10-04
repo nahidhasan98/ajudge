@@ -58,6 +58,7 @@ func sendWorker(jobs <-chan int, data interface{}, notifier string, ds discordSt
 
 		case "contest":
 			temp := data.(model.ContestData)
+			subID = temp.ContestID // we need contest ID for retrieve messageID (for editing message). using subID as contestID without adding a new field to the model
 
 			timeDotTime := time.Unix(temp.StartAt, 0)
 			formattedTime := timeDotTime.Format("02-Jan-2006 (15:04:05)")
@@ -98,19 +99,50 @@ func sendWorker(jobs <-chan int, data interface{}, notifier string, ds discordSt
 	}
 }
 
-func editWorker(jobs <-chan int, data model.SubmissionData, ds discordStruct) {
+func editWorker(jobs <-chan int, data interface{}, notifier string, ds discordStruct) {
 	// fmt.Println("Worker pool is working..")
 
 	for range jobs {
-		// getting sent msg details by subID
-		sentData, err := ds.repoService.getDetails(data.SubID)
-		errorhandling.Check(err)
+		var webhookID, webhookToken string
+		var disMsg string
+		var subID int
+		var sentData discordModel
+		var err error
 
 		// preparing message to send
-		disMsg := prepareSubmissionEditedMessage(sentData.Message, data)
+		switch notifier {
+
+		case "submission":
+			temp := data.(model.SubmissionData)
+			subID = temp.SubID
+
+			// getting sent msg details by subID
+			sentData, err = ds.repoService.getDetails(subID, notifier)
+			errorhandling.Check(err)
+
+			// preparing message to send
+			disMsg = prepareSubmissionEditedMessage(sentData.Message, temp)
+
+			webhookID = vault.WebhookIDSub
+			webhookToken = vault.WebhookTokenSub
+
+		case "contest":
+			temp := data.(model.ContestData)
+			subID = temp.ContestID // we need contest ID for retrieve messageID (for editing message). using subID as contestID without adding a new field to the model
+
+			// getting sent msg details by subID
+			sentData, err = ds.repoService.getDetails(subID, notifier)
+			errorhandling.Check(err)
+
+			// preparing message to send
+			disMsg = prepareContestEditedMessage(sentData.Message, temp)
+
+			webhookID = vault.WebhookIDContest
+			webhookToken = vault.WebhookTokenContest
+		}
 
 		// innitializing webhook
-		webhook, err := disgohook.NewWebhookClientByIDToken(nil, nil, api.Snowflake(vault.WebhookIDSub), vault.WebhookTokenSub)
+		webhook, err := disgohook.NewWebhookClientByIDToken(nil, nil, api.Snowflake(webhookID), webhookToken)
 		errorhandling.Check(err)
 
 		// editing sent msg to discord
@@ -118,7 +150,7 @@ func editWorker(jobs <-chan int, data model.SubmissionData, ds discordStruct) {
 		errorhandling.Check(err)
 
 		// update sent msg info to DB
-		err = ds.repoService.updateMsg(data.SubID, fmt.Sprintf("%v", res.ID), disMsg)
+		err = ds.repoService.updateMsg(subID, fmt.Sprintf("%v", res.ID), disMsg)
 		errorhandling.Check(err)
 	}
 }
