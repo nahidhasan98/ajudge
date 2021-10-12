@@ -1,5 +1,5 @@
-This is the first ever **`Go`** project we have done. As we were new to golang, we tried to learn and implement our project features.
-As a first project, we couldn't follow well maintained project architecture thus file stuctures are not well organized. However we are trying to improve this. The project is live at here: [https://ajudge.net](https://ajudge.net)
+_This is the first ever **`Go`** project we have done. As we were new to golang, we tried to learn and implement our project features.
+As a first project, we couldn't follow well maintained project architecture thus file stuctures are not well organized. However we are trying to improve this. The project is live at here: [https://ajudge.net](https://ajudge.net)_
 
 # AJudge
 We are trying to integrate Bangladeshi Online Judge's in a virtual platform.
