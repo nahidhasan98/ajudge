@@ -133,6 +133,7 @@ func ProbDes(OJ, pNum string) (string, bool, int) {
 		VJDes = VJLibreOJ(VJDes)
 	} else if OJ == "LightOJ" { //need to format
 		VJDes = VJCodeChef(VJDes)
+		VJDes += `<script data-n-head="ssr" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_HTML"></script>`
 	} else if OJ == "CodeForces" || OJ == "Gym" { //need to format
 		VJDes = addLatexFormat(VJDes)
 	}
