@@ -4,14 +4,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/DisgoOrg/disgohook/api"
 	"github.com/nahidhasan98/ajudge/model"
 )
 
 type discordInterfacer interface {
 	SendMessage(data interface{}, notifier string)
 	EditMessage(data interface{}, notifier string)
-	DeleteMessage(msgID api.Snowflake)
 }
 
 type discordStruct struct {
@@ -29,14 +27,6 @@ func (ds discordStruct) SendMessage(data interface{}, notifier string) {
 func (ds discordStruct) EditMessage(data interface{}, notifier string) {
 	jobs := make(chan int, 5)
 	go editWorker(jobs, data, notifier, ds)
-
-	jobs <- 1
-	close(jobs)
-}
-
-func (ds discordStruct) DeleteMessage(msgID api.Snowflake) {
-	jobs := make(chan int, 5)
-	go deleteWorker(jobs, msgID)
 
 	jobs <- 1
 	close(jobs)

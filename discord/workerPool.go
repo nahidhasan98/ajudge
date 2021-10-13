@@ -4,11 +4,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/DisgoOrg/disgohook"
-	"github.com/DisgoOrg/disgohook/api"
 	"github.com/nahidhasan98/ajudge/errorhandling"
 	"github.com/nahidhasan98/ajudge/model"
 	"github.com/nahidhasan98/ajudge/vault"
+	discordtexthook "github.com/nahidhasan98/discord-text-hook"
 )
 
 func sendWorker(jobs <-chan int, data interface{}, notifier string, ds discordStruct) {
@@ -86,11 +85,10 @@ func sendWorker(jobs <-chan int, data interface{}, notifier string, ds discordSt
 		}
 
 		// innitializing webhook
-		webhook, err := disgohook.NewWebhookClientByIDToken(nil, nil, api.Snowflake(webhookID), webhookToken)
-		errorhandling.Check(err)
+		webhook := discordtexthook.NewDiscordTextHookService(webhookID, webhookToken)
 
 		// sending msg to discord
-		res, err := webhook.SendContent(disMsg)
+		res, err := webhook.SendMessage(disMsg)
 		errorhandling.Check(err)
 
 		// store to DB
@@ -142,29 +140,15 @@ func editWorker(jobs <-chan int, data interface{}, notifier string, ds discordSt
 		}
 
 		// innitializing webhook
-		webhook, err := disgohook.NewWebhookClientByIDToken(nil, nil, api.Snowflake(webhookID), webhookToken)
+		webhook := discordtexthook.NewDiscordTextHookService(webhookID, webhookToken)
 		errorhandling.Check(err)
 
 		// editing sent msg to discord
-		res, err := webhook.EditContent(api.Snowflake(sentData.MessageID), disMsg)
+		res, err := webhook.EditMessage(disMsg, sentData.MessageID)
 		errorhandling.Check(err)
 
 		// update sent msg info to DB
 		err = ds.repoService.updateMsg(subID, fmt.Sprintf("%v", res.ID), disMsg)
-		errorhandling.Check(err)
-	}
-}
-
-func deleteWorker(jobs <-chan int, msgID api.Snowflake) {
-	// fmt.Println("Worker pool is working..")
-
-	for range jobs {
-		// innitializing webhook
-		webhook, err := disgohook.NewWebhookClientByIDToken(nil, nil, api.Snowflake(vault.WebhookIDSub), vault.WebhookTokenSub)
-		errorhandling.Check(err)
-
-		// deleting sent msg to discord
-		err = webhook.DeleteMessage(msgID)
 		errorhandling.Check(err)
 	}
 }
