@@ -143,6 +143,8 @@ func ProbDes(OJ, pNum string) (string, bool, int) {
 func GetImage(body string) string {
 	defer errorhandling.Recovery() //for panic() error Recovery
 
+	body = strings.ReplaceAll(body, "CDN_BASE_URL", "https://vj.ppsucxtt.cn")
+
 	//for pdf file
 	need1 := `<iframe src="https://vj.z180.cn/`
 	for k := 0; k < len(body)-32; k++ {
@@ -163,13 +165,32 @@ func GetImage(body string) string {
 			body = part1 + newPdfSrc + part2
 		}
 	}
+	need2 := `<iframe src="https://vj.ppsucxtt.cn/`
+	for k := 0; k < len(body)-36; k++ {
+		subStr := body[k : k+36] //`<iframe src="https://vj.ppsucxtt.cn/` it has 36 character
+
+		if subStr == need2 {
+			var part1, part2, middle string
+
+			part1 = body[0 : k+8]
+			middle = body[k+8 : k+92] //link is like: src="https://vj.ppsucxtt.cn/95ef86acbc0a8f031db5751693d6725f?v=1633807853#view=FitH"
+			part2 = body[k+92:]
+
+			pdfLink := middle[5:60] //removing first 5 characters like: src="
+			//fmt.Println(pdfLink)
+			newPdfSrc := `src="/` + fileOperation(pdfLink, "/", "") + `#view=FitH"` //#view=FitH for fitting 100% horizontally
+
+			//replacing pdf source to our local source
+			body = part1 + newPdfSrc + part2
+		}
+	}
 	//for image file
-	need2 := `src="https://vj.z180.cn/`
-	need3 := `SRC="https://vj.z180.cn/`
+	need3 := `src="https://vj.z180.cn/`
+	need4 := `SRC="https://vj.z180.cn/`
 	for k := 0; k < len(body)-24; k++ {
 		subStr := body[k : k+24] //`src="https://vj.z180.cn/` it has 24 character
 
-		if subStr == need2 || subStr == need3 {
+		if subStr == need3 || subStr == need4 {
 			var part1, part2, middle string
 
 			part1 = body[0:k]
@@ -186,12 +207,12 @@ func GetImage(body string) string {
 	}
 
 	//changing https://vj.z180.cn/5b29127c46fedc0e54ba9d20875c6899?v=1603194575 to /assets/temp/images/5b29127c46fedc0e54ba9d20875c6899)
-	need4 := `href="https://vj.z180.cn/`
-	need5 := `href='https://vj.z180.cn/`
+	need5 := `href="https://vj.z180.cn/`
+	need6 := `href='https://vj.z180.cn/`
 	for k := 0; k < len(body)-25; k++ {
 		subStr := body[k : k+25] //`href="https://vj.z180.cn/` it has 25 character
 
-		if subStr == need4 || subStr == need5 {
+		if subStr == need5 || subStr == need6 {
 			var part1, part2, middle string
 
 			part1 = body[0:k]
