@@ -147,87 +147,87 @@ func GetImage(body string) string {
 
 	body = strings.ReplaceAll(body, "CDN_BASE_URL", "https://vj.ppsucxtt.cn")
 
-	//for pdf file
-	need1 := `<iframe src="https://vj.z180.cn/`
-	for k := 0; k < len(body)-32; k++ {
-		subStr := body[k : k+32] //`<iframe src="https://vj.z180.cn/` it has 32 character
+	// //for pdf file
+	// need1 := `<iframe src="https://vj.z180.cn/`
+	// for k := 0; k < len(body)-32; k++ {
+	// 	subStr := body[k : k+32] //`<iframe src="https://vj.z180.cn/` it has 32 character
 
-		if subStr == need1 {
-			var part1, part2, middle string
+	// 	if subStr == need1 {
+	// 		var part1, part2, middle string
 
-			part1 = body[0 : k+8]
-			middle = body[k+8 : k+88] //link is like: src="https://vj.z180.cn/c00b3cf31e6f17859d4c4d0d5cd94757?v=1602540878#view=FitH"
-			part2 = body[k+88:]
+	// 		part1 = body[0 : k+8]
+	// 		middle = body[k+8 : k+88] //link is like: src="https://vj.z180.cn/c00b3cf31e6f17859d4c4d0d5cd94757?v=1602540878#view=FitH"
+	// 		part2 = body[k+88:]
 
-			pdfLink := middle[5:56] //removing first 5 characters like: src="
-			//fmt.Println(pdfLink)
-			newPdfSrc := `src="/` + fileOperation(pdfLink, "/", "") + `#view=FitH"` //#view=FitH for fitting 100% horizontally
+	// 		pdfLink := middle[5:56] //removing first 5 characters like: src="
+	// 		//fmt.Println(pdfLink)
+	// 		newPdfSrc := `src="/` + fileOperation(pdfLink, "/", "") + `#view=FitH"` //#view=FitH for fitting 100% horizontally
 
-			//replacing pdf source to our local source
-			body = part1 + newPdfSrc + part2
-		}
-	}
-	need2 := `<iframe src="https://vj.ppsucxtt.cn/`
-	for k := 0; k < len(body)-36; k++ {
-		subStr := body[k : k+36] //`<iframe src="https://vj.ppsucxtt.cn/` it has 36 character
+	// 		//replacing pdf source to our local source
+	// 		body = part1 + newPdfSrc + part2
+	// 	}
+	// }
+	// need2 := `<iframe src="https://vj.ppsucxtt.cn/`
+	// for k := 0; k < len(body)-36; k++ {
+	// 	subStr := body[k : k+36] //`<iframe src="https://vj.ppsucxtt.cn/` it has 36 character
 
-		if subStr == need2 {
-			var part1, part2, middle string
+	// 	if subStr == need2 {
+	// 		var part1, part2, middle string
 
-			part1 = body[0 : k+8]
-			middle = body[k+8 : k+92] //link is like: src="https://vj.ppsucxtt.cn/95ef86acbc0a8f031db5751693d6725f?v=1633807853#view=FitH"
-			part2 = body[k+92:]
+	// 		part1 = body[0 : k+8]
+	// 		middle = body[k+8 : k+92] //link is like: src="https://vj.ppsucxtt.cn/95ef86acbc0a8f031db5751693d6725f?v=1633807853#view=FitH"
+	// 		part2 = body[k+92:]
 
-			pdfLink := middle[5:60] //removing first 5 characters like: src="
-			//fmt.Println(pdfLink)
-			newPdfSrc := `src="/` + fileOperation(pdfLink, "/", "") + `#view=FitH"` //#view=FitH for fitting 100% horizontally
+	// 		pdfLink := middle[5:60] //removing first 5 characters like: src="
+	// 		//fmt.Println(pdfLink)
+	// 		newPdfSrc := `src="/` + fileOperation(pdfLink, "/", "") + `#view=FitH"` //#view=FitH for fitting 100% horizontally
 
-			//replacing pdf source to our local source
-			body = part1 + newPdfSrc + part2
-		}
-	}
-	//for image file
-	need3 := `src="https://vj.z180.cn/`
-	need4 := `SRC="https://vj.z180.cn/`
-	for k := 0; k < len(body)-24; k++ {
-		subStr := body[k : k+24] //`src="https://vj.z180.cn/` it has 24 character
+	// 		//replacing pdf source to our local source
+	// 		body = part1 + newPdfSrc + part2
+	// 	}
+	// }
+	// //for image file
+	// need3 := `src="https://vj.z180.cn/`
+	// need4 := `SRC="https://vj.z180.cn/`
+	// for k := 0; k < len(body)-24; k++ {
+	// 	subStr := body[k : k+24] //`src="https://vj.z180.cn/` it has 24 character
 
-		if subStr == need3 || subStr == need4 {
-			var part1, part2, middle string
+	// 	if subStr == need3 || subStr == need4 {
+	// 		var part1, part2, middle string
 
-			part1 = body[0:k]
-			middle = body[k : k+70] //link is like: src="https://vj.z180.cn/5fb7165c882f9f4835f0623e8c580bda?v=1600300763"
-			part2 = body[k+70:]
+	// 		part1 = body[0:k]
+	// 		middle = body[k : k+70] //link is like: src="https://vj.z180.cn/5fb7165c882f9f4835f0623e8c580bda?v=1600300763"
+	// 		part2 = body[k+70:]
 
-			imageLink := middle[5:56] //removing first 5 characters like: src="
-			//fmt.Println(imageLink)
-			newImageSrc := `src="../` + fileOperation(imageLink, "/", "") + `"`
+	// 		imageLink := middle[5:56] //removing first 5 characters like: src="
+	// 		//fmt.Println(imageLink)
+	// 		newImageSrc := `src="../` + fileOperation(imageLink, "/", "") + `"`
 
-			//replacing image source to our local source
-			body = part1 + newImageSrc + part2
-		}
-	}
+	// 		//replacing image source to our local source
+	// 		body = part1 + newImageSrc + part2
+	// 	}
+	// }
 
-	//changing https://vj.z180.cn/5b29127c46fedc0e54ba9d20875c6899?v=1603194575 to /assets/temp/images/5b29127c46fedc0e54ba9d20875c6899)
-	need5 := `href="https://vj.z180.cn/`
-	need6 := `href='https://vj.z180.cn/`
-	for k := 0; k < len(body)-25; k++ {
-		subStr := body[k : k+25] //`href="https://vj.z180.cn/` it has 25 character
+	// //changing https://vj.z180.cn/5b29127c46fedc0e54ba9d20875c6899?v=1603194575 to /assets/temp/images/5b29127c46fedc0e54ba9d20875c6899)
+	// need5 := `href="https://vj.z180.cn/`
+	// need6 := `href='https://vj.z180.cn/`
+	// for k := 0; k < len(body)-25; k++ {
+	// 	subStr := body[k : k+25] //`href="https://vj.z180.cn/` it has 25 character
 
-		if subStr == need5 || subStr == need6 {
-			var part1, part2, middle string
+	// 	if subStr == need5 || subStr == need6 {
+	// 		var part1, part2, middle string
 
-			part1 = body[0:k]
-			middle = body[k : k+71] //link is like: href="https://vj.z180.cn/5fb7165c882f9f4835f0623e8c580bda?v=1600300763"
-			part2 = body[k+71:]
+	// 		part1 = body[0:k]
+	// 		middle = body[k : k+71] //link is like: href="https://vj.z180.cn/5fb7165c882f9f4835f0623e8c580bda?v=1600300763"
+	// 		part2 = body[k+71:]
 
-			imageLink := middle[6:57] //removing first 5 characters like: href="
-			//fmt.Println(imageLink)
-			newImageSrc := `href="../` + fileOperation(imageLink, "/", "") + `"`
+	// 		imageLink := middle[6:57] //removing first 5 characters like: href="
+	// 		//fmt.Println(imageLink)
+	// 		newImageSrc := `href="../` + fileOperation(imageLink, "/", "") + `"`
 
-			body = part1 + newImageSrc + part2
-		}
-	}
+	// 		body = part1 + newImageSrc + part2
+	// 	}
+	// }
 
 	return body
 }
