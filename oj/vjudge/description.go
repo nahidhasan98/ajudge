@@ -129,10 +129,12 @@ func ProbDes(OJ, pNum string) (string, bool, int) {
 
 	if OJ == "CodeChef" { //need to format
 		VJDes = VJCodeChef(VJDes)
-	} else if OJ == "LibreOJ" { //need to format}
+	} else if OJ == "LibreOJ" { //need to format
 		VJDes = VJLibreOJ(VJDes)
-	} else if OJ == "LightOJ" { //need to format}
+	} else if OJ == "LightOJ" { //need to format
 		VJDes = VJCodeChef(VJDes)
+	} else if OJ == "CodeForces" || OJ == "Gym" { //need to format
+		VJDes = addLatexFormat(VJDes)
 	}
 
 	//fmt.Println(200, VJDes)
@@ -320,6 +322,19 @@ func VJLibreOJ(body string) string {
 	body = strings.ReplaceAll(body, "```", `</code></pre>`)
 	body = strings.ReplaceAll(body, "* `", `<li><code>`)
 	body = strings.ReplaceAll(body, "`，", `</code></li>, `)
+
+	return body
+}
+
+func addLatexFormat(body string) string {
+	// got from codeforces
+	body += `<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$$$','$$$']], displayMath: [['$$$$$$','$$$$$$']]}
+    });
+   
+    </script>
+    <script type="text/javascript" async src="https://mathjax.codeforces.org/MathJax.js?config=TeX-AMS_HTML-full"></script>`
 
 	return body
 }
