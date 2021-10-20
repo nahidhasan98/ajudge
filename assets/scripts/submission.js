@@ -106,7 +106,7 @@ $('form').on('submit', function () {
     }
 
     $('#submit-btn').prop('disabled', true);
-    $('#submit-btn').val("Please wait...");
+    $('#submit-btn').val("Submitting...");
 
     let formData = $('#subForm').serialize();
     //console.log(formData);
