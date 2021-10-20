@@ -21,7 +21,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	os.RemoveAll("assets/temp/")
 	//fmt.Println("File deleted")
 
-	model.LastPage = "/"
+	model.LastPage = r.URL.Path
 	session, _ := model.Store.Get(r, "mysession")
 
 	model.Info["Username"] = session.Values["username"]
@@ -42,7 +42,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 func About(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 
-	model.LastPage = "about"
+	model.LastPage = r.URL.Path
 	session, _ := model.Store.Get(r, "mysession")
 
 	model.Info["Username"] = session.Values["username"]
@@ -58,7 +58,7 @@ func Contact(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 
 	if r.Method != "POST" {
-		model.LastPage = "contact"
+		model.LastPage = r.URL.Path
 		session, _ := model.Store.Get(r, "mysession")
 
 		model.Info["Username"] = session.Values["username"]

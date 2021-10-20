@@ -11,7 +11,7 @@ func Rank(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	path := r.URL.Path
 
-	model.LastPage = path[1:]
+	model.LastPage = r.URL.Path
 	session, _ := model.Store.Get(r, "mysession")
 
 	if path != "/rankOJ" && path != "/rankUser" {

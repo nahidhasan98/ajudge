@@ -14,7 +14,7 @@ import (
 //Profile function for a user's statistics
 func Profile(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
-	model.LastPage = "profile/"
+	model.LastPage = r.URL.Path
 	session, _ := model.Store.Get(r, "mysession")
 
 	path := r.URL.Path

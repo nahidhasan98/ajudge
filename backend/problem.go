@@ -20,7 +20,7 @@ import (
 func Problem(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 
-	model.LastPage = "problem"
+	model.LastPage = r.URL.Path
 	session, _ := model.Store.Get(r, "mysession")
 
 	//problem list will be gathered by frontend ajax call
