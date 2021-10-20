@@ -5,12 +5,14 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/nahidhasan98/ajudge/auth"
 	"github.com/nahidhasan98/ajudge/backend"
 )
 
 func main() {
 	//(instead of default 'http' router) using Gorilla mux router
 	r := mux.NewRouter()
+	auth.Init(r)
 
 	//just a message for ensuring that local server is running
 	fmt.Println("Local Server is running...")
@@ -24,8 +26,8 @@ func main() {
 	r.HandleFunc("/register", backend.Register)
 	r.PathPrefix("/verify-email/token=").HandlerFunc(backend.EmailVerifiation)
 
-	r.HandleFunc("/login", backend.Login)
-	r.HandleFunc("/logout", backend.Logout)
+	// r.HandleFunc("/login", backend.Login)
+	// r.HandleFunc("/logout", backend.Logout)
 	r.PathPrefix("/profile").HandlerFunc(backend.Profile)
 
 	r.PathPrefix("/reset").HandlerFunc(backend.Reset)

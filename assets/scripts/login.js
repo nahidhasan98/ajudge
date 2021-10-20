@@ -1,39 +1,55 @@
 console.log("Login Script linked properly")
 
-var username = $('#username');
-var password = $('#password');
-var errUsername = $('#errUsername');
-var errPassword = $('#errPassword');
-
-username.keyup(function () {
-    errUsername.text("")
-});
-password.keyup(function () {
-    errPassword.text("")
-});
-
 $(document).ready(function () {
-    var testing = false;
     $('form').on('submit', function () {
-        $('form').bind(); //prevent default submitting
-        $.ajax({
-            url: "/check?username=" + username.val().trim(),
-            type: 'GET',
-            async: false,
-            success: function (data) {
-                if (data.IsUsernameExist == true) {   //username exist. go for login
-                    testing = true;
-                    $('form').attr('action');
-                    $('form').unbind().submit();
-                } else {  //username not found
-                    errUsername.text("Username not found.")
+        $('#submit').prop('disabled', true);
+        $('#submit').val("Please wait...");
+
+        if ($('#username').val().trim().length == 0) {
+            $('#username').val("");
+            $('#errUsername').text("username should no be empty!");
+            return false;   // cancel submission
+        }
+
+        let formData = $('.loginForm').serialize();
+        // console.log(formData);
+
+        // sending ajax post request
+        let request = $.ajax({
+            async: true,
+            type: "POST",
+            url: "/login",
+            data: formData,
+        });
+        request.done(function (response) {
+            console.log(response)
+
+            if (response.status == "error") {
+                if (response.message == "username not found") {
+                    $('#errUsername').text(response.message);
+                } else {
+                    $('#errPassword').text(response.message);
                 }
-            },
-            error: function () {
-                console.log('Internal Server Error. Please try again after sometime or send us a feedback.');
+            } else {
+                window.location.replace(response.redirectURL);
             }
         });
+        request.fail(function (response) {
+            console.log(response)
+        });
+        request.always(function () {
+            $('#submit').prop('disabled', false);
+            $('#submit').val("Login");
+        });
 
-        return testing;
+        return false;
+    });
+
+    $('#username').keyup(function () {
+        $('#errUsername').text("")
+    });
+
+    $('#password').keyup(function () {
+        $('#errPassword').text("")
     });
 });
