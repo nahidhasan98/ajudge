@@ -88,11 +88,11 @@ func (h *handler) login(w http.ResponseWriter, r *http.Request) {
 		Status:      "success",
 		RedirectURL: model.LastPage,
 	}
-	byteDate, err := json.Marshal(response)
+	byteData, err := json.Marshal(response)
 	errorhandling.Check(err)
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(byteDate)
+	w.Write(byteData)
 
 	// notifying to discord
 	disData := *userData
