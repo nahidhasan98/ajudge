@@ -15,19 +15,19 @@ type repo struct {
 }
 
 func (r *repo) getUserByUsername(username string) (*model.UserData, error) {
-	//connecting to DB
+	// connecting to DB
 	DB, ctx, cancel := db.Connect()
 	defer cancel()
 	defer DB.Client().Disconnect(ctx)
 
-	//taking DB collection/table to a variable
+	// taking DB collection/table to a variable
 	userCollection := DB.Collection(r.DBTable)
 
-	//getting original password for this user from DB
+	// getting original password for this user from DB
 	var userData model.UserData
-	err := userCollection.FindOne(ctx, bson.M{"username": username}).Decode(&userData)
 
-	if err != nil { //if username not exist/found in DB (returned no document/row)
+	err := userCollection.FindOne(ctx, bson.M{"username": username}).Decode(&userData)
+	if err != nil { // if username not exist/found in DB (returned no document/row)
 		return nil, err
 	}
 
