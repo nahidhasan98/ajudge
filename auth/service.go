@@ -28,7 +28,7 @@ func (a *auth) Authenticate(username, password string) (*model.UserData, error) 
 	return userData, nil
 }
 
-//function used above by this particular file
+// function used above by this particular file
 func checkPasswordHash(password, hash string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 }

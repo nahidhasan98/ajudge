@@ -21,8 +21,8 @@ type handler struct {
 	authService authInterfacer
 }
 
-// getLoginPage function for login to our own site
-func (h *handler) getLoginPage(w http.ResponseWriter, r *http.Request) {
+// previewLoginPage function for login to our own site
+func (h *handler) previewLoginPage(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	session, err := model.Store.Get(r, "mysession")
 	errorhandling.Check(err)
@@ -119,7 +119,7 @@ func makeHTTPHandlers(router *mux.Router, authService authInterfacer) {
 		authService: authService,
 	}
 
-	router.HandleFunc("/login", h.getLoginPage).Methods("GET")
+	router.HandleFunc("/login", h.previewLoginPage).Methods("GET")
 	router.HandleFunc("/login", h.login).Methods("POST")
 	router.HandleFunc("/logout", h.logout).Methods("GET")
 }
