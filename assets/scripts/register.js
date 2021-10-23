@@ -1,97 +1,145 @@
 console.log("Script linked properly")
 
-$('#username').keyup(function () {
-    $('#errUsername').text("")
-});
+$(document).ready(function () {
+    $('form').on('submit', function () {
+        let res = validateForm();
+        if (!res) {
+            return false
+        }
 
-$('#email').keyup(function () {
-    $('#errEmail').text("")
-});
+        $('#submit').prop('disabled', true);
+        $('#submit').val("Signing up...");
 
-$('#password').keyup(function () {
-    var pass = $('#password').val();
-    var confirmPass = $('#confirmPassword').val();
+        let formData = $('form').serialize();
+        // console.log(formData);
 
-    //for length
-    if (pass.length < 5) {
-        $('#errPassword').text("Password length should be at least 5 characters!")
-    } else {
-        //for matching
-        if (confirmPass.length == 0) {
-            $('#errPassword').text("");
-        } else {
-            if (pass !== confirmPass) {
-                $('#errPassword').text("Password mismatched. Put cautiously.")
+        // sending ajax post request
+        let request = $.ajax({
+            async: true,
+            type: "POST",
+            url: "/register",
+            data: formData,
+        });
+        request.done(function (response) {
+            // console.log(response)
+
+            if (response.status == "error") {
+                for (i = 0; i < response.errors.length; i++) {
+                    if (response.errors[i].type == "fullName") {
+                        $('#errFullName').text(response.errors[i].message);
+                    } else if (response.errors[i].type == "email") {
+                        $('#errEmail').text(response.errors[i].message);
+                    } else if (response.errors[i].type == "username") {
+                        $('#errUsername').text(response.errors[i].message);
+                    } else if (response.errors[i].type == "password") {
+                        $('#errPassword').text(response.errors[i].message);
+                    } else { //captcha error or any other errors
+                        $('#errCaptcha').text(response.errors[i].message);
+                    }
+                }
             } else {
+                window.location.replace(response.redirectURL);
+            }
+        });
+        request.fail(function (response) {
+            console.log(response)
+        });
+        request.always(function () {
+            $('#submit').prop('disabled', false);
+            $('#submit').val("Sign Up");
+        });
+
+        return false;
+    });
+
+    $('#fullName').keyup(function () {
+        $('#errFullName').text("")
+    });
+
+    $('#username').keyup(function () {
+        $('#errUsername').text("")
+    });
+
+    $('#email').keyup(function () {
+        $('#errEmail').text("")
+    });
+
+    $('#password').keyup(function () {
+        // for length
+        if ($('#password').val().length < 5) {
+            $('#errPassword').text("password length should be at least 5 characters")
+        } else {
+            // for matching
+            if ($('#confirmPassword').val().length == 0) {
+                $('#errPassword').text("");
+            } else {
+                if ($('#password').val() !== $('#confirmPassword').val()) {
+                    $('#errPassword').text("password mismatched, put cautiously")
+                } else {
+                    $('#errPassword').text("")
+                }
+            }
+        }
+    });
+
+    $('#confirmPassword').keyup(function () {
+        // for matching
+        if ($('#password').val() !== $('#confirmPassword').val()) {
+            $('#errPassword').text("password mismatched, put cautiously")
+        } else {
+            // for length
+            if ($('#password').val().length < 5) {
+                $('#errPassword').text("password length should be at least 5 characters")
+            } else if ($('#password').val().length >= 5) {
                 $('#errPassword').text("")
             }
         }
-    }
-});
-$('#confirmPassword').keyup(function () {
-    var pass = $('#password').val();
-    var confirmPass = $('#confirmPassword').val();
-
-    //for matching
-    if (pass !== confirmPass) {
-        $('#errPassword').text("Password mismatched. Put cautiously.")
-    } else {
-        //for length
-        if (pass.length < 5) {
-            $('#errPassword').text("Password length should be at least 5 characters!")
-        } else if (pass.length >= 5) {
-            $('#errPassword').text("")
-        }
-    }
-});
-
-$(document).ready(function () {
-    var testing = false;
-    $('form').on('submit', function () {
-        $('form').bind(); //prevent default submitting
-        $.ajax({
-            url: "/check?username=" + $('#username').val().trim() + "&email=" + $('#email').val().trim(),
-            type: 'GET',
-            async: false,
-            success: function (data) {
-                if (data.IsUsernameExist == true) {   //username exist. display error
-                    $('#errUsername').text("Username already taken. Choose another one.")
-                }
-                if (data.IsEmailExist == true) {   //email exist. display error
-                    $('#errEmail').text("Email already registered. Choose another one.")
-                }
-
-                if (!data.IsUsernameExist && !data.IsEmailExist) { //username & email are ok
-                    //now checking for password
-                    if ($('#password').val() == $('#confirmPassword').val() && $('#password').val().length >= 5) {
-                        //password section is ok. now checking for captcha
-                        $.ajax({
-                            url: "/captcha/" + grecaptcha.getResponse(),
-                            type: 'GET',
-                            async: false,
-                            success: function (data2) {
-                                if (data2.success == true) {
-                                    $("#errCaptcha").text("");
-
-                                    testing = true;
-                                    $('form').attr('action');
-                                    $('form').unbind().submit();
-                                } else {
-                                    $("#errCaptcha").text("Captcha Error. Please fix this.");
-                                }
-                            },
-                            error: function () {
-                                console.log('Internal Server Error. Please try again after sometime or send us a feedback.');
-                            }
-                        });
-                    }
-                }
-            },
-            error: function () {
-                console.log('Internal Server Error. Please try again after sometime or send us a feedback.');
-            }
-        });
-
-        return testing;
     });
 });
+
+function validateForm() {
+    // taking care of fullName
+    if ($('#fullName').val().trim().length == 0) {
+        $('#fullName').val("");
+        $('#errFullName').text("name should no be empty");
+        return false;   // cancel submission
+    }
+
+    // taking care of username
+    // PART 1: length
+    if ($('#username').val().trim().length == 0) {
+        $('#username').val("");
+        $('#errUsername').text("username should no be empty");
+        return false;   // cancel submission
+    }
+
+    // PART 2: space
+    let index = $('#username').val().trim().indexOf(" ");
+    if (index > -1) {   // contains spaces
+        $('#errUsername').text("username can't contains space");
+        return false;   // cancel submission
+    }
+
+    // taking care of password
+    // PART 1: length
+    if ($('#password').val().length < 5) {
+        $('#errPassword').text("password length should be at least 5 characters")
+        return false;   // cancel submission
+    }
+
+    // PART 2: matching
+    if ($('#password').val() !== $('#confirmPassword').val()) {
+        $('#errPassword').text("password mismatched, put cautiously")
+        return false;   // cancel submission
+    }
+
+    // taking care of recaptcha
+    if ($('[name="g-recaptcha-response"]').val() == "") {
+        $('#errCaptcha').text("captcha error, please verify you are not a robot")
+        return false;   // cancel submission
+    } else {
+        $('#errCaptcha').text("")
+    }
+
+    return true
+}

@@ -1,13 +1,11 @@
 package backend
 
 import (
-	"html"
 	"net/http"
 	"strings"
 	"time"
 
 	"github.com/nahidhasan98/ajudge/db"
-	"github.com/nahidhasan98/ajudge/discord"
 	"github.com/nahidhasan98/ajudge/errorhandling"
 	"github.com/nahidhasan98/ajudge/model"
 	"go.mongodb.org/mongo-driver/bson"
@@ -15,85 +13,85 @@ import (
 )
 
 //Register function for registering to our own site
-func Register(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
+// func Register(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 
-	if r.Method != "POST" {
-		session, _ := model.Store.Get(r, "mysession")
-		if session.Values["isLogin"] == true {
-			http.Redirect(w, r, "/", http.StatusSeeOther)
-		} else {
-			model.Info["PageName"] = "Registration"
-			model.Info["PageTitle"] = "Registration | AJudge"
+// 	if r.Method != "POST" {
+// 		session, _ := model.Store.Get(r, "mysession")
+// 		if session.Values["isLogin"] == true {
+// 			http.Redirect(w, r, "/", http.StatusSeeOther)
+// 		} else {
+// 			model.Info["PageName"] = "Registration"
+// 			model.Info["PageTitle"] = "Registration | AJudge"
 
-			model.Tpl.ExecuteTemplate(w, "register.gohtml", model.Info)
-		}
-	} else if r.Method == "POST" {
-		//gettting form data
-		fullName := html.EscapeString(strings.TrimSpace(r.FormValue("fullName")))
-		email := html.EscapeString(strings.TrimSpace(r.FormValue("email")))
-		username := html.EscapeString(strings.TrimSpace(r.FormValue("username")))
-		password := html.EscapeString(r.FormValue("password"))
-		password = model.HashPassword(password) //hashing password
-		newToken := model.GenerateToken()       //generating token for account verification
+// 			model.Tpl.ExecuteTemplate(w, "register.gohtml", model.Info)
+// 		}
+// 	} else if r.Method == "POST" {
+// 		//gettting form data
+// 		fullName := html.EscapeString(strings.TrimSpace(r.FormValue("fullName")))
+// 		email := html.EscapeString(strings.TrimSpace(r.FormValue("email")))
+// 		username := html.EscapeString(strings.TrimSpace(r.FormValue("username")))
+// 		password := html.EscapeString(r.FormValue("password"))
+// 		password = model.HashPassword(password) //hashing password
+// 		newToken := model.GenerateToken()       //generating token for account verification
 
-		//do regitration
-		//connecting to DB
-		DB, ctx, cancel := db.Connect()
-		defer cancel()
-		defer DB.Client().Disconnect(ctx)
+// 		//do regitration
+// 		//connecting to DB
+// 		DB, ctx, cancel := db.Connect()
+// 		defer cancel()
+// 		defer DB.Client().Disconnect(ctx)
 
-		//taking DB collection/table to a variable
-		userCollection := DB.Collection("user")
-		counterCollection := DB.Collection("counter")
+// 		//taking DB collection/table to a variable
+// 		userCollection := DB.Collection("user")
+// 		counterCollection := DB.Collection("counter")
 
-		//getting LastUserID from DB to assign a user ID(LastUserID+1) for this user
-		var lastUserID model.LastUsedID
-		err := counterCollection.FindOne(ctx, bson.M{}).Decode(&lastUserID)
-		errorhandling.Check(err)
+// 		//getting LastUserID from DB to assign a user ID(LastUserID+1) for this user
+// 		var lastUserID model.LastUsedID
+// 		err := counterCollection.FindOne(ctx, bson.M{}).Decode(&lastUserID)
+// 		errorhandling.Check(err)
 
-		//preparing data for inserting to DB
-		userData := model.UserData{
-			UserID:               lastUserID.LastUserID + 1,
-			FullName:             fullName,
-			Email:                email,
-			Username:             username,
-			Password:             password,
-			CreatedAt:            time.Now().Unix(),
-			IsVerified:           false,
-			AccVerifyToken:       newToken,
-			AccVerifyTokenSentAt: time.Now().Unix(),
-			PassResetToken:       "",
-			PassResetTokenSentAt: 0,
-		}
+// 		//preparing data for inserting to DB
+// 		userData := model.UserData{
+// 			UserID:               lastUserID.LastUserID + 1,
+// 			FullName:             fullName,
+// 			Email:                email,
+// 			Username:             username,
+// 			Password:             password,
+// 			CreatedAt:            time.Now().Unix(),
+// 			IsVerified:           false,
+// 			AccVerifyToken:       newToken,
+// 			AccVerifyTokenSentAt: time.Now().Unix(),
+// 			PassResetToken:       "",
+// 			PassResetTokenSentAt: 0,
+// 		}
 
-		_, err = userCollection.InsertOne(ctx, userData)
-		errorhandling.Check(err)
+// 		_, err = userCollection.InsertOne(ctx, userData)
+// 		errorhandling.Check(err)
 
-		//updating LastUserID to DB for later use/next user
-		updateField := bson.D{
-			{Key: "$inc", Value: bson.D{ //incrementing LastUserID by 1
-				{Key: "lastUserID", Value: 1},
-			}},
-		}
-		_, err = counterCollection.UpdateOne(ctx, bson.M{}, updateField)
-		errorhandling.Check(err)
+// 		//updating LastUserID to DB for later use/next user
+// 		updateField := bson.D{
+// 			{Key: "$inc", Value: bson.D{ //incrementing LastUserID by 1
+// 				{Key: "lastUserID", Value: 1},
+// 			}},
+// 		}
+// 		_, err = counterCollection.UpdateOne(ctx, bson.M{}, updateField)
+// 		errorhandling.Check(err)
 
-		//sending mail to user email with a verification link
-		linkforMail := "https://ajudge.net/verify-email/token=" + newToken
-		model.SendMail(email, username, linkforMail, "accVerify")
+// 		//sending mail to user email with a verification link
+// 		linkforMail := "https://ajudge.net/verify-email/token=" + newToken
+// 		model.SendMail(email, username, linkforMail, "accVerify")
 
-		model.PopUpCause = "registrationDone" //login page will give a popup
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
+// 		model.PopUpCause = "registrationDone" //login page will give a popup
+// 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 
-		// notofy to discord
-		disData := userData
-		discord := discord.Init()
-		discord.SendMessage(disData, "registration")
+// 		// notofy to discord
+// 		disData := userData
+// 		discord := discord.Init()
+// 		discord.SendMessage(disData, "registration")
 
-		return
-	}
-}
+// 		return
+// 	}
+// }
 
 //EmailVerifiation function for verify registerd email
 func EmailVerifiation(w http.ResponseWriter, r *http.Request) {

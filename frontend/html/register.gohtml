@@ -6,16 +6,17 @@
         <p style="text-align: center;margin: 8px 0px;">*All fields are required.</p>
         <div>
             <label for="fullName">Full Name :</label>
-            <input type="text" id="fullName" name="fullName" value="{{ .FullName }}" required>
+            <input type="text" id="fullName" name="fullName" value="" required>
+            <center style="color: red;" id="errFullName" style="margin-left:8px"></center>
         </div>
         <div>
             <label for="username">Username :</label>
-            <input type="text" id="username" name="username" value="{{ .Username }}" required><br>
+            <input type="text" id="username" name="username" value="" required><br>
             <center style="color: red;" id="errUsername" style="margin-left:8px"></center>
         </div>
         <div>
             <label for="email">Email :</label>
-            <input type="email" id="email" name="email" value="{{ .Email }}" required><br>
+            <input type="email" id="email" name="email" value="" required><br>
             <center style="color: red;" id="errEmail" style="margin-left:8px"></center>
         </div>
         <div>

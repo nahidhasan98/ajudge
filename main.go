@@ -7,12 +7,14 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/nahidhasan98/ajudge/auth"
 	"github.com/nahidhasan98/ajudge/backend"
+	"github.com/nahidhasan98/ajudge/user"
 )
 
 func main() {
 	//(instead of default 'http' router) using Gorilla mux router
 	r := mux.NewRouter()
 	auth.Init(r)
+	user.Init(r)
 
 	//just a message for ensuring that local server is running
 	fmt.Println("Local Server is running...")
@@ -23,7 +25,7 @@ func main() {
 	r.HandleFunc("/about", backend.About)
 	r.HandleFunc("/contact", backend.Contact)
 
-	r.HandleFunc("/register", backend.Register)
+	// r.HandleFunc("/register", backend.Register)
 	r.PathPrefix("/verify-email/token=").HandlerFunc(backend.EmailVerifiation)
 
 	// r.HandleFunc("/login", backend.Login)
@@ -44,7 +46,7 @@ func main() {
 
 	//XHR request
 	r.HandleFunc("/checkLogin", backend.CheckLogin)
-	r.PathPrefix("/check").HandlerFunc(backend.CheckDB)
+	//r.PathPrefix("/check").HandlerFunc(backend.CheckDB)
 	r.PathPrefix("/problemList").HandlerFunc(backend.ProblemList)
 	r.PathPrefix("/userSubmission/").HandlerFunc(backend.GetUserSubmission)
 	r.PathPrefix("/subHistory").HandlerFunc(backend.SubHistory)
@@ -57,7 +59,7 @@ func main() {
 	r.HandleFunc("/listContest", backend.GetContestList)
 	r.PathPrefix("/problemSet/").HandlerFunc(backend.GetProblemSet)
 	r.PathPrefix("/dataContest/").HandlerFunc(backend.GetContestData)
-	r.PathPrefix("/captcha/").HandlerFunc(backend.GetCaptcha)
+	// r.PathPrefix("/captcha/").HandlerFunc(backend.GetCaptcha)
 	r.HandleFunc("/getCombinedStandings", backend.GetCombinedStandings)
 
 	//for testing any piece of code (Not essential for this site)
