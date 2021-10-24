@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/gorilla/mux"
+	"github.com/nahidhasan98/ajudge/discord"
 	"github.com/nahidhasan98/ajudge/errorhandling"
 	"github.com/nahidhasan98/ajudge/model"
 	"github.com/nahidhasan98/ajudge/recaptcha"
@@ -73,7 +74,7 @@ func (h *handler) register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err := h.userService.AddUser(fullName, email, username, password)
+	userData, err := h.userService.AddUser(fullName, email, username, password)
 	if err != nil { // if registration failed
 		response := registrationResponse{
 			Status: "error",
@@ -103,9 +104,9 @@ func (h *handler) register(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 
 	// notifying to discord
-	// disData := *userData
-	// discord := discord.Init()
-	// discord.SendMessage(disData, "registration")
+	disData := discord.UserModel(*userData)
+	dis := discord.Init()
+	dis.SendMessage(disData, "registration")
 }
 
 type Errors struct {

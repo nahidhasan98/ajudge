@@ -34,7 +34,7 @@ func sendWorker(jobs <-chan int, data interface{}, notifier string, ds discordSt
 			webhookToken = vault.WebhookTokenSub
 
 		case "login":
-			temp := data.(model.UserData)
+			temp := data.(UserModel)
 
 			timeDotTime := time.Unix(temp.CreatedAt, 0)
 			formattedTime := timeDotTime.Format("02-Jan-2006 (15:04:05)")
@@ -45,7 +45,7 @@ func sendWorker(jobs <-chan int, data interface{}, notifier string, ds discordSt
 			webhookToken = vault.WebhookTokenLogin
 
 		case "registration":
-			temp := data.(model.UserData)
+			temp := data.(UserModel)
 
 			timeDotTime := time.Unix(temp.CreatedAt, 0)
 			formattedTime := timeDotTime.Format("02-Jan-2006 (15:04:05)")

@@ -53,7 +53,7 @@ func prepareSubmissionMessage(data model.SubmissionData, formattedTime string) s
 	return disMsg
 }
 
-func prepareLoginRegMessage(data model.UserData, formattedTime string) string {
+func prepareLoginRegMessage(data UserModel, formattedTime string) string {
 	disMsg := "```md\n"
 	disMsg += "# " + data.Username + "\n"
 	disMsg += "Username" + getSpace(4) + ": " + data.Username + "\n"
