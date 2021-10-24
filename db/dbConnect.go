@@ -7,6 +7,7 @@ import (
 	// "vault"
 
 	"github.com/nahidhasan98/ajudge/errorhandling"
+	"github.com/nahidhasan98/ajudge/vault"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -14,17 +15,10 @@ import (
 
 //Connect function for connenting to DB
 func Connect() (*mongo.Database, context.Context, context.CancelFunc) {
-	// dbUser := vault.DatabaseUsername
-	// dbPass := vault.DatabasePassword
-	// dbName := vault.DatabaseName
+	dbName := vault.DatabaseName
+	dbConnectionString := vault.DatabaseConnectionString
 
-	//this is mongoDB atlas connection string
-	//connectionString := "mongodb+srv://" + dbUser + ":" + dbPass + "@testcluster.kwwik.gcp.mongodb.net/" + dbName + "?retryWrites=true&w=majority"
-
-	//this is mongoDB local connection string
-	connectionString := "mongodb://localhost:27017"
-
-	dbClient, err := mongo.NewClient(options.Client().ApplyURI(connectionString))
+	dbClient, err := mongo.NewClient(options.Client().ApplyURI(dbConnectionString))
 	errorhandling.Check(err)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -35,5 +29,5 @@ func Connect() (*mongo.Database, context.Context, context.CancelFunc) {
 	errorhandling.Check(err)
 
 	//return db
-	return dbClient.Database("ajudge"), ctx, cancel
+	return dbClient.Database(dbName), ctx, cancel
 }

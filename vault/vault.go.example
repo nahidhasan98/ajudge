@@ -1,70 +1,103 @@
 package vault
 
 var (
-	//DatabaseName variable
+	// DatabaseName variable
 	DatabaseName string
-	//DatabaseUsername variable
+	// DatabaseUsername variable
 	DatabaseUsername string
-	//DatabasePassword variable
+	// DatabasePassword variable
 	DatabasePassword string
+	// DatabaseConnectionString variable
+	DatabaseConnectionString string
 
-	//GmailUsername variable
+	// GmailUsername variable
 	GmailUsername string
-	//GmailPassword variable
+	// GmailPassword variable
 	GmailPassword string
 
-	//DimikOJUsername variable
+	// DimikOJUsername variable
 	DimikOJUsername string
-	//DimikOJPassword variable
+	// DimikOJPassword variable
 	DimikOJPassword string
 
-	//TophUsername variable
+	// TophUsername variable
 	TophUsername string
-	//TophPassword variable
+	// TophPassword variable
 	TophPassword string
 
-	//URIUsername variable
+	// URIUsername variable
 	URIUsername string
-	//URIPassword variable
+	// URIPassword variable
 	URIPassword string
 
-	//VJudgeUsername variable
+	// VJudgeUsername variable
 	VJudgeUsername string
-	//VJudgePassword variable
+	// VJudgePassword variable
 	VJudgePassword string
 
-	//CaptchaKey variable
-    CaptchaKey string
-	
-	//discoed webhook variable
-	WebhookID    string
-	WebhookToken string
+	// CaptchaKey variable
+	CaptchaKey string
+
+	// discord webhook variable
+	WebhookIDSub    string
+	WebhookTokenSub string
+
+	WebhookIDLogin    string
+	WebhookTokenLogin string
+
+	WebhookIDReg    string
+	WebhookTokenReg string
+
+	WebhookIDContest    string
+	WebhookTokenContest string
+
+	WebhookIDReset    string
+	WebhookTokenReset string
+
+	WebhookIDFeedback    string
+	WebhookTokenFeedback string
 )
 
 func init() {
-	//Assigning the credentials to the variables
+	// Assigning the credentials to the variables
 
-	DatabaseName = DBname
-	DatabaseUsername = username
-	DatabasePassword = password
+	DatabaseName = "DBName"
+	DatabaseUsername = "username"
+	DatabasePassword = "password"
+	DatabaseConnectionString = "DBConnectionString"
 
-	GmailUsername = username
-	GmailPassword = password
+	GmailUsername = "username"
+	GmailPassword = "password"
 
-	DimikOJUsername = username
-	DimikOJPassword = password
+	DimikOJUsername = "username"
+	DimikOJPassword = "password"
 
-	TophUsername = username
-	TophPassword = password
+	TophUsername = "username"
+	TophPassword = "password"
 
-	URIUsername = username
-	URIPassword = password
+	URIUsername = "username"
+	URIPassword = "password"
 
-	VJudgeUsername = username
-	VJudgePassword = password
+	VJudgeUsername = "username"
+	VJudgePassword = "password"
 
-	CaptchaKey = captchaKey
+	CaptchaKey = "captchaKey"
 
-	WebhookID = webhookID
-	WebhookToken = webhookToken
+	WebhookIDSub = "webhookID"
+	WebhookTokenSub = "webhookToken"
+
+	WebhookIDLogin = "webhookID"
+	WebhookTokenLogin = "webhookToken"
+
+	WebhookIDReg = "webhookID"
+	WebhookTokenReg = "webhookToken"
+
+	WebhookIDContest = "webhookID"
+	WebhookTokenContest = "webhookToken"
+
+	WebhookIDReset = "webhookID"
+	WebhookTokenReset = "webhookToken"
+
+	WebhookIDFeedback = "webhookID"
+	WebhookTokenFeedback = "webhookToken"
 }

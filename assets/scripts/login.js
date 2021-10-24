@@ -22,7 +22,7 @@ $(document).ready(function () {
             data: formData,
         });
         request.done(function (response) {
-            console.log(response)
+            // console.log(response)
 
             if (response.status == "error") {
                 if (response.message == "username not found") {
