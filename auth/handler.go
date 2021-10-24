@@ -95,9 +95,9 @@ func (h *handler) login(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 
 	// notifying to discord
-	disData := *userData
-	discord := discord.Init()
-	discord.SendMessage(disData, "login")
+	disData := discord.UserModel(*userData)
+	dis := discord.Init()
+	dis.SendMessage(disData, "login")
 }
 
 // logout function for logging out from our own site
