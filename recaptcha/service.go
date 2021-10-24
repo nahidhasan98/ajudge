@@ -41,6 +41,6 @@ func (rc *recaptcha) ValidateCaptcha(captcha string) error {
 	return nil
 }
 
-func newRecaptchaService() recaptchaInterfacer {
+func NewRecaptchaService() recaptchaInterfacer {
 	return &recaptcha{}
 }

@@ -190,8 +190,8 @@ func validate(fullName, email, username, password, confirmPassword, captcha stri
 	// google recaptcha can only be verified once to prevent replay attacks
 	// so captcha verification process will be done if all other fields are valid/okay.
 	if len(errs) == 0 {
-		recaptcha := recaptcha.Init()
-		err := recaptcha.ValidateCaptcha(captcha)
+		rs := recaptcha.NewRecaptchaService()
+		err := rs.ValidateCaptcha(captcha)
 		if err != nil {
 			temp := Errors{
 				Type:    "captcha",
