@@ -72,7 +72,7 @@ func prepareMailBody(what string, tpl *template.Template, email, username, link 
 	return body.Bytes()
 }
 
-func newMailService() mailInterfacer {
+func NewMailService() mailInterfacer {
 	return &mailStruct{
 		Tpl: template.Must(template.ParseGlob("frontend/html/mail.gohtml")),
 	}

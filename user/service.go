@@ -51,8 +51,8 @@ func (u *user) AddUser(fullName, email, username, password string) (*UserModel, 
 
 	// sending mail to user email with a verification link
 	verificationLink := "https://ajudge.net/verify-email/token=" + newToken
-	mail := mail.Init()
-	mail.SendMailForRegistration(email, username, verificationLink)
+	ms := mail.NewMailService()
+	ms.SendMailForRegistration(email, username, verificationLink)
 
 	return userData, nil
 }
