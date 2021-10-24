@@ -1,7 +1,90 @@
-{{ template "open" . }}
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="container">
+<head>
+    <title>Test Email Sample</title>
+    <meta http–equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http–equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        * {
+            margin: 0 auto;
+            padding: 0;
+            font-family: Arial, vrinda, times new roman, sans-serif;
+            font-size: 15px;
+            line-height: 20px;
+            color: #000;
+        }
 
-</div>
+        #content {
+            background: white;
+            border: 3px solid #D3E9F8;
+            width: 90%;
+            float: left;
+        }
 
-{{ template "close" . }}
+        #header {
+            height: 80px;
+            overflow: hidden;
+            background: #d3e9f8;
+            border-bottom: 3px solid #D3E9F8;
+        }
+
+        img {
+            height: 80px;
+        }
+
+        #verify {
+            padding: 8px 10px;
+            font-size: 14px;
+            background: #2592da;
+            border: 1px solid #1f74ad;
+            border-radius: 3px;
+            color: white;
+            text-decoration: none;
+        }
+
+        #verify:hover {
+            cursor: pointer;
+            background: #1f74ad;
+            border: 1px solid #175782;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content">
+        <center>
+            <div id="header" style="Height: 50px;">
+                <a href="https://ajudge.net">
+                    <!-- <img src="https://drive.google.com/u/0/uc?id=1gK74OVStj1ny_3ry5sQ8qhuuj8orpR6P"> -->
+                    <img src="https://drive.google.com/u/0/uc?id=1vGP6A6GA0DsJSYwLlI0K6PXqdF1TkrnL"
+                        style="width: 200px;height:50px;">
+                    <!-- https://drive.google.com/file/d/1vGP6A6GA0DsJSYwLlI0K6PXqdF1TkrnL/view?usp=sharing -->
+                </a>
+            </div>
+        </center>
+        <div style="padding:10px;">
+            <p>Dear user,</p>
+            <p style="margin-bottom:20px;">We are noticing that your username contains space(s), which was valid at a
+                time in our system. Now we are trying to improve our system and added a validating criterion to username
+                as “username can't contains space”. Therefore, we are automatically removing all the spaces present in
+                your current username.</p>
+            <p style="margin-bottom:3px;"><span style="font-weight: bold;">Your current username: </span><span
+                    style="color:#103046; font-size:16px;">{{ .OldUsername }}</span> (won’t work from now)</p>
+            <p style="margin-bottom:20px;"><span style="font-weight: bold;">Your new username: </span><span
+                    style="color:#175782; font-size:16px;">{{ .NewUsername }}</span> (this will work)</p>
+            <p style="margin-bottom:20px;"><span style="font-weight: bold;">Please note that </span>if you want to
+                change your new username or having trouble with logging in to <a href="https://ajudge.net"
+                    style="color:#175782; text-decoration: none;">ajudge.net</a>, you are cordially welcomed to let us
+                know.</p>
+        </div>
+        <center>
+            <div style="padding:10px;width:30%;border-top:2px solid #D3E9F8">
+                <p>Thanks</p>
+                <p>Ajudge Team</p>
+            </div>
+        </center>
+    </div>
+</body>
