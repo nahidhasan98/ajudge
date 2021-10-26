@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Auto Pull Restart</title>
+  <meta http–equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http–equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      margin: 0 auto;
+      padding: 0;
+      font-family: Arial, vrinda, times new roman, sans-serif;
+      font-size: 15px;
+      line-height: 20px;
+      color: #000;
+    }
+
+    #content {
+      background: white;
+      border: 3px solid #D3E9F8;
+      width: 90%;
+    }
+
+    #header {
+      height: 80px;
+      overflow: hidden;
+      background: #d3e9f8;
+      border-bottom: 3px solid #D3E9F8;
+    }
+
+    img {
+      height: 25px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="content">
+    <center>
+      <div id="header" style="Height: 50px;">
+        <a href="https://ajudge.net">
+          <img src="../../assets/images/logo.png" alt="" srcset="" style="height: 100%;">
+        </a>
+      </div>
+    </center>
+    <table style="width:100%; padding: 2%;">
+      <tr style="height: 100px;">
+        <td style="width: 25%;">1. Pulling from remote:</td>
+        <td style="width: 15%;">
+          <center>
+            <img src="../../assets/images/rejudge.png" alt="" srcset="" id="p1Freeze">
+            <img src="../../assets/images/loadingMini.gif" alt="" srcset="" style="display: none;" id="p1Loading">
+            <img src="../../assets/images/tick.png" alt="" srcset="" style="display: none;" id="p1Tick">
+            <img src="../../assets/images/cross.png" alt="" srcset="" style="display: none;" id="p1Cross">
+          </center>
+        </td>
+        <td style="width: 60%;">
+          <p id="p1Err"></p>
+        </td>
+      </tr>
+      <tr style="height: 100px;">
+        <td>2. Shutting down server:</td>
+        <td>
+          <center>
+            <img src="../../assets/images/rejudge.png" alt="" srcset="" id="p2Freeze">
+            <img src="../../assets/images/loadingMini.gif" alt="" srcset="" style="display: none;" id="p2Loading">
+            <img src="../../assets/images/tick.png" alt="" srcset="" style="display: none;" id="p2Tick">
+            <img src="../../assets/images/cross.png" alt="" srcset="" style="display: none;" id="p2Cross">
+          </center>
+        </td>
+        <td>
+          <p id="p2Err"></p>
+        </td>
+      </tr>
+      <tr style="height: 100px;">
+        <td>3. Restarting server:</td>
+        <td>
+          <center>
+            <img src="../../assets/images/rejudge.png" alt="" srcset="" id="p3Freeze">
+            <img src="../../assets/images/loadingMini.gif" alt="" srcset="" style="display: none;" id="p3Loading">
+            <img src="../../assets/images/tick.png" alt="" srcset="" style="display: none;" id="p3Tick">
+            <img src="../../assets/images/cross.png" alt="" srcset="" style="display: none;" id="p3Cross">
+          </center>
+        </td>
+        <td>
+          <p id="p3Err"></p>
+        </td>
+      </tr>
+      <tr style="height: 100px;">
+        <td colspan="3">
+          <center>
+            <p style="padding: 3% 0% 3% 0%; width: 40%; border-top: 2px solid #D3E9F8;">Status:</p>
+            <img src="../../assets/images/what.png" alt="" srcset="" id="p4What">
+            <img src="../../assets/images/tick.png" alt="" srcset="" style="display: none;" id="p4Tick">
+            <img src="../../assets/images/cross.png" alt="" srcset="" style="display: none;" id="p4Cross">
+          </center>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <script src="../assets/scripts/jquery-3.4.1.min.js"></script>
+  <script src="../../assets/scripts/apr.js"></script>
+</body>

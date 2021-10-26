@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/nahidhasan98/ajudge/apr"
 	"github.com/nahidhasan98/ajudge/auth"
 	"github.com/nahidhasan98/ajudge/backend"
 	"github.com/nahidhasan98/ajudge/user"
@@ -15,6 +16,7 @@ func main() {
 	r := mux.NewRouter()
 	auth.Init(r)
 	user.Init(r)
+	apr.Init(r)
 
 	//just a message for ensuring that local server is running
 	fmt.Println("Local Server is running...")
