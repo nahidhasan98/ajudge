@@ -18,7 +18,7 @@ type handler struct {
 // makeHTTPHandlers function defines endpoints
 func makeHTTPHandlers(router *mux.Router, aprService aprInterfacer) {
 	h := &handler{
-		Tpl:        template.Must(template.ParseGlob("frontend/html/apr.html")),
+		Tpl:        template.Must(template.ParseGlob("frontend/html/*")),
 		AprService: aprService,
 	}
 
