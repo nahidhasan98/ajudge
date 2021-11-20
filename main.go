@@ -48,7 +48,7 @@ func main() {
 
 	//XHR request
 	r.HandleFunc("/checkLogin", backend.CheckLogin)
-	//r.PathPrefix("/check").HandlerFunc(backend.CheckDB)
+	r.PathPrefix("/check").HandlerFunc(backend.CheckDB)
 	r.PathPrefix("/problemList").HandlerFunc(backend.ProblemList)
 	r.PathPrefix("/userSubmission/").HandlerFunc(backend.GetUserSubmission)
 	r.PathPrefix("/subHistory").HandlerFunc(backend.SubHistory)
