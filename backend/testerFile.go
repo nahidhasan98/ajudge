@@ -9,7 +9,7 @@ import (
 func Test(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
-	fmt.Fprintln(w, "Hello from test update")
+	fmt.Fprintln(w, "Hello from test")
 
 	fmt.Println("ENDDDDDD")
 	fmt.Println("Happy coding.")
