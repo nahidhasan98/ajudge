@@ -17,13 +17,12 @@ func (a *apr) pull() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return out, nil
 }
 
 func (a *apr) restart() ([]byte, error) {
 	// restarting
-	out, err := exec.Command("/bin/sh", "cmd.sh").Output()
+	out, err := exec.Command("/bin/sh", "./cmd_restart.sh").Output()
 	if err != nil {
 		return nil, err
 	}
