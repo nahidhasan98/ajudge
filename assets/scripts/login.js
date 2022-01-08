@@ -2,14 +2,14 @@ console.log("Login Script linked properly")
 
 $(document).ready(function () {
     $('form').on('submit', function () {
-        $('#submit').prop('disabled', true);
-        $('#submit').val("Logging in...");
-
         if ($('#username').val().trim().length == 0) {
             $('#username').val("");
             $('#errUsername').text("username should no be empty!");
             return false;   // cancel submission
         }
+
+        $('#submit').prop('disabled', true);
+        $('#submit').val("Logging in...");
 
         let formData = $('.loginForm').serialize();
         // console.log(formData);
