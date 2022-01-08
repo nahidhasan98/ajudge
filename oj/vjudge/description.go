@@ -146,7 +146,8 @@ func ProbDes(OJ, pNum string) (string, bool, int) {
 func GetImage(body string) string {
 	defer errorhandling.Recovery() //for panic() error Recovery
 
-	body = strings.ReplaceAll(body, "CDN_BASE_URL", "https://vj.ppsucxtt.cn")
+	body = strings.ReplaceAll(body, "CDN_BASE_URL", "https://vj.csgrandeur.cn")
+	//body = strings.ReplaceAll(body, "CDN_BASE_URL", "https://vj.ppsucxtt.cn")
 
 	// //for pdf file
 	// need1 := `<iframe src="https://vj.z180.cn/`
