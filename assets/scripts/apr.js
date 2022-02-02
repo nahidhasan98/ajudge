@@ -1,6 +1,10 @@
 console.log("Script linked properly");
 
 $(document).ready(function () {
+    pull();
+});
+
+function pull() {
     $('#p1Freeze').css("display", "none");
     $('#p1Loading').css("display", "block");
 
@@ -10,14 +14,8 @@ $(document).ready(function () {
         url: "/apr/pull",
     });
     request.done(function (response) {
-        let s = response.message;
-        if (s[s.length - 1] == "\n") {
-            s = s.substr(0, s.length - 1);
-        }
-        let resMsg = s.replace(/\n/g, "<br>- ")
-        resMsg = "- " + resMsg;
-
         console.log(response);
+        let resMsg = formatMessage(response.message);
 
         if (response.status == "error") {
             $('#p1Err').html(resMsg);
@@ -26,26 +24,20 @@ $(document).ready(function () {
 
             $('#p4What').css("display", "none");
             $('#p4Cross').css("display", "block");
-        } else if (resMsg.indexOf("Already") > -1) {
+        } else if (resMsg.indexOf("Already") > -1) { // (if branch) Already up to date.
             $('#p1Err').html(resMsg);
             $('#p1Loading').css("display", "none");
             $('#p1Tick').css("display", "block");
 
             $('#p4What').css("display", "none");
             $('#p4Tick').css("display", "block");
-        } else {
+        } else {    // successfully pulled from remote branch
             $('#p1Err').html(resMsg);
             $('#p1Loading').css("display", "none");
             $('#p1Tick').css("display", "block");
 
-            $('#p2Freeze').css("display", "none");
-            $('#p2Loading').css("display", "block");
-
-            // calling restart
-            restart();
-
-            // checking if server restarted or not
-            ping();
+            // pull complete, calling build
+            build();
         }
     });
     request.fail(function () {
@@ -59,12 +51,56 @@ $(document).ready(function () {
     request.always(function () {
         console.log("always")
     });
-});
+}
+
+function formatMessage(s) {
+    if (s[s.length - 1] == "\n") {  // removing last newline
+        s = s.substr(0, s.length - 1);
+    }
+    let msg = s.replace(/\n/g, "<br>- ") // replacing internal newline
+    msg = "- " + msg; // adding - at front of the message
+
+    return msg;
+}
+
+function build() {
+    $('#p2Freeze').css("display", "none");
+    $('#p2Loading').css("display", "block");
+
+    let request = $.ajax({
+        async: true,
+        type: "POST",
+        url: "/apr/build",
+    });
+    request.done(function (response) {
+        console.log(response)
+        let resMsg = formatMessage(response.message);
+
+        if (response.status == "error") {   // couldn't built the app
+            $('#p2Err').html(resMsg);
+            $('#p2Loading').css("display", "none");
+            $('#p2Cross').css("display", "block");
+
+            $('#p4What').css("display", "none");
+            $('#p4Cross').css("display", "block");
+        } else {    // successfully built the app
+            $('#p2Err').html(resMsg);
+            $('#p2Loading').css("display", "none");
+            $('#p2Tick').css("display", "block");
+
+            // build complete, calling restart
+            restart();
+        }
+    });
+    request.fail(function (response) {
+        console.log(response)
+    });
+    request.always(function () {
+        console.log("always")
+    });
+}
 
 function restart() {
-    $('#p2Loading').css("display", "none");
-    $('#p2Tick').css("display", "block");
-
     $('#p3Freeze').css("display", "none");
     $('#p3Loading').css("display", "block");
 
@@ -73,11 +109,17 @@ function restart() {
         type: "POST",
         url: "/apr/restart",
     });
+    // at this point, server is restarting, so response won't come.
+    // request will be failed
     request.done(function (response) {
         console.log(response)
     });
-    request.fail(function (response) {
-        console.log(response)
+    request.fail(function (response, status) {
+        // request failed means, server is down due to restart
+        console.log(response, status)
+
+        // keep checking if server is up or not
+        ping();
     });
     request.always(function () {
         console.log("always")
@@ -114,5 +156,5 @@ function ping() {
         if (counter == 10) {
             clearInterval(doCheck);
         }
-    }, 3000);  //Delay here = 3 seconds
+    }, 3000);  // Delay here = 3 seconds
 }

@@ -24,6 +24,7 @@ func makeHTTPHandlers(router *mux.Router, aprService aprInterfacer) {
 
 	router.HandleFunc("/apr", h.previewApr).Methods("GET")
 	router.HandleFunc("/apr/pull", h.pull).Methods("POST")
+	router.HandleFunc("/apr/build", h.build).Methods("POST")
 	router.HandleFunc("/apr/restart", h.restart).Methods("POST")
 }
 
@@ -69,10 +70,54 @@ func (h *handler) pull(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(b)
 		return
-
 	}
 
 	out, err := h.AprService.pull()
+	if err != nil {
+		res := aprResponse{
+			Status:  "error",
+			Message: err.Error(),
+		}
+
+		b, err := json.Marshal(res)
+		errorhandling.Check(err)
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(b)
+		return
+	}
+
+	res := aprResponse{
+		Status:  "success",
+		Message: string(out),
+	}
+	b, err := json.Marshal(res)
+	errorhandling.Check(err)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(b)
+}
+
+// logout function for logging out from our own site
+func (h *handler) build(w http.ResponseWriter, r *http.Request) {
+	session, err := model.Store.Get(r, "mysession")
+	errorhandling.Check(err)
+
+	if session.Values["isLogin"] == false || model.Info["Username"] != "admin" {
+		res := aprResponse{
+			Status:  "error",
+			Message: "access denied",
+		}
+
+		b, err := json.Marshal(res)
+		errorhandling.Check(err)
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(b)
+		return
+	}
+
+	out, err := h.AprService.build()
 	if err != nil {
 		res := aprResponse{
 			Status:  "error",
@@ -115,7 +160,6 @@ func (h *handler) restart(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(b)
 		return
-
 	}
 
 	out, err := h.AprService.restart()
