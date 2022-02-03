@@ -28,7 +28,6 @@ func makeHTTPHandlers(router *mux.Router, aprService aprInterfacer) {
 	router.HandleFunc("/apr/restart", h.restart).Methods("POST")
 }
 
-// logout function for logging out from our own site
 func (h *handler) previewApr(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	session, err := model.Store.Get(r, "mysession")
@@ -53,7 +52,6 @@ type aprResponse struct {
 	Message string `json:"message"`
 }
 
-// logout function for logging out from our own site
 func (h *handler) pull(w http.ResponseWriter, r *http.Request) {
 	session, err := model.Store.Get(r, "mysession")
 	errorhandling.Check(err)
@@ -98,7 +96,6 @@ func (h *handler) pull(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
-// logout function for logging out from our own site
 func (h *handler) build(w http.ResponseWriter, r *http.Request) {
 	session, err := model.Store.Get(r, "mysession")
 	errorhandling.Check(err)
@@ -143,7 +140,6 @@ func (h *handler) build(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
-// logout function for logging out from our own site
 func (h *handler) restart(w http.ResponseWriter, r *http.Request) {
 	session, err := model.Store.Get(r, "mysession")
 	errorhandling.Check(err)

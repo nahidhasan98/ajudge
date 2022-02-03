@@ -27,7 +27,7 @@ func (a *apr) build() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	// return out, nil
+	// return out, nil	// successful go build doesn't give any output
 	return []byte("build successful"), nil
 }
 
@@ -38,7 +38,7 @@ func (a *apr) restart() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	// return out, nil
+	// return out, nil	// successful restart doesn't give any output
 	return []byte("server restarted successfully"), nil
 }
 

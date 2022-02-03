@@ -21,7 +21,7 @@ func main() {
 	//just a message for ensuring that local server is running
 	fmt.Println("Local Server is running...")
 
-	//for serving perspective pages
+	// for serving perspective pages
 	r.HandleFunc("/", backend.Index)
 	r.PathPrefix("/rank").HandlerFunc(backend.Rank)
 	r.HandleFunc("/about", backend.About)
@@ -46,7 +46,7 @@ func main() {
 	r.PathPrefix("/contestUpdate/").HandlerFunc(backend.ContestUpadte)
 	r.PathPrefix("/contest/").HandlerFunc(backend.ContestGround)
 
-	//XHR request
+	// XHR request
 	r.HandleFunc("/checkLogin", backend.CheckLogin)
 	r.PathPrefix("/check").HandlerFunc(backend.CheckDB)
 	r.PathPrefix("/problemList").HandlerFunc(backend.ProblemList)
@@ -64,15 +64,15 @@ func main() {
 	// r.PathPrefix("/captcha/").HandlerFunc(backend.GetCaptcha)
 	r.HandleFunc("/getCombinedStandings", backend.GetCombinedStandings)
 
-	//for testing any piece of code (Not essential for this site)
+	// for testing any piece of code (Not essential for this site)
 	r.HandleFunc("/test", backend.Test)
 
-	//for serving images, javascripts & css files
+	// for serving images, javascripts & css files
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 
-	//A Custom Page Not Found route
+	// A Custom Page Not Found route
 	r.NotFoundHandler = http.HandlerFunc(backend.PageNotFound)
 
-	//for localhost server
+	// for localhost server
 	http.ListenAndServe(":8080", r)
 }

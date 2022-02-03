@@ -126,7 +126,7 @@ function restart() {
             console.log("unexpected error occurred")
         }
 
-        // keep checking if server is up or not
+        // server restarted. checking if server is up or not
         ping();
     });
     request.always(function () {
