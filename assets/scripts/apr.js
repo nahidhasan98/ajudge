@@ -40,7 +40,9 @@ function pull() {
             build();
         }
     });
-    request.fail(function () {
+    request.fail(function (jqXHR) {
+        console.log(jqXHR);
+
         $('#p1Err').text("something went wrong while pulling");
         $('#p1Loading').css("display", "none");
         $('#p1Cross').css("display", "block");
@@ -92,8 +94,8 @@ function build() {
             restart();
         }
     });
-    request.fail(function (response) {
-        console.log(response)
+    request.fail(function (jqXHR) {
+        console.log(jqXHR)
     });
     request.always(function () {
         console.log("always")
@@ -114,9 +116,15 @@ function restart() {
     request.done(function (response) {
         console.log(response)
     });
-    request.fail(function (response, status) {
+    request.fail(function (jqXHR, textStatus, errorThrown) {
         // request failed means, server is down due to restart
-        console.log(response, status)
+        // that means it is okay
+        if (jqXHR.status == 502) {
+            console.log("expected error occurred. nice...")
+            console.log(textStatus, jqXHR.status, errorThrown)
+        } else {
+            console.log("unexpected error occurred")
+        }
 
         // keep checking if server is up or not
         ping();
@@ -131,11 +139,12 @@ function ping() {
     let doCheck = setInterval(function () {
         let request = $.ajax({
             async: true,
-            type: "POST",
-            url: "/apr/pull",
+            type: "GET",
+            url: "/",
         });
         request.done(function (response) {
-            console.log(response)
+            // console.log(response)
+            $('#p3Err').html("- server restarted successfully");
 
             $('#p3Loading').css("display", "none");
             $('#p3Tick').css("display", "block");
@@ -145,8 +154,8 @@ function ping() {
 
             clearInterval(doCheck);
         });
-        request.fail(function (response) {
-            console.log(response)
+        request.fail(function (jqXHR) {
+            console.log(jqXHR)
         });
         request.always(function () {
             console.log("always")
