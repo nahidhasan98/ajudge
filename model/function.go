@@ -133,15 +133,12 @@ func IsExistInTV(OJ string, arr []string, verdict string) bool {
 	if OJ == "CodeForces" || OJ == "Gym" || OJ == "SGU" {
 		if len(verdict) > 12 { //for Wrong answer CodeForces gives like: "Wrong answer on test 5"
 			extra1 = verdict[:12] //so we are taking only "Wrong answer" for checking existance in terminal verdict
-		}
-		if len(verdict) > 19 { //for Time limit exceeded CodeForces gives like: "Time limit exceeded on test 27"
-			extra2 = verdict[:19] //so we are taking only "Time limit exceeded" for checking existance in terminal verdict
-		}
-		if len(verdict) > 21 { //for Memory limit exceeded CodeForces gives like: "Memory limit exceeded on test 2"
-			extra3 = verdict[:21] //so we are taking only "Memory limit exceeded" for checking existance in terminal verdict
-		}
-		if len(verdict) > 13 { //for Runtime error CodeForces gives like: "Runtime error on test 1"
-			extra4 = verdict[:13] //so we are taking only "Runtime error" for checking existance in terminal verdict
+		} else if len(verdict) > 13 { //for Runtime error CodeForces gives like: "Runtime error on test 1"
+			extra2 = verdict[:13] //so we are taking only "Runtime error" for checking existance in terminal verdict
+		} else if len(verdict) > 19 { //for Time limit exceeded CodeForces gives like: "Time limit exceeded on test 27"
+			extra3 = verdict[:19] //so we are taking only "Time limit exceeded" for checking existance in terminal verdict
+		} else if len(verdict) > 21 { //for Memory limit exceeded CodeForces gives like: "Memory limit exceeded on test 2"
+			extra4 = verdict[:21] //so we are taking only "Memory limit exceeded" for checking existance in terminal verdict
 		}
 	} else if OJ == "HDU" {
 		if len(verdict) > 13 { //"Runtime Error(INTEGER_DIVIDE_BY_ZERO)" --> "Runtime Error"
@@ -150,31 +147,18 @@ func IsExistInTV(OJ string, arr []string, verdict string) bool {
 	} else if OJ == "SPOJ" {
 		if len(verdict) > 12 { //"Wrong answer #0" --> "Wrong answer"
 			extra1 = verdict[:12]
-		}
-		if len(verdict) > 13 { //"Runtime error (SIGSEGV)" --> "Runtime error"
+		} else if len(verdict) > 13 { //"Runtime error (SIGSEGV)" --> "Runtime error"
 			extra2 = verdict[:13]
 		}
 	} else if OJ == "UESTC" {
-		if len(verdict) > 18 { //"Presentation Error on test 1" --> "Presentation error"
-			extra1 = verdict[:18]
-		}
-		if len(verdict) > 12 { //"Wrong Answer on test 1" --> "Wrong answer"
-			extra2 = verdict[:12]
-		}
-		if len(verdict) > 12 { //"System Error on test 1" --> "System Error"
-			extra3 = verdict[:12]
-		}
-		if len(verdict) > 19 { //"Time Limit Exceeded on test 27" --> "Time Limit Exceeded"
-			extra4 = verdict[:19]
-		}
-		if len(verdict) > 21 { //"Memory Limit Exceeded on test 24" --> "Memory Limit Exceeded"
-			extra5 = verdict[:21]
-		}
-		if len(verdict) > 21 { //"Output Limit Exceeded on test 1" --> "Output Limit Exceeded"
-			extra6 = verdict[:21]
-		}
-		if len(verdict) > 19 { //"Restricted Function on test 2" --> "Restricted Function"
-			extra7 = verdict[:19]
+		if len(verdict) > 12 { //"Wrong Answer on test 1" --> "Wrong answer" //"System Error on test 1" --> "System Error"
+			extra1 = verdict[:12]
+		} else if len(verdict) > 18 { //"Presentation Error on test 1" --> "Presentation error"
+			extra2 = verdict[:18]
+		} else if len(verdict) > 19 { //"Time Limit Exceeded on test 27" --> "Time Limit Exceeded" //"Restricted Function on test 2" --> "Restricted Function"
+			extra3 = verdict[:19]
+		} else if len(verdict) > 21 { //"Memory Limit Exceeded on test 24" --> "Memory Limit Exceeded" //"Output Limit Exceeded on test 1" --> "Output Limit Exceeded"
+			extra4 = verdict[:21]
 		}
 	} else if OJ == "UniversalOJ" {
 		if len(verdict) > 17 { //"Extra Test Failed : Wrong Answer on 7" --> "Extra Test Failed"
@@ -185,11 +169,20 @@ func IsExistInTV(OJ string, arr []string, verdict string) bool {
 			extra1 = verdict[:13]
 		}
 	} else if OJ == "URI" {
-		if len(verdict) > 18 { //"Presentation error (10%)" --> "Presentation error"
-			extra1 = verdict[:18]
-		}
 		if len(verdict) > 12 { //"Wrong answer (10%)" --> "Wrong answer"
-			extra2 = verdict[:12]
+			extra1 = verdict[:12]
+		} else if len(verdict) > 18 { //"Presentation error (10%)" --> "Presentation error"
+			extra2 = verdict[:18]
+		}
+	} else if OJ == "Toph" {
+		if len(verdict) > 12 { //for Wrong answer Toph gives like: "Wrong answer on test 5"
+			extra1 = verdict[:12] //so we are taking only "Wrong answer" for checking existance in terminal verdict
+		} else if len(verdict) > 13 { //for Runtime error Toph gives like: "Runtime error on test 1"
+			extra2 = verdict[:13] //so we are taking only "Runtime error" for checking existance in terminal verdict
+		} else if len(verdict) > 19 { //for Time limit exceeded Toph gives like: "Time limit exceeded on test 27"
+			extra3 = verdict[:19] //so we are taking only "Time limit exceeded" for checking existance in terminal verdict
+		} else if len(verdict) > 21 { //for Memory limit exceeded Toph gives like: "Memory limit exceeded on test 2"
+			extra4 = verdict[:21] //so we are taking only "Memory limit exceeded" for checking existance in terminal verdict
 		}
 	}
 

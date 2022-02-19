@@ -150,7 +150,7 @@ var TerminalVerdict = map[string][]string{
 	"SGU":           {"Accepted", "Wrong answer", "Time limit exceeded", "Memory limit exceeded", "Runtime error", "Compilation error", "Source Code Error", "Dangerous Code Error", "Language Rejected"},
 	"SPOJ":          {"Accepted", "Wrong answer", "Time limit exceeded", "Runtime error", "Compilation error"},
 	"TopCoder":      {"Accepted", "Wrong Answer", "Time Limit Exceeded", "Compile Error"},
-	"Toph":          {"Accepted", "Passed", "Wrong Answer", "CPU Limit Exceeded", "Memory Limit Exceeded", "Compilation Error", "Runtime Error"},
+	"Toph":          {"Accepted", "Passed", "Wrong answer", "CPU limit exceeded", "Memory limit exceeded", "Compilation error", "Runtime error"},
 	"UESTC":         {"Accepted", "Presentation Error", "System Error", "Wrong Answer", "Time Limit Exceeded", "Memory Limit Exceeded", "Output Limit Exceeded", "Restricted Function"},
 	"UESTC_old":     {"Accepted", "Presentation Error", "Wrong Answer", "Time Limit Exceeded", "Memory Limit Exceeded", "Output Limit Exceeded", "Runtime Error", "Compile Error"},
 	"UniversalOJ":   {"Accepted", "Wrong Answer", "Extra Test Failed", "Dangerous Syscalls", "Time Limit Exceeded", "Memory Limit Exceeded", "Runtime Error", "Compile Error"},

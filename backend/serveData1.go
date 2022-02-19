@@ -390,9 +390,9 @@ func Verdict(w http.ResponseWriter, r *http.Request) {
 			tempArray = append(tempArray, temp)
 		})
 
-		rRuntime = tempArray[5]
-		rMemory = tempArray[6]
-		rVerdict = tempArray[7]
+		rVerdict = tempArray[5]
+		rRuntime = tempArray[6]
+		rMemory = tempArray[7]
 
 		if model.IsExistInTV(submissionData.OJ, model.TerminalVerdict[submissionData.OJ], rVerdict) {
 			rTerminalVerdict = true
