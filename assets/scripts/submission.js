@@ -178,7 +178,7 @@ $('#rejudge').click(function () {
                 memory.text(result.Memory);
 
                 //setting a color to the verdict result
-                if (result.Status == "Accepted") {
+                if (result.Status == "Accepted" || result.Status == "Passed" || result.Status == "Happy New Year!") {
                     verdict.css('color', '#1d9563');
                 } else {
                     verdict.css('color', '#de3b3b');
@@ -216,7 +216,7 @@ function getVerdict() {
                     memory.text(result.Memory);
 
                     //setting a color to the verdict result
-                    if (result.Status == "Accepted") {
+                    if (result.Status == "Accepted" || result.Status == "Passed" || result.Status == "Happy New Year!") {
                         verdict.css('color', '#1d9563');
                     } else {
                         verdict.css('color', '#de3b3b');

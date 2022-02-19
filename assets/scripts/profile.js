@@ -115,7 +115,7 @@ function showSubmission(activePage) {
                         <td><a href="/problemView/`+ tempList[i].OJ + "-" + tempList[i].PNum + `">` + tempList[i].PNum + `</a></td>
                         <td>`+ checkRejudge(tempList[i].TerminalVerdict, tempList[i].SubID, i);
 
-            if (tempList[i].Verdict == "Accepted") {    //color for accepted verdict
+            if (tempList[i].Verdict == "Accepted" || tempList[i].Verdict == "Passed" || tempList[i].Verdict == "Happy New Year!") {    //color for accepted verdict
                 dataCreate += `<p id="verdict` + i + `" style="color:#1d9563">` + tempList[i].Verdict + `</p>`;
             } else {
                 dataCreate += `<p id="verdict` + i + `" style="color:#de3b3b">` + tempList[i].Verdict + `</p>`;
