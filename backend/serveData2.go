@@ -674,6 +674,7 @@ func GetLanguage(w http.ResponseWriter, r *http.Request) {
 		model.LanguagePack["5d832a4f1335cb000138bd08"] = "Haskell 8.6"
 		model.LanguagePack["58483d7504469e2585024395"] = "Java 1.8"
 		model.LanguagePack["59ca12114ad24000017dcaf9"] = "Kotlin 1.1"
+		model.LanguagePack["60a663d21943dcc4487c5b9c"] = "Lua 5.4"
 		model.LanguagePack["5d832ccd1335cb000138bd19"] = "Node.js 10.16"
 		model.LanguagePack["5d822463728b11000151fbc9"] = "Perl 5.30"
 		model.LanguagePack["5d8334c31335cb000138bd5c"] = "PHP 7.2"
@@ -683,6 +684,7 @@ func GetLanguage(w http.ResponseWriter, r *http.Request) {
 		model.LanguagePack["58482c1804469e2585024324"] = "Python 3.7"
 		model.LanguagePack["5f4793f146e836000119165f"] = "Python 3.8"
 		model.LanguagePack["5848505704469e258502445b"] = "Ruby 2.6"
+		model.LanguagePack["61b3852c1995f71e2037d55b"] = "Rust 1.57"
 		model.LanguagePack["5f6aeccae1863f0001267dc8"] = "Swift 5.3"
 		model.LanguagePack["5eeb7c1c67d6530001de8e47"] = "Whitespace"
 	} else if OJ == "UESTC" {
