@@ -131,57 +131,57 @@ func IsExistInTV(OJ string, arr []string, verdict string) bool {
 	var extra1, extra2, extra3, extra4, extra5, extra6, extra7 string
 
 	if OJ == "CodeForces" || OJ == "Gym" || OJ == "SGU" {
-		if len(verdict) > 12 { //for Wrong answer CodeForces gives like: "Wrong answer on test 5"
+		if strings.Contains(verdict, "Wrong answer") { //for Wrong answer CodeForces gives like: "Wrong answer on test 5"
 			extra1 = verdict[:12] //so we are taking only "Wrong answer" for checking existance in terminal verdict
-		} else if len(verdict) > 13 { //for Runtime error CodeForces gives like: "Runtime error on test 1"
+		} else if strings.Contains(verdict, "Runtime error") { //for Runtime error CodeForces gives like: "Runtime error on test 1"
 			extra2 = verdict[:13] //so we are taking only "Runtime error" for checking existance in terminal verdict
-		} else if len(verdict) > 19 { //for Time limit exceeded CodeForces gives like: "Time limit exceeded on test 27"
+		} else if strings.Contains(verdict, "Time limit exceeded") { //for Time limit exceeded CodeForces gives like: "Time limit exceeded on test 27"
 			extra3 = verdict[:19] //so we are taking only "Time limit exceeded" for checking existance in terminal verdict
-		} else if len(verdict) > 21 { //for Memory limit exceeded CodeForces gives like: "Memory limit exceeded on test 2"
+		} else if strings.Contains(verdict, "Memory limit exceeded") { //for Memory limit exceeded CodeForces gives like: "Memory limit exceeded on test 2"
 			extra4 = verdict[:21] //so we are taking only "Memory limit exceeded" for checking existance in terminal verdict
 		}
 	} else if OJ == "HDU" {
-		if len(verdict) > 13 { //"Runtime Error(INTEGER_DIVIDE_BY_ZERO)" --> "Runtime Error"
+		if strings.Contains(verdict, "Runtime Error") { //"Runtime Error(INTEGER_DIVIDE_BY_ZERO)" --> "Runtime Error"
 			extra1 = verdict[:13]
 		}
 	} else if OJ == "SPOJ" {
-		if len(verdict) > 12 { //"Wrong answer #0" --> "Wrong answer"
+		if strings.Contains(verdict, "Wrong answer") { //"Wrong answer #0" --> "Wrong answer"
 			extra1 = verdict[:12]
-		} else if len(verdict) > 13 { //"Runtime error (SIGSEGV)" --> "Runtime error"
+		} else if strings.Contains(verdict, "Runtime error") { //"Runtime error (SIGSEGV)" --> "Runtime error"
 			extra2 = verdict[:13]
 		}
 	} else if OJ == "UESTC" {
-		if len(verdict) > 12 { //"Wrong Answer on test 1" --> "Wrong answer" //"System Error on test 1" --> "System Error"
+		if strings.Contains(verdict, "Wrong Answer") || strings.Contains(verdict, "System Error") { //"Wrong Answer on test 1" --> "Wrong answer" //"System Error on test 1" --> "System Error"
 			extra1 = verdict[:12]
-		} else if len(verdict) > 18 { //"Presentation Error on test 1" --> "Presentation error"
+		} else if strings.Contains(verdict, "Presentation Error") { //"Presentation Error on test 1" --> "Presentation error"
 			extra2 = verdict[:18]
-		} else if len(verdict) > 19 { //"Time Limit Exceeded on test 27" --> "Time Limit Exceeded" //"Restricted Function on test 2" --> "Restricted Function"
+		} else if strings.Contains(verdict, "Time Limit Exceeded") { //"Time Limit Exceeded on test 27" --> "Time Limit Exceeded" //"Restricted Function on test 2" --> "Restricted Function"
 			extra3 = verdict[:19]
-		} else if len(verdict) > 21 { //"Memory Limit Exceeded on test 24" --> "Memory Limit Exceeded" //"Output Limit Exceeded on test 1" --> "Output Limit Exceeded"
+		} else if strings.Contains(verdict, "Memory Limit Exceeded") { //"Memory Limit Exceeded on test 24" --> "Memory Limit Exceeded" //"Output Limit Exceeded on test 1" --> "Output Limit Exceeded"
 			extra4 = verdict[:21]
 		}
 	} else if OJ == "UniversalOJ" {
-		if len(verdict) > 17 { //"Extra Test Failed : Wrong Answer on 7" --> "Extra Test Failed"
+		if strings.Contains(verdict, "Extra Test Failed") { //"Extra Test Failed : Wrong Answer on 7" --> "Extra Test Failed"
 			extra1 = verdict[:17]
 		}
 	} else if OJ == "URAL" {
-		if len(verdict) > 13 { //"Runtime error (non-zero exit code)" --> "Runtime error"
+		if strings.Contains(verdict, "Runtime error") { //"Runtime error (non-zero exit code)" --> "Runtime error"
 			extra1 = verdict[:13]
 		}
 	} else if OJ == "URI" {
-		if len(verdict) > 12 { //"Wrong answer (10%)" --> "Wrong answer"
+		if strings.Contains(verdict, "Wrong answer") { //"Wrong answer (10%)" --> "Wrong answer"
 			extra1 = verdict[:12]
-		} else if len(verdict) > 18 { //"Presentation error (10%)" --> "Presentation error"
+		} else if strings.Contains(verdict, "Presentation error") { //"Presentation error (10%)" --> "Presentation error"
 			extra2 = verdict[:18]
 		}
 	} else if OJ == "Toph" {
-		if len(verdict) > 12 { //for Wrong answer Toph gives like: "Wrong answer on test 5"
+		if strings.Contains(verdict, "Wrong answer") { //for Wrong answer Toph gives like: "Wrong answer on test 5"
 			extra1 = verdict[:12] //so we are taking only "Wrong answer" for checking existance in terminal verdict
-		} else if len(verdict) > 13 { //for Runtime error Toph gives like: "Runtime error on test 1"
+		} else if strings.Contains(verdict, "Runtime error") { //for Runtime error Toph gives like: "Runtime error on test 1"
 			extra2 = verdict[:13] //so we are taking only "Runtime error" for checking existance in terminal verdict
-		} else if len(verdict) > 18 { //for CPU limit exceeded Toph gives like: "CPU limit exceeded on test 27"
+		} else if strings.Contains(verdict, "CPU limit exceeded") { //for CPU limit exceeded Toph gives like: "CPU limit exceeded on test 27"
 			extra3 = verdict[:18] //so we are taking only "CPU limit exceeded" for checking existance in terminal verdict
-		} else if len(verdict) > 21 { //for Memory limit exceeded Toph gives like: "Memory limit exceeded on test 2"
+		} else if strings.Contains(verdict, "Memory limit exceeded") { //for Memory limit exceeded Toph gives like: "Memory limit exceeded on test 2"
 			extra4 = verdict[:21] //so we are taking only "Memory limit exceeded" for checking existance in terminal verdict
 		}
 	}
