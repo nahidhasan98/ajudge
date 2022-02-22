@@ -179,8 +179,8 @@ func IsExistInTV(OJ string, arr []string, verdict string) bool {
 			extra1 = verdict[:12] //so we are taking only "Wrong answer" for checking existance in terminal verdict
 		} else if len(verdict) > 13 { //for Runtime error Toph gives like: "Runtime error on test 1"
 			extra2 = verdict[:13] //so we are taking only "Runtime error" for checking existance in terminal verdict
-		} else if len(verdict) > 19 { //for Time limit exceeded Toph gives like: "Time limit exceeded on test 27"
-			extra3 = verdict[:19] //so we are taking only "Time limit exceeded" for checking existance in terminal verdict
+		} else if len(verdict) > 18 { //for CPU limit exceeded Toph gives like: "CPU limit exceeded on test 27"
+			extra3 = verdict[:18] //so we are taking only "CPU limit exceeded" for checking existance in terminal verdict
 		} else if len(verdict) > 21 { //for Memory limit exceeded Toph gives like: "Memory limit exceeded on test 2"
 			extra4 = verdict[:21] //so we are taking only "Memory limit exceeded" for checking existance in terminal verdict
 		}
