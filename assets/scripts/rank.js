@@ -9,9 +9,9 @@ let rankList = [];
 $(document).ready(function () {
     let link = "";
     if (rankType == "OJ") {
-        link = "listRankOJ";
-    } else if (rankType == "User"){
-        link = "listRankUser";
+        link = "/rank/list/oj";
+    } else if (rankType == "User") {
+        link = "/rank/list/user";
     }
     $.ajax({
         url: link,
@@ -98,7 +98,7 @@ function showList(activePage) {
             if (rankType == "OJ") {
                 tdata = rankList[i].OJ;
                 tLink = "";
-            } else if (rankType == "User"){
+            } else if (rankType == "User") {
                 tdata = rankList[i].FullName;
                 tLink = ` [<a href="/profile/` + rankList[i].Username + `">` + rankList[i].Username + `</a>]`;
             }
