@@ -779,67 +779,6 @@ func Rejudge(w http.ResponseWriter, r *http.Request) {
 	discord.EditMessage(disData, "submission")
 }
 
-//GetRankList function for retrieving rank list for OJ/User
-func GetRankList(w http.ResponseWriter, r *http.Request) {
-	path := r.URL.Path
-
-	//connecting to DB
-	DB, ctx, cancel := db.Connect()
-	defer cancel()
-	defer DB.Client().Disconnect(ctx)
-
-	//taking DB collection/table to a variable
-	rankOJCollection := DB.Collection("rankOJ")
-	userCollection := DB.Collection("user")
-
-	//getting data for this user from DB
-	type DBQuery struct {
-		OJ          string `bson:"OJ"`
-		Username    string `bson:"username"`
-		FullName    string `bson:"fullName"`
-		TotalSolved int    `bson:"totalSolved"`
-	}
-	var rankList []DBQuery
-
-	if path == "/listRankOJ" {
-		//setting uo options for retrieving data from DB
-		opts := options.Find()
-		opts.SetSort(bson.D{{Key: "totalSolved", Value: -1}, {Key: "OJ", Value: 1}}) //sorting by totalSolved & then OJ/user name
-		cursor, err := rankOJCollection.Find(ctx, bson.D{}, opts)
-		errorhandling.Check(err)
-
-		// Iterating through the cursor allows us to decode documents one at a time
-		for cursor.Next(ctx) {
-			// create a value into which the single document can be decoded
-			var temp DBQuery
-			err := cursor.Decode(&temp)
-			errorhandling.Check(err)
-
-			rankList = append(rankList, temp)
-		}
-	} else if path == "/listRankUser" {
-		//setting uo options for retrieving data from DB
-		opts := options.Find()
-		opts.SetSort(bson.D{{Key: "totalSolved", Value: -1}, {Key: "username", Value: 1}}) //sorting by totalSolved & then OJ/user name
-		cursor, err := userCollection.Find(ctx, bson.D{}, opts)
-		errorhandling.Check(err)
-
-		// Iterating through the cursor allows us to decode documents one at a time
-		for cursor.Next(ctx) {
-			// create a value into which the single document can be decoded
-			var temp DBQuery
-			err := cursor.Decode(&temp)
-			errorhandling.Check(err)
-
-			rankList = append(rankList, temp)
-		}
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	b, _ := json.Marshal(rankList)
-	w.Write(b)
-}
-
 //SubHistory function for retrieving User's previous submission history of a specific problem
 func SubHistory(w http.ResponseWriter, r *http.Request) {
 	OJList := r.URL.Query()["OJ"]

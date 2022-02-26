@@ -17,8 +17,8 @@ $(document).ready(function () {
         url: link,
         type: "GET",
         async: false,
-        success: function (data) {
-            rankList = data;  //assigning to a global variable
+        success: function (response) {
+            rankList = response.rankList;  //assigning to a global variable
 
             process();
         },
@@ -99,14 +99,14 @@ function showList(activePage) {
                 tdata = rankList[i].OJ;
                 tLink = "";
             } else if (rankType == "User") {
-                tdata = rankList[i].FullName;
-                tLink = ` [<a href="/profile/` + rankList[i].Username + `">` + rankList[i].Username + `</a>]`;
+                tdata = rankList[i].fullName;
+                tLink = ` [<a href="/profile/` + rankList[i].username + `">` + rankList[i].username + `</a>]`;
             }
 
             dataCreate = `<tr class="problemRow">
                         <td>`+ serial + `</td>
                         <td align="left" style="padding-left:5%;">` + tdata + tLink + `</td>
-                        <td>`+ rankList[i].TotalSolved + `</td>
+                        <td>`+ rankList[i].totalSolved + `</td>
                         </tr>`
 
             $('#problemTable').append(dataCreate);

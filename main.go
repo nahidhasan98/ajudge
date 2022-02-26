@@ -8,22 +8,21 @@ import (
 	"github.com/nahidhasan98/ajudge/apr"
 	"github.com/nahidhasan98/ajudge/auth"
 	"github.com/nahidhasan98/ajudge/backend"
+	"github.com/nahidhasan98/ajudge/rank"
 	"github.com/nahidhasan98/ajudge/user"
 )
 
 func main() {
-	//(instead of default 'http' router) using Gorilla mux router
+	// using Gorilla mux router
 	r := mux.NewRouter()
 	auth.Init(r)
 	user.Init(r)
 	apr.Init(r)
-
-	//just a message for ensuring that local server is running
-	fmt.Println("Local Server is running...")
+	rank.Init(r)
 
 	// for serving perspective pages
 	r.HandleFunc("/", backend.Index)
-	r.PathPrefix("/rank").HandlerFunc(backend.Rank)
+	// r.PathPrefix("/rank").HandlerFunc(backend.Rank)
 	r.HandleFunc("/about", backend.About)
 	r.HandleFunc("/contact", backend.Contact)
 
@@ -57,7 +56,7 @@ func main() {
 	r.HandleFunc("/submitC", backend.SubmitC)
 	r.PathPrefix("/verdict/subID=").HandlerFunc(backend.Verdict)
 	r.PathPrefix("/rejudge/subID=").HandlerFunc(backend.Rejudge)
-	r.PathPrefix("/listRank").HandlerFunc(backend.GetRankList)
+	// r.PathPrefix("/listRank").HandlerFunc(backend.GetRankList)
 	r.HandleFunc("/listContest", backend.GetContestList)
 	r.PathPrefix("/problemSet/").HandlerFunc(backend.GetProblemSet)
 	r.PathPrefix("/dataContest/").HandlerFunc(backend.GetContestData)
@@ -72,6 +71,9 @@ func main() {
 
 	// A Custom Page Not Found route
 	r.NotFoundHandler = http.HandlerFunc(backend.PageNotFound)
+
+	// printing a message for displaying that local server is running
+	fmt.Println("Local Server is running...")
 
 	// for localhost server
 	http.ListenAndServe(":8080", r)
