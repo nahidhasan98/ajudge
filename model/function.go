@@ -102,7 +102,7 @@ func SendMail(email, username, link, resetType string) {
 	mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
 	body.Write([]byte(fmt.Sprintf("From: Ajudge Team \nSubject: %s \nTo:%s \n%s\n\n", subject, email, mimeHeaders)))
 
-	Tpl.ExecuteTemplate(&body, "sendMail.gohtml", struct {
+	Tpl.ExecuteTemplate(&body, "mail.gohtml", struct {
 		Username, Link, Description1, Description2, ButtonText string
 	}{
 		Username:     username,
