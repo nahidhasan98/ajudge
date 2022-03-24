@@ -43,7 +43,7 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 	//preparing data for POST Request
 	postData := url.Values{
 		"language": {language},
-		"share":    {"0"},
+		"open":     {"0"},
 		"source":   {source},
 		"captcha":  {""},
 		"oj":       {OJ},
@@ -83,16 +83,17 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 		w.Write(b)
 		logger.Warn("80: vjudge submission: submission res error", time.Now())
 		return
-	} else if res.RunID == 0 {
-		model.ErrorType = res.Error
-		model.PopUpCause = "submissionErrorCustom"
-		//http.Redirect(w, r, model.LastPage, http.StatusSeeOther)
-		w.Header().Set("Content-Type", "application/json")
-		b, _ := json.Marshal("Something went Wrong. Try again.")
-		w.Write(b)
-		logger.Warn("86: vjudge submission: submission res runid 0", time.Now())
-		return
 	}
+	// else if res.RunID == 0 {
+	// 	model.ErrorType = res.Error
+	// 	model.PopUpCause = "submissionErrorCustom"
+	// 	//http.Redirect(w, r, model.LastPage, http.StatusSeeOther)
+	// 	w.Header().Set("Content-Type", "application/json")
+	// 	b, _ := json.Marshal("Something went Wrong. Try again.")
+	// 	w.Write(b)
+	// 	logger.Warn("86: vjudge submission: submission res runid 0", time.Now())
+	// 	return
+	// }
 	//fmt.Println(res.RunID)
 	//got submission ID
 

@@ -48,14 +48,15 @@ func ProbDes(OJ, pNum string) (string, bool, int) {
 			Content string `json:"content"`
 		}
 		type limitation struct {
-			Properties  []properties `json:"properties"`
-			AllowSubmit bool         `json:"allowSubmit"`
-			Status      int          `json:"status"`
+			Properties     []properties `json:"properties"`
+			AllowBotSubmit bool         `json:"allowBotSubmit"`
+			Status         int          `json:"status"`
+			// Languages      int          `json:"languages"`
 		}
 		var limit limitation
 		json.Unmarshal([]byte(resProperties), &limit)
 
-		allowSubmit = limit.AllowSubmit
+		allowSubmit = limit.AllowBotSubmit
 		status = limit.Status
 
 		//some problem has 1(time/memory/source) limit, some has 2(time,memory) limits, some has 3(time,memory,source) limits
