@@ -47,8 +47,8 @@ function process() {
 
             dataCreate += `<tr style="border-bottom:1px solid #bedef4;">`;
 
-            if (subHistoryList[i].Verdict == "Accepted") { //color for accepted verdict
-                dataCreate += `<td style="width:50%; text-align:center;padding: 3px 0px;color:#22aa71">` + subHistoryList[i].Verdict + `</td>`;
+            if (subHistoryList[i].Verdict == "Accepted" || subHistoryList[i].Verdict == "Passed" || subHistoryList[i].Verdict == "Happy New Year!") { //color for accepted verdict
+                dataCreate += `<td style="width:50%; text-align:center;padding: 3px 0px;color:#1d9563">` + subHistoryList[i].Verdict + `</td>`;
             } else {
                 dataCreate += `<td style="width:50%; text-align:center;padding: 3px 0px;color:#de3b3b;">` + subHistoryList[i].Verdict + `</td>`;
             }
