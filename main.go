@@ -60,7 +60,7 @@ func main() {
 	r.HandleFunc("/listContest", backend.GetContestList)
 	r.PathPrefix("/problemSet/").HandlerFunc(backend.GetProblemSet)
 	r.PathPrefix("/dataContest/").HandlerFunc(backend.GetContestData)
-	// r.PathPrefix("/captcha/").HandlerFunc(backend.GetCaptcha)
+	r.PathPrefix("/captcha/").HandlerFunc(backend.GetCaptcha)
 	r.HandleFunc("/getCombinedStandings", backend.GetCombinedStandings)
 
 	// for testing any piece of code (Not essential for this site)
