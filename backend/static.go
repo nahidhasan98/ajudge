@@ -3,14 +3,11 @@ package backend
 import (
 	"html"
 	"net/http"
-	"net/smtp"
 	"os"
 	"strings"
 
 	"github.com/nahidhasan98/ajudge/discord"
-	"github.com/nahidhasan98/ajudge/errorhandling"
 	"github.com/nahidhasan98/ajudge/model"
-	"github.com/nahidhasan98/ajudge/vault"
 )
 
 //Index function for Homepage
@@ -79,21 +76,23 @@ func Contact(w http.ResponseWriter, r *http.Request) {
 		email := html.EscapeString(strings.TrimSpace(r.FormValue("mailEmail")))
 		message := html.EscapeString(strings.TrimSpace(r.FormValue("mailMessage")))
 
-		//sending mail to our email
-		auth := smtp.PlainAuth("", vault.GmailUsername, vault.GmailPassword, "smtp.gmail.com")
-		to := []string{"mnh.nahid35@gmail.com"}
+		// pause mail temporarily for stop spam
 
-		var msg = []byte("From: " + name + "\r\n" +
-			"To: mnh.nahid35@gmail.com \r\n" +
-			"Subject: Ajudge User Feedback\r\n" +
-			"Cc: mugdo1997@gmail.com \r\n" +
-			"\r\n" +
-			"Sender's Name: " + name + "\r\n" +
-			"Sender's Email: " + email + "\r\n" +
-			"Message: " + message)
+		// //sending mail to our email
+		// auth := smtp.PlainAuth("", vault.GmailUsername, vault.GmailPassword, "smtp.gmail.com")
+		// to := []string{"mnh.nahid35@gmail.com"}
 
-		err := smtp.SendMail("smtp.gmail.com:587", auth, "", to, msg)
-		errorhandling.Check(err)
+		// var msg = []byte("From: " + name + "\r\n" +
+		// 	"To: mnh.nahid35@gmail.com \r\n" +
+		// 	"Subject: Ajudge User Feedback\r\n" +
+		// 	"Cc: mugdo1997@gmail.com \r\n" +
+		// 	"\r\n" +
+		// 	"Sender's Name: " + name + "\r\n" +
+		// 	"Sender's Email: " + email + "\r\n" +
+		// 	"Message: " + message)
+
+		// err := smtp.SendMail("smtp.gmail.com:587", auth, "", to, msg)
+		// errorhandling.Check(err)
 
 		model.PopUpCause = "userFeedback"
 		http.Redirect(w, r, "/contact", http.StatusSeeOther)
