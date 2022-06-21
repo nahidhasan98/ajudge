@@ -996,6 +996,24 @@ pre[class*=language-] {
     margin-bottom: 10px;
 }
 
+.vjudge_sample {
+    border: 1px solid #222;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.vjudge_sample td,
+.vjudge_sample th {
+    border: 1px solid #222;
+    padding: 5px;
+    vertical-align: top;
+}
+
+.vjudge_sample td {
+    background: hsla(0, 0%, 100%, .5);
+}
+
 /* VJudge Part End */
 
 #homepageTable {
