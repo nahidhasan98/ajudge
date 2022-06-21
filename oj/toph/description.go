@@ -21,7 +21,7 @@ func ProbDes(pNum string) string {
 	//defining a variable for returning data
 	var TophDes string
 
-	apiURL := "https://toph.co/p/" + pNum
+	apiURL := "https://toph.co/p/" + pNum + ".html"
 	response := GETRequest(apiURL)
 	defer response.Body.Close()
 	document, err := goquery.NewDocumentFromReader(response.Body)
@@ -48,7 +48,7 @@ func ProbDes(pNum string) string {
 
 		//removing extra text from problem caption
 		TophDes = removeCaption(TophDes, `<span class="artifact__caption">`, `</span>`, 7) //7 character in </span>
-		TophDes = removeCaption(TophDes, `<div>`, `</div>`, 6)                             //7 character in </span>
+		TophDes = removeCaption(TophDes, `<div`, `</div>`, 6)                              //7 character in </span>
 		// TophDes = removeCaption(TophDes, `<span class="caption">`, `</span>`, 7) //7 character in </span>
 		// TophDes = removeCaption(TophDes, `<div><span class="text-muted">`, `</div>`, 6)
 		// TophDes = removeCaption(TophDes, `<div><span title=`, `</div>`, 6)
