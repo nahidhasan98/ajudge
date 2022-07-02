@@ -32,7 +32,7 @@ func GetLanguage(w http.ResponseWriter, r *http.Request) {
 
 	//first collecting language list for this OJ_problem from the website directly
 	if OJ == "URI" {
-		apiURL := "https://www.urionlinejudge.com.br/judge/en/problems/view/" + pNum
+		apiURL := "https://www.beecrowd.com.br/judge/en/problems/view/" + pNum
 		response := uri.GETRequest(apiURL)
 		defer response.Body.Close()
 

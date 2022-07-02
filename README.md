@@ -9,7 +9,7 @@ This includes:
 - Toph
 
 We are also working to add a popular online Judge which is:
-- URI
+- URI/beecrowd
 
 And finally we are adding an existing virtual judge which is:
 - VJudge

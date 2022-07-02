@@ -58,7 +58,7 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 	}
 
 	//submitting to URI
-	apiURL := "https://www.urionlinejudge.com.br/judge/en/runs/add"
+	apiURL := "https://www.beecrowd.com.br/judge/en/runs/add"
 	req, _ := http.NewRequest("POST", apiURL, strings.NewReader(postData.Encode()))
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
 	req.Header.Add("Content-Length", strconv.Itoa(len(postData.Encode())))
@@ -77,7 +77,7 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 	//subbmission done
 
 	//getting submission ID
-	apiURL = "https://www.urionlinejudge.com.br/judge/en/runs?problem_id=" + pNum + "&language_id=" + language
+	apiURL = "https://www.beecrowd.com.br/judge/en/runs?problem_id=" + pNum + "&language_id=" + language
 	response = GETRequest(apiURL)
 	defer response.Body.Close()
 
@@ -96,7 +96,7 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 	var actualSubID string
 	for i := 0; i < len(subIDList); i++ {
 		//getting submitted code one by one with collected subIDList
-		apiURL := "https://www.urionlinejudge.com.br/judge/en/runs/code/" + subIDList[i]
+		apiURL := "https://www.beecrowd.com.br/judge/en/runs/code/" + subIDList[i]
 		response := GETRequest(apiURL)
 		defer response.Body.Close()
 

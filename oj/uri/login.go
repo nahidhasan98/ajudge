@@ -16,7 +16,7 @@ func Login() string {
 	defer errorhandling.Recovery() //for panic() error Recovery
 
 	//checking if already logged in or not
-	apiURL := "https://www.urionlinejudge.com.br/judge/en"
+	apiURL := "https://www.beecrowd.com.br/judge/en"
 	response := GETRequest(apiURL)
 	defer response.Body.Close()
 
@@ -27,7 +27,7 @@ func Login() string {
 	resp := document.Find("div[class='h-user']").Find("i").Text()
 
 	if resp != "ajudge.bd@gmail.com" { //if not already logged in - then try to login
-		apiURL := "https://www.urionlinejudge.com.br/judge/en/login"
+		apiURL := "https://www.beecrowd.com.br/judge/en/login"
 		response := GETRequest(apiURL)
 		defer response.Body.Close()
 

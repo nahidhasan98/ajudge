@@ -227,7 +227,7 @@ func Origin(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, model.POrigin, http.StatusSeeOther)
 		return
 	} else if OJ == "URI" {
-		model.POrigin = "https://www.urionlinejudge.com.br/judge/en/problems/view/" + pNum
+		model.POrigin = "https://www.beecrowd.com.br/judge/en/problems/view/" + pNum
 
 		//checking wheather this problem exist or not
 		response := uri.GETRequest(model.POrigin)

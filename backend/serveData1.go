@@ -405,7 +405,7 @@ func Verdict(w http.ResponseWriter, r *http.Request) {
 		}
 		//URI login success
 
-		apiURL := "https://www.urionlinejudge.com.br/judge/en/runs/code/" + submissionData.VID
+		apiURL := "https://www.beecrowd.com.br/judge/en/runs/code/" + submissionData.VID
 		response := uri.GETRequest(apiURL)
 		defer response.Body.Close()
 
@@ -631,7 +631,7 @@ func Rejudge(w http.ResponseWriter, r *http.Request) {
 		}
 		//URI login success
 
-		apiURL := "https://www.urionlinejudge.com.br/judge/en/runs/code/" + submissionData.VID
+		apiURL := "https://www.beecrowd.com.br/judge/en/runs/code/" + submissionData.VID
 		response := uri.GETRequest(apiURL)
 		defer response.Body.Close()
 
