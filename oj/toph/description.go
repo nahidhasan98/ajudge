@@ -27,7 +27,7 @@ func ProbDes(pNum string) string {
 	document, err := goquery.NewDocumentFromReader(response.Body)
 	errorhandling.Check(err)
 
-	model.PTitle = document.Find("span[class='artifact__caption']").Find("h1").Text()
+	model.PTitle = document.Find("div[class='artifact']").Find("h1").Text()
 
 	if model.PTitle != "" { //if desired problem exist
 		timeMemoryMixed := document.Find("span[class='dotted']").Text()
