@@ -6,11 +6,14 @@ import (
 	"os"
 	"strings"
 
+	"github.com/nahidhasan98/ajudge/db"
 	"github.com/nahidhasan98/ajudge/discord"
 	"github.com/nahidhasan98/ajudge/model"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
-//Index function for Homepage
+// Index function for Homepage
 func Index(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 
@@ -35,7 +38,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	model.Info["PopUpCause"] = model.PopUpCause
 }
 
-//About funtcion for about page
+// About funtcion for about page
 func About(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 
@@ -50,7 +53,7 @@ func About(w http.ResponseWriter, r *http.Request) {
 	model.Tpl.ExecuteTemplate(w, "about.gohtml", model.Info)
 }
 
-//Contact funtion for contact page
+// Contact funtion for contact page
 func Contact(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 
@@ -75,6 +78,25 @@ func Contact(w http.ResponseWriter, r *http.Request) {
 		name := html.EscapeString(strings.TrimSpace(r.FormValue("mailName")))
 		email := html.EscapeString(strings.TrimSpace(r.FormValue("mailEmail")))
 		message := html.EscapeString(strings.TrimSpace(r.FormValue("mailMessage")))
+
+		// connecting to DB
+		DB, ctx, cancel := db.Connect()
+		defer cancel()
+		defer DB.Client().Disconnect(ctx)
+
+		// taking DB collection/table to a variable
+		userCollection := DB.Collection("user")
+
+		// retrieving data from DB
+		var userData model.UserData
+		err := userCollection.FindOne(ctx, bson.M{"email": email, "isVerified": true}).Decode(&userData)
+
+		// if email not verified then reject
+		if err == mongo.ErrNoDocuments {
+			model.PopUpCause = "userFeedbackReject"
+			http.Redirect(w, r, "/contact", http.StatusSeeOther)
+			return
+		}
 
 		// pause mail temporarily for stop spam
 
@@ -110,7 +132,7 @@ func Contact(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//PageNotFound function for bad URL handling
+// PageNotFound function for bad URL handling
 func PageNotFound(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	errorPage(w, http.StatusNotFound)
