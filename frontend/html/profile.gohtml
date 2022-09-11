@@ -9,10 +9,12 @@
                 <td class="colLeft">Full Name</td>
                 <td>: {{.FullName}}</td>
             </tr>
-            <tr>
-                <td class="colLeft">Email</td>
-                <td>: {{.Email}}</td>
-            </tr>
+            {{ if .Self }}
+                <tr>
+                    <td class="colLeft">Email</td>
+                    <td>: {{.Email}}</td>
+                </tr>
+            {{ end }}
             <tr>
                 <td class="colLeft">Account Created At</td>
                 <td>: {{.CreatedAt}}</td>
