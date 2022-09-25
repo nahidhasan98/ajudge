@@ -601,7 +601,7 @@ func SubmitC(w http.ResponseWriter, r *http.Request) {
 			pNum = strconv.Itoa(pNumInt)
 
 			//checking for problem exist or not
-			apiURL := "https://www.urionlinejudge.com.br/judge/en/problems/view/" + pNum
+			apiURL := "https://www.beecrowd.com.br/judge/en/problems/view/" + pNum
 			response := uri.GETRequest(apiURL)
 			defer response.Body.Close()
 

@@ -130,6 +130,14 @@
             <a class="close-btn popup-close" href="#">x</a>
         </div>
     </div>
+    {{ else if eq .PopUpCause "userFeedbackReject" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h3>Feedback Rejected!</h3>
+            <h3>Currently we are receiving feedback only from our verified registered user to prevent spam.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
     {{ else if eq .PopUpCause "contestCreated" }}
     <div class="popup-wrap">
         <div class="popup-box">

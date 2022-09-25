@@ -24,7 +24,7 @@ func ProbDes(pNum string) string {
 	pNum = strconv.Itoa(tempPNum)
 
 	//getting problem description
-	apiURL := "https://www.urionlinejudge.com.br/judge/en/problems/view/" + pNum
+	apiURL := "https://www.beecrowd.com.br/judge/en/problems/view/" + pNum
 	response := GETRequest(apiURL)
 	defer response.Body.Close()
 
@@ -32,7 +32,7 @@ func ProbDes(pNum string) string {
 	errorhandling.Check(err)
 	pDesSrcURI, _ := document.Find("iframe").Attr("src") //this is prob description source
 
-	apiURL = "https://www.urionlinejudge.com.br/" + pDesSrcURI
+	apiURL = "https://www.beecrowd.com.br/" + pDesSrcURI
 	response = GETRequest(apiURL)
 	defer response.Body.Close()
 
@@ -55,7 +55,7 @@ func ProbDes(pNum string) string {
 		//got Title,TimeLimit,Description
 
 		//Getting Memory Limit
-		apiURL := "https://www.urionlinejudge.com.br/judge/en/problems/view/" + pNum
+		apiURL := "https://www.beecrowd.com.br/judge/en/problems/view/" + pNum
 		response := GETRequest(apiURL)
 		defer response.Body.Close()
 

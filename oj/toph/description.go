@@ -27,7 +27,7 @@ func ProbDes(pNum string) string {
 	document, err := goquery.NewDocumentFromReader(response.Body)
 	errorhandling.Check(err)
 
-	model.PTitle = document.Find("span[class='artifact__caption']").Find("h1").Text()
+	model.PTitle = document.Find("div[class='artifact']").Find("h1").Text()
 
 	if model.PTitle != "" { //if desired problem exist
 		timeMemoryMixed := document.Find("span[class='dotted']").Text()
@@ -47,8 +47,8 @@ func ProbDes(pNum string) string {
 		TophDes, _ = document.Find("div[class='artifact']").Html()
 
 		//removing extra text from problem caption
-		TophDes = removeCaption(TophDes, `<span class="artifact__caption">`, `</span>`, 7) //7 character in </span>
-		TophDes = removeCaption(TophDes, `<div`, `</div>`, 6)                              //7 character in </span>
+		TophDes = removeCaption(TophDes, `<h1>`, `</h1>`, 5)  // 5 character in </h1>
+		TophDes = removeCaption(TophDes, `<div`, `</div>`, 6) // 6 character in </div>
 		// TophDes = removeCaption(TophDes, `<span class="caption">`, `</span>`, 7) //7 character in </span>
 		// TophDes = removeCaption(TophDes, `<div><span class="text-muted">`, `</div>`, 6)
 		// TophDes = removeCaption(TophDes, `<div><span title=`, `</div>`, 6)

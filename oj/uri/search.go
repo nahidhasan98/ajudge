@@ -16,7 +16,7 @@ func Search(sQuery string) []model.ProblemList {
 	var problemList []model.ProblemList
 
 	sQuery = strings.ReplaceAll(sQuery, ` `, `+`) //making a valid query like: leap year => leap+year
-	apiURL := "https://www.urionlinejudge.com.br/judge/en/search?q=" + sQuery + "&for=problems"
+	apiURL := "https://www.beecrowd.com.br/judge/en/search?q=" + sQuery + "&for=problems"
 	response := GETRequest(apiURL)
 	defer response.Body.Close()
 
