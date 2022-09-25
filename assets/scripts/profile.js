@@ -127,7 +127,7 @@ function showSubmission(activePage) {
                         <td>`+ tempList[i].Language + `</td>
                         <td>`+ formattedTime + `</td>`
 
-            if (self == "true") {
+            if (self == "true" || $("#name").text().trim() == "admin") {
                 dataCreate += `<td><button onclick="displayCode(` + i + `)" data-toggle="modal" data-target="#modal">View Code</button></td>`
             }
             dataCreate += `</tr>`

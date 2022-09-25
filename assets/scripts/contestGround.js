@@ -228,7 +228,7 @@ function displaySubmissionList() {
             <td>`+ cSubmissionList[i].Language + `</td>
             <td>`+ formattedTime + `</td>`
 
-            if ($('#contestUser').text().trim() == cSubmissionList[i].Username || $('#contestUser').text().trim() == $('#contestAuthor').text().trim()) {
+            if ($('#contestUser').text().trim() == "admin" || $('#contestUser').text().trim() == cSubmissionList[i].Username || $('#contestUser').text().trim() == $('#contestAuthor').text().trim()) {
                 dataCreate += `<td><button onclick="displayCode(` + i + `)" data-toggle="modal" data-target="#modal">View Code</button></td>`
             } else {
                 dataCreate += `<td><button disabled style="opacity: 50%;color: black;cursor: default;">View Code</button></td>`

@@ -93,7 +93,7 @@
                 <th>Memory</th>
                 <th>Language</th>
                 <th>Submitted At</th>
-                {{ if .Self }}
+                {{ if or (.Self) (eq .Username "admin") }}
                 <th>Source Code</th>
                 {{ end }}
             </tr>

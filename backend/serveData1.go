@@ -28,7 +28,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-//CheckDB function for checking username/email already exist or not in DB
+// CheckDB function for checking username/email already exist or not in DB
 func CheckDB(w http.ResponseWriter, r *http.Request) {
 	var username, email string
 	usernameList := r.URL.Query()["username"]
@@ -78,7 +78,7 @@ func CheckDB(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
-//ProblemList function for searching problem from OJ
+// ProblemList function for searching problem from OJ
 func ProblemList(w http.ResponseWriter, r *http.Request) {
 	OJList := r.URL.Query()["OJ"]
 	pNumList := r.URL.Query()["pNum"]
@@ -189,7 +189,7 @@ func singleSearch(OJ, pNum, pName string) []model.ProblemList {
 	return pListFinal
 }
 
-//GetUserSubmission function for grabbing all submissions of a user
+// GetUserSubmission function for grabbing all submissions of a user
 func GetUserSubmission(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	user := strings.TrimPrefix(path, "/userSubmission/")
@@ -234,7 +234,7 @@ func GetUserSubmission(w http.ResponseWriter, r *http.Request) {
 
 		//checking if this user is appropriate to see the source code or not
 		session, _ := model.Store.Get(r, "mysession")
-		if temp.Username != session.Values["username"] { //source code will be provided to the correct owner only
+		if session.Values["username"] != "admin" && temp.Username != session.Values["username"] { //source code will be provided to the correct owner only and admin
 			temp.SourceCode = ""
 		}
 
@@ -293,7 +293,7 @@ func GetUserSubmission(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
-//Verdict function for collecting verdict from OJ
+// Verdict function for collecting verdict from OJ
 func Verdict(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	subIDText := strings.TrimPrefix(path, "/verdict/subID=")
@@ -519,7 +519,7 @@ func Verdict(w http.ResponseWriter, r *http.Request) {
 	discord.EditMessage(disData, "submission")
 }
 
-//Rejudge function for rejudging verdict from OJ
+// Rejudge function for rejudging verdict from OJ
 func Rejudge(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	subIDText := strings.TrimPrefix(path, "/rejudge/subID=")
@@ -779,7 +779,7 @@ func Rejudge(w http.ResponseWriter, r *http.Request) {
 	discord.EditMessage(disData, "submission")
 }
 
-//SubHistory function for retrieving User's previous submission history of a specific problem
+// SubHistory function for retrieving User's previous submission history of a specific problem
 func SubHistory(w http.ResponseWriter, r *http.Request) {
 	OJList := r.URL.Query()["OJ"]
 	pNumList := r.URL.Query()["pNum"]
@@ -828,7 +828,7 @@ func SubHistory(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
-//GetCaptcha function for confirming captcha correct or not
+// GetCaptcha function for confirming captcha correct or not
 func GetCaptcha(w http.ResponseWriter, r *http.Request) {
 	captchaUser := strings.TrimPrefix(r.URL.Path, "/captcha/")
 	apiURL := "https://www.google.com/recaptcha/api/siteverify"

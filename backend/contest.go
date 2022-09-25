@@ -26,7 +26,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-//Contest function for retrieving contest list
+// Contest function for retrieving contest list
 func Contest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	model.LastPage = r.URL.Path
@@ -46,7 +46,7 @@ func Contest(w http.ResponseWriter, r *http.Request) {
 	model.Info["PopUpCause"] = model.PopUpCause
 }
 
-//GetContestList function for retrieving contest list
+// GetContestList function for retrieving contest list
 func GetContestList(w http.ResponseWriter, r *http.Request) {
 	//connecting to DB
 	DB, ctx, cancel := db.Connect()
@@ -80,7 +80,7 @@ func GetContestList(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
-//CreateContest function for creating new contest
+// CreateContest function for creating new contest
 func CreateContest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	session, _ := model.Store.Get(r, "mysession")
@@ -192,7 +192,7 @@ func CreateContest(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//ContestUpadte function for updating contest data if author want to
+// ContestUpadte function for updating contest data if author want to
 func ContestUpadte(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	session, _ := model.Store.Get(r, "mysession")
@@ -310,7 +310,7 @@ func ContestUpadte(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//ContestGround function for contest arena
+// ContestGround function for contest arena
 func ContestGround(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	model.LastPage = r.URL.Path
@@ -379,7 +379,7 @@ func ContestGround(w http.ResponseWriter, r *http.Request) {
 	model.Tpl.ExecuteTemplate(w, "contestGround.gohtml", model.Info)
 }
 
-//GetProblemSet funtion for getting a single problem description of a contest
+// GetProblemSet funtion for getting a single problem description of a contest
 func GetProblemSet(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 
@@ -503,7 +503,7 @@ func GetProblemSet(w http.ResponseWriter, r *http.Request) {
 	model.Tpl.ExecuteTemplate(w, "problemSet.gohtml", model.Info)
 }
 
-//SubmitC function for submitting a problem solution for contest
+// SubmitC function for submitting a problem solution for contest
 func SubmitC(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		contestIDSerialIndex := r.FormValue("conIDSerial")
@@ -646,7 +646,7 @@ func SubmitC(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//GetContestData function for getting contest data link submissions information
+// GetContestData function for getting contest data link submissions information
 func GetContestData(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	contestIDStr := strings.TrimPrefix(path, "/dataContest/")
@@ -715,7 +715,7 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 
 		//checking if this user is appropriate to see the source code or not
 		//source code will be provided to the correct owner and the contest author
-		if (temp.Username != session.Values["username"]) && (dbQuery2.Author != session.Values["username"]) {
+		if (session.Values["username"] != "admin") && (temp.Username != session.Values["username"]) && (dbQuery2.Author != session.Values["username"]) {
 			temp.SourceCode = ""
 		}
 
