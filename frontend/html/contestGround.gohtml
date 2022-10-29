@@ -92,6 +92,9 @@
             <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab" style="min-height: 50vh;overflow:auto;">
                 <table class="table" id="overviewTable" style="text-align: center;">
                     <tr>
+                        {{ if (or (eq .RunningStatus "AfterContest") (eq .Username .ContestData.Author) (eq .Username "admin")) }}
+                            <th>Problem Origin</th>
+                        {{ end }}
                         <th>Number</th>
                         <th>Problem</th>
                         <th>Overall Solved/Submission</th>
@@ -99,6 +102,12 @@
                     </tr>
                     {{ range .ContestData.ProblemSet }}
                     <tr>
+                        {{ if (or (eq $.RunningStatus "AfterContest") (eq $.Username $.ContestData.Author) (eq $.Username "admin")) }}
+                            <td>
+                                {{ $origin := (printf "/origin/%s-%s" .OJ .PNum) }}
+                                <a href="{{ $origin }}" target="_blank">{{ .OJ }} - {{ .PNum }}</a>
+                            </td>
+                        {{ end }}
                         <td>
                             <a class="goto{{ .SerialIndex }}" href="#problems{{ .SerialIndex }}">{{ .SerialIndex }}</a>
                         </td>
