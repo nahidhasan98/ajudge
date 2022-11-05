@@ -1,3 +1,6 @@
+- clone a contest
+- show contest submission at contest submission list even contest is finished
+- rank list frozen
 - problem srvice seperate
 - contest service seperate
 - make a beautiful layout
