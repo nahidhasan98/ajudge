@@ -12,3 +12,6 @@ ajudge
 
 # log files
 /log/*
+
+# docker mongodata
+/mongodata/*
