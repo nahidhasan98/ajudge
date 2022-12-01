@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodata:/data/db # the mongodata folder will be created at / location
+
+  ajudge:
+    build: . # docker image will be created/built first, then that image will be used
+    image: ajudge # this will be image name
+    container_name: ajudge # a container will be created with this name
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb # our database service
