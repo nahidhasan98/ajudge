@@ -14,4 +14,4 @@ ajudge
 /log/*
 
 # docker mongodata
-/mongodata/*
+/mongodata
