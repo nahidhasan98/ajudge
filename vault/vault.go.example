@@ -1,103 +1,45 @@
 package vault
 
 var (
-	// DatabaseName variable
-	DatabaseName string
-	// DatabaseUsername variable
-	DatabaseUsername string
-	// DatabasePassword variable
-	DatabasePassword string
-	// DatabaseConnectionString variable
-	DatabaseConnectionString string
+	// admin user pass : "a@admin"
 
-	// GmailUsername variable
-	GmailUsername string
-	// GmailPassword variable
-	GmailPassword string
+	DatabaseName             string = ""
+	DatabaseUsername         string = ""
+	DatabasePassword         string = ""
+	DatabaseConnectionString string = ""
 
-	// DimikOJUsername variable
-	DimikOJUsername string
-	// DimikOJPassword variable
-	DimikOJPassword string
+	GmailUsername string = ""
+	GmailPassword string = ""
 
-	// TophUsername variable
-	TophUsername string
-	// TophPassword variable
-	TophPassword string
+	DimikOJUsername string = ""
+	DimikOJPassword string = ""
 
-	// URIUsername variable
-	URIUsername string
-	// URIPassword variable
-	URIPassword string
+	TophUsername string = ""
+	TophPassword string = ""
 
-	// VJudgeUsername variable
-	VJudgeUsername string
-	// VJudgePassword variable
-	VJudgePassword string
+	URIUsername string = ""
+	URIPassword string = ""
 
-	// CaptchaKey variable
-	CaptchaKey string
+	VJudgeUsername string = ""
+	VJudgePassword string = ""
 
-	// discord webhook variable
-	WebhookIDSub    string
-	WebhookTokenSub string
+	CaptchaKey string = ""
 
-	WebhookIDLogin    string
-	WebhookTokenLogin string
+	WebhookIDSub    string = ""
+	WebhookTokenSub string = ""
 
-	WebhookIDReg    string
-	WebhookTokenReg string
+	WebhookIDLogin    string = ""
+	WebhookTokenLogin string = ""
 
-	WebhookIDContest    string
-	WebhookTokenContest string
+	WebhookIDReg    string = ""
+	WebhookTokenReg string = ""
 
-	WebhookIDReset    string
-	WebhookTokenReset string
+	WebhookIDContest    string = ""
+	WebhookTokenContest string = ""
 
-	WebhookIDFeedback    string
-	WebhookTokenFeedback string
+	WebhookIDReset    string = ""
+	WebhookTokenReset string = ""
+
+	WebhookIDFeedback    string = ""
+	WebhookTokenFeedback string = ""
 )
-
-func init() {
-	// Assigning the credentials to the variables
-
-	DatabaseName = "DBName"
-	DatabaseUsername = "username"
-	DatabasePassword = "password"
-	DatabaseConnectionString = "DBConnectionString"
-
-	GmailUsername = "username"
-	GmailPassword = "password"
-
-	DimikOJUsername = "username"
-	DimikOJPassword = "password"
-
-	TophUsername = "username"
-	TophPassword = "password"
-
-	URIUsername = "username"
-	URIPassword = "password"
-
-	VJudgeUsername = "username"
-	VJudgePassword = "password"
-
-	CaptchaKey = "captchaKey"
-
-	WebhookIDSub = "webhookID"
-	WebhookTokenSub = "webhookToken"
-
-	WebhookIDLogin = "webhookID"
-	WebhookTokenLogin = "webhookToken"
-
-	WebhookIDReg = "webhookID"
-	WebhookTokenReg = "webhookToken"
-
-	WebhookIDContest = "webhookID"
-	WebhookTokenContest = "webhookToken"
-
-	WebhookIDReset = "webhookID"
-	WebhookTokenReset = "webhookToken"
-
-	WebhookIDFeedback = "webhookID"
-	WebhookTokenFeedback = "webhookToken"
-}
