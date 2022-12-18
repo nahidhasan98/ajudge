@@ -111,6 +111,7 @@ func CreateContest(w http.ResponseWriter, r *http.Request) {
 		contestDate := r.FormValue("contestDate") //this format: 2020-12-31
 		contestTime := r.FormValue("contestTime") //this format: 23:59
 		contestDuration := r.FormValue("contestDuration")
+		contestFrozenTime := r.FormValue("contestFrozenTime")
 		clientTZOffset, _ := strconv.Atoi(r.FormValue("timeZoneOffset"))
 
 		//currentTime := time.Now()
@@ -164,6 +165,7 @@ func CreateContest(w http.ResponseWriter, r *http.Request) {
 			Time:           contestTime,
 			StartAt:        contestStartAt,
 			Duration:       contestDuration,
+			FrozenTime:     contestFrozenTime,
 			Author:         session.Values["username"].(string),
 			ProblemSet:     probSetData,
 			Clarifications: []model.Clarification{},
@@ -262,6 +264,7 @@ func ContestUpadte(w http.ResponseWriter, r *http.Request) {
 		//getting form data
 		contestTitle := r.FormValue("contestTitle")
 		contestDuration := r.FormValue("contestDuration")
+		contestFrozenTime := r.FormValue("contestFrozenTime")
 
 		var probSetData []model.ProblemSet
 
@@ -288,6 +291,7 @@ func ContestUpadte(w http.ResponseWriter, r *http.Request) {
 			{Key: "$set", Value: bson.D{
 				{Key: "title", Value: contestTitle},
 				{Key: "duration", Value: contestDuration},
+				{Key: "frozenTime", Value: contestFrozenTime},
 				{Key: "problemSet", Value: probSetData},
 			}},
 		}
@@ -690,6 +694,7 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 		CompilationError int
 		Verdict          string
 		AcceptedAt       int64
+		IsHidden         bool
 	}
 	type contestant struct {
 		Username    string
@@ -721,6 +726,14 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 
 		//no need to send OJ & pNum to frontend of a contest
 		temp.OJ, temp.PNum = "", ""
+
+		// for frozen rank list, limit the audience
+		if (session.Values["username"] != dbQuery2.Author) && (session.Values["username"] != "admin") && (session.Values["username"] != temp.Username) && isFrozenSubmission(dbQuery2.StartAt, getUnixTime(dbQuery2.Duration), getUnixTime(dbQuery2.FrozenTime), temp.SubmittedAt) {
+			temp.SourceCode = ""
+			temp.Verdict = "frozen"
+			temp.MemoryExec = ""
+			temp.TimeExec = ""
+		}
 
 		//for submission list
 		cSubmissionList = append(cSubmissionList, temp)
@@ -778,6 +791,7 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 			temp.CompilationError = 0
 			temp.Verdict = ""
 			temp.AcceptedAt = 0
+			temp.IsHidden = false
 
 			problemSet[index] = temp
 		}
@@ -786,46 +800,53 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 				tempSerial := cSubmissionList[j].SerialIndex
 				tempVerdict := cSubmissionList[j].Verdict
 
-				if problemSet[tempSerial].Verdict != "Accepted" { //for AC submission, only count the first accepted submission
-					if cSubmissionList[j].TerminalVerdict { //if got final verdict - not in queue/judging
-						if tempVerdict == "Accepted" {
-							//setting up temp problemSet
-							var temp subDetails
-							temp.SerialIndex = tempSerial
-							temp.Penalty = problemSet[tempSerial].Penalty
-							temp.CompilationError = problemSet[tempSerial].CompilationError
-							temp.Verdict = cSubmissionList[j].Verdict        //verdict will be set to "Accepted"
-							temp.AcceptedAt = cSubmissionList[j].SubmittedAt //submitted time will be set
-							problemSet[tempSerial] = temp
+				// for frozen rank list, limit the audience
+				if (session.Values["username"] != dbQuery2.Author) && (session.Values["username"] != "admin") && (session.Values["username"] != cSubmissionList[j].Username) && isFrozenSubmission(dbQuery2.StartAt, getUnixTime(dbQuery2.Duration), getUnixTime(dbQuery2.FrozenTime), cSubmissionList[j].SubmittedAt) {
+					var temp subDetails
+					temp.IsHidden = true
+					contestantData[i].SubDetails[tempSerial] = temp
+				} else {
+					if problemSet[tempSerial].Verdict != "Accepted" { //for AC submission, only count the first accepted submission
+						if cSubmissionList[j].TerminalVerdict { //if got final verdict - not in queue/judging
+							if tempVerdict == "Accepted" {
+								//setting up temp problemSet
+								var temp subDetails
+								temp.SerialIndex = tempSerial
+								temp.Penalty = problemSet[tempSerial].Penalty
+								temp.CompilationError = problemSet[tempSerial].CompilationError
+								temp.Verdict = cSubmissionList[j].Verdict        //verdict will be set to "Accepted"
+								temp.AcceptedAt = cSubmissionList[j].SubmittedAt //submitted time will be set
+								problemSet[tempSerial] = temp
 
-							//setting up original variable contestantData
-							contestantData[i].SubDetails[tempSerial] = temp //totalSolved & time will be set
-							contestantData[i].TotalSolved++
-							contestantData[i].TotalTime += currentElapsedTime(cSubmissionList[j].SubmittedAt, dbQuery2.StartAt) + int64(problemSet[tempSerial].Penalty*(20*60))
-						} else if tempVerdict == "Compilation Error" || tempVerdict == "Compilation error" || tempVerdict == "Compile Error" || tempVerdict == "Compile error" {
-							//setting up temp problemSet
-							var temp subDetails
-							temp.SerialIndex = tempSerial
-							temp.Penalty = problemSet[tempSerial].Penalty
-							temp.CompilationError = problemSet[tempSerial].CompilationError + 1 //only CompilationError counter will inc by 1
-							temp.Verdict = cSubmissionList[j].Verdict
-							temp.AcceptedAt = cSubmissionList[j].SubmittedAt
-							problemSet[tempSerial] = temp
+								//setting up original variable contestantData
+								contestantData[i].SubDetails[tempSerial] = temp //totalSolved & time will be set
+								contestantData[i].TotalSolved++
+								contestantData[i].TotalTime += currentElapsedTime(cSubmissionList[j].SubmittedAt, dbQuery2.StartAt) + int64(problemSet[tempSerial].Penalty*(20*60))
+							} else if tempVerdict == "Compilation Error" || tempVerdict == "Compilation error" || tempVerdict == "Compile Error" || tempVerdict == "Compile error" {
+								//setting up temp problemSet
+								var temp subDetails
+								temp.SerialIndex = tempSerial
+								temp.Penalty = problemSet[tempSerial].Penalty
+								temp.CompilationError = problemSet[tempSerial].CompilationError + 1 //only CompilationError counter will inc by 1
+								temp.Verdict = cSubmissionList[j].Verdict
+								temp.AcceptedAt = cSubmissionList[j].SubmittedAt
+								problemSet[tempSerial] = temp
 
-							//setting up original variable contestantData
-							contestantData[i].SubDetails[tempSerial] = temp
-						} else { //if wrong answer or vice versa
-							//setting up temp problemSet
-							var temp subDetails
-							temp.SerialIndex = tempSerial
-							temp.Penalty = problemSet[tempSerial].Penalty + 1 //only penalty will inc by 1
-							temp.CompilationError = problemSet[tempSerial].CompilationError
-							temp.Verdict = cSubmissionList[j].Verdict
-							temp.AcceptedAt = cSubmissionList[j].SubmittedAt
-							problemSet[tempSerial] = temp
+								//setting up original variable contestantData
+								contestantData[i].SubDetails[tempSerial] = temp
+							} else { //if wrong answer or vice versa
+								//setting up temp problemSet
+								var temp subDetails
+								temp.SerialIndex = tempSerial
+								temp.Penalty = problemSet[tempSerial].Penalty + 1 //only penalty will inc by 1
+								temp.CompilationError = problemSet[tempSerial].CompilationError
+								temp.Verdict = cSubmissionList[j].Verdict
+								temp.AcceptedAt = cSubmissionList[j].SubmittedAt
+								problemSet[tempSerial] = temp
 
-							//setting up original variable contestantData
-							contestantData[i].SubDetails[tempSerial] = temp
+								//setting up original variable contestantData
+								contestantData[i].SubDetails[tempSerial] = temp
+							}
 						}
 					}
 				}
@@ -853,6 +874,7 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 		"CTotalSubmission": totalSubmission,
 		"CContestantData":  contestantData,
 		"CClarifications":  dbQuery2.Clarifications,
+		"CIsFrozen":        isFrozenSubmission(dbQuery2.StartAt, getUnixTime(dbQuery2.Duration), getUnixTime(dbQuery2.FrozenTime), time.Now().Unix()),
 	}
 	mapB, _ := json.Marshal(mapD)
 	returnData := []byte(mapB)
@@ -863,5 +885,45 @@ func GetContestData(w http.ResponseWriter, r *http.Request) {
 
 func currentElapsedTime(currSubAt, startAt int64) int64 {
 	res := currSubAt - startAt
+	return res
+}
+
+func isFrozenSubmission(startAt, duration, frozenTime, currSubAt int64) bool {
+	if frozenTime == 0 {
+		return false
+	}
+
+	endTime := startAt + duration
+	frozenAt := endTime - frozenTime
+
+	return currSubAt >= frozenAt
+}
+
+func getUnixTime(time string) int64 {
+	var res int64 = 0
+
+	// 01:00 // 999:00
+	timeSize := len(time)
+	index := strings.Index(time, ":")
+
+	if (timeSize == 5 || timeSize == 6) && (index == timeSize-3) {
+		mm := time[timeSize-2:]
+		minute, err := strconv.Atoi(mm)
+		if err != nil {
+			errorhandling.Check(err)
+			minute = 0
+		}
+
+		hh := time[:index]
+		hour, err := strconv.Atoi(hh)
+		if err != nil {
+			errorhandling.Check(err)
+			hour = 0
+		}
+
+		ts := (hour * 60 * 60) + (minute * 60)
+		res = int64(ts)
+	}
+
 	return res
 }

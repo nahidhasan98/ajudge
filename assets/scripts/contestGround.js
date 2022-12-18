@@ -180,6 +180,10 @@ function getContestData() {
             displaySolvedStatus(data.CSolvedStatus, data.CAttempedStatus, data.CTotalSolved, data.CTotalSubmission)
             displayStandings(data.CContestantData);
             displayClarifications(data.CClarifications);
+
+            if (data.CIsFrozen) {
+                $('.frozenAlert').css('display', '');
+            }
         },
         error: function (response) {
             console.log(response);
@@ -216,7 +220,9 @@ function displaySubmissionList() {
                 <td><a class="goto`+ cSubmissionList[i].SerialIndex + `" href="#problems` + cSubmissionList[i].SerialIndex + `">` + cSubmissionList[i].SerialIndex + `</a></td>
                 <td>`+ checkRejudge(cSubmissionList[i].TerminalVerdict, cSubmissionList[i].SubID, i);
 
-            if (cSubmissionList[i].Verdict == "Accepted") {    //color for accepted verdict
+            if (cSubmissionList[i].Verdict == "frozen") {    //color for accepted verdict
+                dataCreate += `<p><img src="../assets/images/what_gray.png" style="width:20px;"></p>`;
+            } else if (cSubmissionList[i].Verdict == "Accepted") {    //color for accepted verdict
                 dataCreate += `<p id="verdict` + i + `" style="color:#1d9563">` + cSubmissionList[i].Verdict + `</p>`;
             } else {
                 dataCreate += `<p id="verdict` + i + `" style="color:#de3b3b">` + cSubmissionList[i].Verdict + `</p>`;
@@ -388,11 +394,14 @@ function displayStandings(contestantData) {
                     if (contestantData[i].SubDetails[serialIndex] != undefined) {
                         //console.log(contestantData[i].SubDetails[serialIndex]);
                         let tempVerdict = contestantData[i].SubDetails[serialIndex].Verdict;
+                        let tempIsHidden = contestantData[i].SubDetails[serialIndex].IsHidden;
                         let penaltyCount = contestantData[i].SubDetails[serialIndex].Penalty;
                         let comErrorCount = contestantData[i].SubDetails[serialIndex].CompilationError;
                         let tdTitle = " / Penalty: " + penaltyCount + " / Compilation Error: " + comErrorCount;
 
-                        if (tempVerdict == "Accepted") {
+                        if (tempIsHidden) {
+                            dataCreate += `<td style="width:` + x1 + `%;" ><img src="../assets/images/what_gray.png" style="width:20px;"></td>`;
+                        } else if (tempVerdict == "Accepted") {
                             dataCreate += `<td style="width:` + x1 + `%;" title="Accepted: 1` + tdTitle + `">` + checkFirstSolved(contestantData, i, serialIndex) + `<br><span style="color:#1d9563;">1</span> / <span style="color:#de3b3b;">` + penaltyCount + `</span> / <span style="color:#e68a00;">` + comErrorCount + `</span></td>`;
                         } else {
                             dataCreate += `<td style="width:` + x1 + `%; "title="Accepted: 0` + tdTitle + `"><img src="../assets/images/cross.png" style="width:15px;"><br><span style="color:#1d9563;">0</span> / <span style="color:#de3b3b;">` + penaltyCount + `</span> / <span style="color:#e68a00;">` + comErrorCount + `</span></td>`;

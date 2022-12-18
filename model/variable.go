@@ -202,6 +202,7 @@ type ContestData struct {
 	Time           string          `bson:"time"`
 	StartAt        int64           `bson:"startAt"`
 	Duration       string          `bson:"duration"`
+	FrozenTime     string          `bson:"frozenTime"`
 	Author         string          `bson:"author"`
 	ProblemSet     []ProblemSet    `bson:"problemSet"`
 	Clarifications []Clarification `bson:"clarifications"`
