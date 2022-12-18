@@ -74,6 +74,7 @@ func prepareContestMessage(data model.ContestData, formattedTime string) string 
 	disMsg += "Title" + getSpace(7) + ": " + data.Title + "\n"
 	disMsg += "Start At" + getSpace(4) + ": " + formattedTime + "\n"
 	disMsg += "Duration" + getSpace(4) + ": " + fmt.Sprintf("%v", data.Duration) + "\n"
+	disMsg += "Frozen Time" + getSpace(1) + ": " + fmt.Sprintf("%v", data.FrozenTime) + "\n"
 	disMsg += "Author" + getSpace(6) + ": " + data.Author + "\n"
 	disMsg += "```"
 
@@ -119,6 +120,8 @@ func prepareSubmissionEditedMessage(old string, data model.SubmissionData) strin
 }
 
 func prepareContestEditedMessage(old string, data model.ContestData) string {
+	disMsg := ""
+
 	// tt := "- some contest title\nContest ID"
 	idx1 := strings.Index(old, "-")
 	idx2 := strings.Index(old, "Contest ID")
@@ -129,10 +132,20 @@ func prepareContestEditedMessage(old string, data model.ContestData) string {
 	idx2 = strings.Index(disMsgV1, "Start At")
 	disMsgV2 := disMsgV1[:idx1+14] + data.Title + "\n" + disMsgV1[idx2:]
 
-	// tt := "Duration1234: --:--\nAuthor"
+	// tt := "Duration1234: --:--\nFrozen Time"
 	idx1 = strings.Index(disMsgV2, "Duration")
-	idx2 = strings.Index(disMsgV2, "Author")
-	disMsg := disMsgV2[:idx1+14] + data.Duration + "\n" + disMsgV2[idx2:]
+	idx2 = strings.Index(disMsgV2, "Frozen Time")
+	if idx2 == -1 {
+		idx2 = strings.Index(disMsgV2, "Author")
+		disMsg = disMsgV2[:idx1+14] + data.Duration + "\n" + disMsgV2[idx2:]
+	} else {
+		disMsgV3 := disMsgV2[:idx1+14] + data.Duration + "\n" + disMsgV2[idx2:]
+
+		// tt := "Frozen Time1: --:--\nAuthor"
+		idx1 = strings.Index(disMsgV3, "Frozen Time")
+		idx2 = strings.Index(disMsgV3, "Author")
+		disMsg = disMsgV3[:idx1+14] + data.FrozenTime + "\n" + disMsgV3[idx2:]
+	}
 
 	return disMsg
 }

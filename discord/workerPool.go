@@ -117,6 +117,9 @@ func editWorker(jobs <-chan int, data interface{}, notifier string, ds discordSt
 			// getting sent msg details by subID
 			sentData, err = ds.repoService.getDetails(subID, notifier)
 			errorhandling.Check(err)
+			if err != nil {
+				return
+			}
 
 			// preparing message to send
 			disMsg = prepareSubmissionEditedMessage(sentData.Message, temp)
@@ -131,6 +134,9 @@ func editWorker(jobs <-chan int, data interface{}, notifier string, ds discordSt
 			// getting sent msg details by subID
 			sentData, err = ds.repoService.getDetails(subID, notifier)
 			errorhandling.Check(err)
+			if err != nil {
+				return
+			}
 
 			// preparing message to send
 			disMsg = prepareContestEditedMessage(sentData.Message, temp)
