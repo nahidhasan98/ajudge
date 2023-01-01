@@ -13,7 +13,7 @@ import (
 	"github.com/nahidhasan98/ajudge/oj/vjudge"
 )
 
-//GetLanguage function for grabbing language suported when submitting problem solution
+// GetLanguage function for grabbing language suported when submitting problem solution
 func GetLanguage(w http.ResponseWriter, r *http.Request) {
 	OJList := r.URL.Query()["OJ"]
 	pNumList := r.URL.Query()["pNum"]
@@ -300,13 +300,12 @@ func GetLanguage(w http.ResponseWriter, r *http.Request) {
 	} else if OJ == "CSU" {
 		model.LanguagePack[""] = ""
 	} else if OJ == "DimikOJ" {
-		model.LanguagePack["1"] = "GNU GCC 5.3.1 C11"
-		model.LanguagePack["2"] = "GNU G++ 5.3.1 C++98"
-		model.LanguagePack["3"] = "GNU G++ 5.3.1 C++11"
-		model.LanguagePack["4"] = "GNU G++ 5.3.1 C++14"
-		model.LanguagePack["5"] = "Java 1.8.0_03"
-		model.LanguagePack["6"] = "Python 2.7.11"
-		model.LanguagePack["7"] = "Python 3.5.1"
+		model.LanguagePack["1"] = "C 17"
+		model.LanguagePack["2"] = "C++ 17"
+		model.LanguagePack["3"] = "Java 17"
+		model.LanguagePack["4"] = "Python 3.10"
+		model.LanguagePack["5"] = "Kotlin 1.7"
+		model.LanguagePack["6"] = "Go 1.18"
 	} else if OJ == "EIJudge" {
 		model.LanguagePack[""] = ""
 	} else if OJ == "EOlymp" {

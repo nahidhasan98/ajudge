@@ -15,7 +15,7 @@ import (
 	"github.com/nahidhasan98/ajudge/oj/vjudge"
 )
 
-//Submit function for submitting a problem solution
+// Submit function for submitting a problem solution
 func Submit(w http.ResponseWriter, r *http.Request) {
 	contestID := 0 //for differentiate from contest submission or normal submission
 	serialIndex := ""
@@ -38,7 +38,7 @@ func Submit(w http.ResponseWriter, r *http.Request) {
 			document, err := goquery.NewDocumentFromReader(response.Body)
 			errorhandling.Check(err)
 
-			title := document.Find("h2[class='card-title']").Text()
+			title := strings.TrimSpace(document.Find("h2").Text())
 
 			if title == "" { //no such problem
 				model.PopUpCause = "NoSuchProblem"

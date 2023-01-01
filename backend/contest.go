@@ -570,7 +570,7 @@ func SubmitC(w http.ResponseWriter, r *http.Request) {
 			document, err := goquery.NewDocumentFromReader(response.Body)
 			errorhandling.Check(err)
 
-			title := document.Find("h2[class='card-title']").Text()
+			title := strings.TrimSpace(document.Find("h2").Text())
 
 			if title == "" { //no such problem
 				model.PopUpCause = "NoSuchProblem"

@@ -340,28 +340,25 @@ func Verdict(w http.ResponseWriter, r *http.Request) {
 		errorhandling.Check(err)
 
 		//getting verdict
-		rVerdict = document.Find("div[class='col-xl-4 col-lg-5 col-md-8']").Find("span").Text()
+		document.Find(".card .text-center .col").Each(func(i int, s *goquery.Selection) {
+			if i == 0 {
+				rVerdict = strings.TrimSpace(s.Text())
+				rVerdict = strings.TrimPrefix(rVerdict, "ফলাফল :")
+				rVerdict = strings.TrimSpace(rVerdict)
+			}
+		})
 
 		if model.IsExistInTV(submissionData.OJ, model.TerminalVerdict[submissionData.OJ], rVerdict) { //got terminal/final verdict
 			rTerminalVerdict = true
 
 			//now getting runtime & memory
-			var tempValue string
-			var tempValueArray []string
-			document.Find("div[class='col-xl-4 col-lg-5 col-md-8']").Find("p").Each(func(index int, mixedStr *goquery.Selection) {
-				tempValue = mixedStr.Text()
-				tempValue = strings.TrimSpace(tempValue)
-				tempValueArray = append(tempValueArray, tempValue)
+			document.Find(".card .text-center .col").Each(func(i int, s *goquery.Selection) {
+				if i == 1 {
+					rRuntime = strings.TrimSpace(s.Text())
+					rRuntime = strings.TrimPrefix(rRuntime, "রানটাইম :")
+					rRuntime = strings.TrimSpace(rRuntime)
+				}
 			})
-
-			if len(tempValueArray) >= 2 {
-				rRuntime = tempValueArray[0]
-				//removing extra text from runtime
-				need := " "
-				index := strings.Index(rRuntime, need)
-				rRuntime = rRuntime[0:index]
-				rRuntime += " s"
-			}
 		}
 	} else if submissionData.OJ == "Toph" {
 		//first login to Toph
@@ -566,28 +563,25 @@ func Rejudge(w http.ResponseWriter, r *http.Request) {
 		errorhandling.Check(err)
 
 		//getting verdict
-		rVerdict = document.Find("div[class='col-xl-4 col-lg-5 col-md-8']").Find("span").Text()
+		document.Find(".card .text-center .col").Each(func(i int, s *goquery.Selection) {
+			if i == 0 {
+				rVerdict = strings.TrimSpace(s.Text())
+				rVerdict = strings.TrimPrefix(rVerdict, "ফলাফল :")
+				rVerdict = strings.TrimSpace(rVerdict)
+			}
+		})
 
 		if model.IsExistInTV(submissionData.OJ, model.TerminalVerdict[submissionData.OJ], rVerdict) { //got terminal/final verdict
 			rTerminalVerdict = true
 
 			//now getting runtime & memory
-			var tempValue string
-			var tempValueArray []string
-			document.Find("div[class='col-xl-4 col-lg-5 col-md-8']").Find("p").Each(func(index int, mixedStr *goquery.Selection) {
-				tempValue = mixedStr.Text()
-				tempValue = strings.TrimSpace(tempValue)
-				tempValueArray = append(tempValueArray, tempValue)
+			document.Find(".card .text-center .col").Each(func(i int, s *goquery.Selection) {
+				if i == 1 {
+					rRuntime = strings.TrimSpace(s.Text())
+					rRuntime = strings.TrimPrefix(rRuntime, "রানটাইম :")
+					rRuntime = strings.TrimSpace(rRuntime)
+				}
 			})
-
-			if len(tempValueArray) >= 2 {
-				rRuntime = tempValueArray[0]
-				//removing extra text from runtime
-				need := " "
-				index := strings.Index(rRuntime, need)
-				rRuntime = rRuntime[0:index]
-				rRuntime += " s"
-			}
 		}
 	} else if submissionData.OJ == "Toph" {
 		//first login to Toph
