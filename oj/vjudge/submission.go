@@ -19,7 +19,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-//Submit function for submitting provlem solution to VJ
+// Submit function for submitting provlem solution to VJ
 func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex string) {
 	defer errorhandling.Recovery() //for panic() error Recovery
 
@@ -42,6 +42,7 @@ func Submit(w http.ResponseWriter, r *http.Request, contestID int, serialIndex s
 
 	//preparing data for POST Request
 	postData := url.Values{
+		"method":   {"0"},
 		"language": {language},
 		"open":     {"0"},
 		"source":   {source},

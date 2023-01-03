@@ -13,7 +13,7 @@ import (
 	"github.com/nahidhasan98/ajudge/model"
 )
 
-//ProbDes function for grabbing problem description
+// ProbDes function for grabbing problem description
 func ProbDes(OJ, pNum string) (string, bool, int) {
 	defer errorhandling.Recovery() //for panic() error Recovery
 
@@ -48,15 +48,15 @@ func ProbDes(OJ, pNum string) (string, bool, int) {
 			Content string `json:"content"`
 		}
 		type limitation struct {
-			Properties     []properties `json:"properties"`
-			AllowBotSubmit bool         `json:"allowBotSubmit"`
-			Status         int          `json:"status"`
+			Properties    []properties `json:"properties"`
+			SubmitMethods []bool       `json:"submitMethods"` //vj returns [bot, My Account, Archive]
+			Status        int          `json:"status"`
 			// Languages      int          `json:"languages"`
 		}
 		var limit limitation
 		json.Unmarshal([]byte(resProperties), &limit)
 
-		allowSubmit = limit.AllowBotSubmit
+		allowSubmit = limit.SubmitMethods[0]
 		status = limit.Status
 
 		//some problem has 1(time/memory/source) limit, some has 2(time,memory) limits, some has 3(time,memory,source) limits
@@ -143,7 +143,7 @@ func ProbDes(OJ, pNum string) (string, bool, int) {
 	return VJDes, allowSubmit, status
 }
 
-//GetImage function for grabbing image of problem statement from OJ
+// GetImage function for grabbing image of problem statement from OJ
 func GetImage(body string) string {
 	defer errorhandling.Recovery() //for panic() error Recovery
 
@@ -284,7 +284,7 @@ func fileOperation(imageLink, segmentSeparator, fileExtension string) string {
 	return fullFileName
 }
 
-//VJCodeChef for CodeChef OJ
+// VJCodeChef for CodeChef OJ
 func VJCodeChef(body string) string {
 	body = removeMathJaxConfig(body)
 	body = convertMDtoHTML(body) //CodeChef descriptions are in .MD format
@@ -318,7 +318,7 @@ func convertMDtoHTML(body string) string {
 	return body
 }
 
-//VJLibreOJ for LibreOJ
+// VJLibreOJ for LibreOJ
 func VJLibreOJ(body string) string {
 	body = strings.ReplaceAll(body, "####", `<h4>`)
 	body = strings.ReplaceAll(body, "```plain", `</h4><pre><code>`)
