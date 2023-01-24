@@ -8,7 +8,7 @@ import (
 	"github.com/nahidhasan98/ajudge/model"
 )
 
-//Search function for searching problem in Toph
+// Search function for searching problem in Toph
 func Search(sQuery string) []model.ProblemList {
 	defer errorhandling.Recovery() //for panic() error Recovery
 
@@ -23,11 +23,11 @@ func Search(sQuery string) []model.ProblemList {
 	document, err := goquery.NewDocumentFromReader(response.Body)
 	errorhandling.Check(err)
 
-	document.Find("td").Each(func(index int, mixedStr *goquery.Selection) {
+	document.Find("td[class='flow']").Each(func(index int, mixedStr *goquery.Selection) {
 		tempNum, _ := mixedStr.Find("a").Attr("href") //Toph have no pNum. So we taking pLink (like:/p/copycat)
 
 		tempNum = tempNum[3:] //avoiding /p/ from the link
-		tempName := mixedStr.Find("h4").Text()
+		tempName := mixedStr.Find("a[href^='/p/']").Text()
 
 		var temp model.ProblemList
 		temp.OJ = "Toph"
