@@ -53,7 +53,7 @@ func Login() string {
 		//getting for later usesage (for submit)
 		getToken(document)
 
-		if resp != "A Judgeajudge.bdProfile" { //successful login page has somthing like this
+		if resp != "A Judgeajudge.bd" { //successful login page has somthing like this
 			return "failed"
 		}
 	}
