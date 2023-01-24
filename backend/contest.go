@@ -220,7 +220,7 @@ func ContestUpadte(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if dbQuery.Author != session.Values["username"] { //update can be done by author
+	if (session.Values["username"] != dbQuery.Author) && (session.Values["username"] != "admin") { //update can be done by author
 		errorPage(w, http.StatusBadRequest)
 		return
 	}

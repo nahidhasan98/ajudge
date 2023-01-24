@@ -79,7 +79,7 @@
                         <a class="nav-link" id="standings-tab" data-toggle="pill" href="#standings" role="tab" aria-controls="standings" aria-selected="false">Standings</a>
                     </li>
                 </ul>
-                {{ if (eq .Username .ContestData.Author)}}
+                {{ if or (eq .Username .ContestData.Author) (eq .Username "admin")}}
                 <ul class="navbar-nav mr-0" id="update-tab">
                      <li class="">
                         <a href="/contestUpdate/{{ .ContestData.ContestID }}" style="float: right;padding: 5px 10px;background: #7dbde8;outline: none;border: 1px solid #2691d9;border-radius: 5px;color: white;">Update</a>
