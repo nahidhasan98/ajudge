@@ -1,6 +1,7 @@
 package uri
 
 import (
+	"net/http"
 	"strconv"
 	"strings"
 
@@ -9,8 +10,8 @@ import (
 	"github.com/nahidhasan98/ajudge/model"
 )
 
-//ProbDes function for grabbing problem description
-func ProbDes(pNum string) string {
+// ProbDes function for grabbing problem description
+func ProbDes(w http.ResponseWriter, pNum string) string {
 	defer errorhandling.Recovery() //for panic() error Recovery
 
 	//resetting previous value
@@ -22,6 +23,12 @@ func ProbDes(pNum string) string {
 	//checking if the pNum is a int or not
 	tempPNum, _ := strconv.Atoi(pNum) //if pNum contains only digit, it will remain same("12"->12), otherwise become 0("12abc"->0)
 	pNum = strconv.Itoa(tempPNum)
+
+	//for problem description first login to URI
+	if Login() != "success" { //if login unsuccessful
+		return ""
+	}
+	//URI login success
 
 	//getting problem description
 	apiURL := "https://www.beecrowd.com.br/judge/en/problems/view/" + pNum

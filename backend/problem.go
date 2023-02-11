@@ -16,7 +16,7 @@ import (
 	"github.com/nahidhasan98/ajudge/oj/vjudge"
 )
 
-//Problem function for searching problem from different OJ
+// Problem function for searching problem from different OJ
 func Problem(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 
@@ -33,7 +33,7 @@ func Problem(w http.ResponseWriter, r *http.Request) {
 	model.Tpl.ExecuteTemplate(w, "problem.gohtml", model.Info)
 }
 
-//ProblemView function for grabbing a problem description
+// ProblemView function for grabbing a problem description
 func ProblemView(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 
@@ -97,7 +97,7 @@ func ProblemView(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	} else if OJ == "URI" {
-		URIProblem["Des"] = template.HTML(uri.ProbDes(pNum))
+		URIProblem["Des"] = template.HTML(uri.ProbDes(w, pNum))
 		allowSubmit = true
 
 		if model.PTitle == "" {
@@ -150,7 +150,7 @@ func ProblemView(w http.ResponseWriter, r *http.Request) {
 	model.Tpl.ExecuteTemplate(w, "problemView.gohtml", model.Info)
 }
 
-//Origin function for finding a problem origin
+// Origin function for finding a problem origin
 func Origin(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	OJpNum := strings.TrimPrefix(path, "/origin/")
@@ -272,7 +272,7 @@ func Origin(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//function used above by this particular file
+// function used above by this particular file
 func getOriginLink(apiURL string) string {
 	req, _ := http.NewRequest("GET", apiURL, nil)
 

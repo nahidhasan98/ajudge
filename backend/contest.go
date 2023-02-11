@@ -452,7 +452,7 @@ func GetProblemSet(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	} else if OJ == "URI" {
-		URIProblem["Des"] = template.HTML(uri.ProbDes(pNum))
+		URIProblem["Des"] = template.HTML(uri.ProbDes(w, pNum))
 		allowSubmit = true
 
 		if model.PTitle == "" {

@@ -11,7 +11,7 @@ import (
 	"github.com/nahidhasan98/ajudge/vault"
 )
 
-//Login function for login to URI
+// Login function for login to URI
 func Login() string {
 	defer errorhandling.Recovery() //for panic() error Recovery
 
@@ -61,9 +61,10 @@ func Login() string {
 		document, err = goquery.NewDocumentFromReader(response.Body)
 		errorhandling.Check(err)
 
-		resp := document.Find("div[class='h-user']").Find("i").Text()
+		resp := document.Find(".pn-dashboard h1").Text()
+		resp = strings.TrimSpace(resp)
 
-		if resp != "ajudge.bd@gmail.com" { //successful login page has somthing like this
+		if resp != "DASHBOARD" { //successful login page has somthing like this
 			return "failed"
 		}
 	}
