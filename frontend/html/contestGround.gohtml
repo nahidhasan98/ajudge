@@ -61,7 +61,7 @@
     {{ end }}
 
     {{/* problem Section */}}
-    {{ if (or (ne .RunningStatus "BeforeContest") (eq .Username .ContestData.Author))}}
+    {{ if (or (ne .RunningStatus "BeforeContest") (eq .Username .ContestData.Author) (eq .Username "admin"))}}
     <div class="mb-1" style="background:white;padding:0px 10px;">
         <nav class="navbar navbar-expand-sm" style="border-bottom: 1px solid #e9f4fb;padding:1% 0%">
             <div class="navbar-collapse" id="navbarNav">
