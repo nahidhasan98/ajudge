@@ -1,16 +1,16 @@
 module github.com/nahidhasan98/ajudge
 
-go 1.19
+go 1.20
 
 require (
-	github.com/PuerkitoBio/goquery v1.8.0
+	github.com/PuerkitoBio/goquery v1.8.1
 	github.com/gomarkdown/markdown v0.0.0-20221013030248-663e2500819c
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/sessions v1.2.1
 	github.com/nahidhasan98/discord-text-hook v0.0.0-20211013224151-54e8d7f3374a
 	github.com/nahidhasan98/nlogger v0.0.0-20210823150258-e6d1b9c98e89
-	go.mongodb.org/mongo-driver v1.10.3
-	golang.org/x/crypto v0.1.0
+	go.mongodb.org/mongo-driver v1.11.2
+	golang.org/x/crypto v0.7.0
 )
 
 require (
@@ -24,7 +24,7 @@ require (
 	github.com/xdg-go/scram v1.1.1 // indirect
 	github.com/xdg-go/stringprep v1.0.3 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20181117223130-1be2e3e5546d // indirect
-	golang.org/x/net v0.1.0 // indirect
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/text v0.4.0 // indirect
+	golang.org/x/net v0.8.0 // indirect
+	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
+	golang.org/x/text v0.8.0 // indirect
 )
