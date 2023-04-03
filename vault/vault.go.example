@@ -42,4 +42,7 @@ var (
 
 	WebhookIDFeedback    string = ""
 	WebhookTokenFeedback string = ""
+
+	WebhookIDLogger    string = ""
+	WebhookTokenLogger string = ""
 )

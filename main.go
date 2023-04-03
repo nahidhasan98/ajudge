@@ -3,18 +3,52 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/nahidhasan98/ajudge/apr"
 	"github.com/nahidhasan98/ajudge/auth"
 	"github.com/nahidhasan98/ajudge/backend"
+	"github.com/nahidhasan98/ajudge/errorhandling"
+	"github.com/nahidhasan98/ajudge/model"
 	"github.com/nahidhasan98/ajudge/rank"
 	"github.com/nahidhasan98/ajudge/user"
+	"github.com/nahidhasan98/ajudge/vault"
+	discordtexthook "github.com/nahidhasan98/discord-text-hook"
 )
+
+func logMe(r *http.Request) {
+	time.Sleep(5 * time.Second)
+	session, _ := model.Store.Get(r, "mysession")
+	username := session.Values["username"]
+
+	msg := fmt.Sprintf("Time: %v\nIP: %v\nUser: %v\nURL: %v", time.Now(), r.RemoteAddr, username, r.RequestURI)
+
+	// innitializing webhook
+	webhook := discordtexthook.NewDiscordTextHookService(vault.WebhookIDLogger, vault.WebhookTokenLogger)
+
+	// sending msg to discord
+	_, err := webhook.SendMessage(msg)
+	errorhandling.Check(err)
+}
+
+func loggingMiddlewareTemp(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Do stuff here
+		go logMe(r)
+
+		// Call the next handler, which can be another middleware in the chain, or the final handler.
+		next.ServeHTTP(w, r)
+	})
+}
 
 func main() {
 	// using Gorilla mux router
 	r := mux.NewRouter()
+
+	// temporary logging for suspicious activity of the site
+	r.Use(loggingMiddlewareTemp)
+
 	auth.Init(r)
 	user.Init(r)
 	apr.Init(r)
