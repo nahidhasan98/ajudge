@@ -18,7 +18,6 @@ import (
 )
 
 func logMe(r *http.Request) {
-	time.Sleep(5 * time.Second)
 	session, _ := model.Store.Get(r, "mysession")
 	username := session.Values["username"]
 
