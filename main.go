@@ -21,7 +21,7 @@ func logMe(r *http.Request) {
 	session, _ := model.Store.Get(r, "mysession")
 	username := session.Values["username"]
 
-	msg := fmt.Sprintf("Time: %v\nIP: %v\nUser: %v\nURL: %v", time.Now(), r.RemoteAddr, username, r.RequestURI)
+	msg := fmt.Sprintf("Time: %v\nIP     : %v\nIPF   : %v\nUser : %v\nURL : %v", time.Now(), r.RemoteAddr, r.Header.Get("X-FORWARDED-FOR"), username, r.RequestURI)
 
 	// innitializing webhook
 	webhook := discordtexthook.NewDiscordTextHookService(vault.WebhookIDLogger, vault.WebhookTokenLogger)
