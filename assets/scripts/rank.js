@@ -94,21 +94,21 @@ function showList(activePage) {
 
         for (let i = start; i < Math.min(finish, rankList.length); i++) {
             let serial = i + 1;
+            let tVerified = `<span style="display: inline-block; width: 22px;"></span>`;
 
             if (rankType == "OJ") {
                 tdata = rankList[i].OJ;
                 tLink = "";
             } else if (rankType == "User") {
-                tdata = rankList[i].fullName;
-                tLink = ` [<a href="/profile/` + rankList[i].username + `">` + rankList[i].username + `</a>]`;
+                tdata = `<span>` + rankList[i].fullName + `</span>`;
+                tLink = `<span> [<a href="/profile/` + rankList[i].username + `">` + rankList[i].username + `</a>]</span>`;
 
-                let tVerified = ``;
-                if (rankList[i].isVerified) tVerified = `<img src="../assets/images/verified.png" style="width:18px;"></img>`;
+                if (rankList[i].isVerified) tVerified = `<span style="display: inline-block; width: 22px;"><img src="../assets/images/verified.png" style="width:15px; padding-bottom: 3px;" title="Email Veified"></img></span>`;
             }
 
             dataCreate = `<tr class="problemRow">
                         <td>`+ serial + `</td>
-                        <td align="left" style="padding-left:5%;">` + tdata + tLink + tVerified + `</td>
+                        <td align="left" style="padding-left:5%;">`+ tVerified + tdata + tLink + `</td>
                         <td>`+ rankList[i].totalSolved + `</td>
                         </tr>`
 

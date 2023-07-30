@@ -14,7 +14,7 @@ type handler struct {
 }
 
 // makeHTTPHandlers function defines endpoints
-func 	makeHTTPHandlers(router *mux.Router, rankService rankInterfacer) {
+func makeHTTPHandlers(router *mux.Router, rankService rankInterfacer) {
 	h := &handler{
 		rankService: rankService,
 	}
