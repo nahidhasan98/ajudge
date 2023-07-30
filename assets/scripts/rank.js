@@ -101,11 +101,14 @@ function showList(activePage) {
             } else if (rankType == "User") {
                 tdata = rankList[i].fullName;
                 tLink = ` [<a href="/profile/` + rankList[i].username + `">` + rankList[i].username + `</a>]`;
+
+                let tVerified = ``;
+                if (rankList[i].isVerified) tVerified = `<img src="../assets/images/verified.png" style="width:18px;"></img>`;
             }
 
             dataCreate = `<tr class="problemRow">
                         <td>`+ serial + `</td>
-                        <td align="left" style="padding-left:5%;">` + tdata + tLink + `</td>
+                        <td align="left" style="padding-left:5%;">` + tdata + tLink + tVerified + `</td>
                         <td>`+ rankList[i].totalSolved + `</td>
                         </tr>`
 

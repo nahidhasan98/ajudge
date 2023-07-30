@@ -9,7 +9,7 @@
                 <td class="colLeft">Full Name</td>
                 <td>: {{.FullName}}</td>
             </tr>
-            {{ if .Self }}
+            {{ if or (.Self) (eq .Username "admin") }}
                 <tr>
                     <td class="colLeft">Email</td>
                     <td>: {{.Email}}</td>
