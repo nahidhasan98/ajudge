@@ -6,8 +6,8 @@ $('#password').keyup(function () {
     var confirmPass = $('#confirmPassword').val()
 
     //for length
-    if (pass.length < 5) {
-        $('#errPassword').text("Password length should be at least 5 characters!")
+    if (pass.length < 8) {
+        $('#errPassword').text("Password length should be at least 8 characters!")
     } else {
         //for matching
         if (confirmPass.length == 0) {
@@ -30,9 +30,9 @@ $('#confirmPassword').keyup(function () {
         $('#errPassword').text("Password mismatched. Put cautiously.")
     } else {
         //for length
-        if (pass.length < 5) {
-            $('#errPassword').text("Password length should be at least 5 characters!")
-        } else if (pass.length >= 5) {
+        if (pass.length < 8) {
+            $('#errPassword').text("Password length should be at least 8 characters!")
+        } else if (pass.length >= 8) {
             $('#errPassword').text("")
         }
     }
@@ -40,7 +40,7 @@ $('#confirmPassword').keyup(function () {
 
 $(document).ready(function () {
     $('#passReset').on('submit', function () {
-        if ($('#password').val() == $('#confirmPassword').val() && $('#password').val().length >= 5) {
+        if ($('#password').val() == $('#confirmPassword').val() && $('#password').val().length >= 8) {
             return true;  //if passwoed is valid then submit will be done
         }
         return false;

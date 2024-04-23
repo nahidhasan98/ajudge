@@ -66,8 +66,8 @@ $(document).ready(function () {
 
     $('#password').keyup(function () {
         // for length
-        if ($('#password').val().length < 5) {
-            $('#errPassword').text("password length should be at least 5 characters")
+        if ($('#password').val().length < 8) {
+            $('#errPassword').text("password length should be at least 8 characters")
         } else {
             // for matching
             if ($('#confirmPassword').val().length == 0) {
@@ -88,9 +88,9 @@ $(document).ready(function () {
             $('#errPassword').text("password mismatched, put cautiously")
         } else {
             // for length
-            if ($('#password').val().length < 5) {
-                $('#errPassword').text("password length should be at least 5 characters")
-            } else if ($('#password').val().length >= 5) {
+            if ($('#password').val().length < 8) {
+                $('#errPassword').text("password length should be at least 8 characters")
+            } else if ($('#password').val().length >= 8) {
                 $('#errPassword').text("")
             }
         }
@@ -122,8 +122,8 @@ function validateForm() {
 
     // taking care of password
     // PART 1: length
-    if ($('#password').val().length < 5) {
-        $('#errPassword').text("password length should be at least 5 characters")
+    if ($('#password').val().length < 8) {
+        $('#errPassword').text("password length should be at least 8 characters")
         return false;   // cancel submission
     }
 

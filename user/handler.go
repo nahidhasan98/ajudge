@@ -168,10 +168,10 @@ func validate(fullName, email, username, password, confirmPassword, captcha stri
 
 	// taking care of password
 	// PART 1: length
-	if len(password) < 5 {
+	if len(password) < 8 {
 		temp := Errors{
 			Type:    "password",
-			Message: "password length should be at least 5 characters",
+			Message: "password length should be at least 8 characters",
 		}
 		errs = append(errs, temp)
 	} else {

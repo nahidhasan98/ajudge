@@ -25,7 +25,7 @@ func resetCommon(w http.ResponseWriter, r *http.Request, title string) {
 	model.Tpl.ExecuteTemplate(w, "reset.gohtml", model.Info)
 }
 
-//Reset function for requesting password or verification token
+// Reset function for requesting password or verification token
 func Reset(w http.ResponseWriter, r *http.Request) { //calling from submit of 1.Pass reset or 2.Token reset
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	path := r.URL.Path
@@ -107,7 +107,7 @@ func Reset(w http.ResponseWriter, r *http.Request) { //calling from submit of 1.
 	}
 }
 
-//PassReset function for resetting a user's password
+// PassReset function for resetting a user's password
 func PassReset(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	session, _ := model.Store.Get(r, "mysession")
@@ -158,6 +158,15 @@ func PassReset(w http.ResponseWriter, r *http.Request) {
 		token := r.FormValue("token") //hidden - send by us through email earlier
 		password := html.EscapeString(r.FormValue("password"))
 		password = model.HashPassword(password) //hashing password
+
+		// validating form data
+		if len(password) < 8 {
+			// msg: "password length should be at least 8 characters"
+
+			model.PopUpCause = "passwordResetErr"
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
 
 		//updating new password in the DB
 		updateField := bson.D{
