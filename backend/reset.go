@@ -157,7 +157,6 @@ func PassReset(w http.ResponseWriter, r *http.Request) {
 		//gettting form data
 		token := r.FormValue("token") //hidden - send by us through email earlier
 		password := html.EscapeString(r.FormValue("password"))
-		password = model.HashPassword(password) //hashing password
 
 		// validating form data
 		if len(password) < 8 {
@@ -167,6 +166,8 @@ func PassReset(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 			return
 		}
+
+		password = model.HashPassword(password) //hashing password
 
 		//updating new password in the DB
 		updateField := bson.D{
