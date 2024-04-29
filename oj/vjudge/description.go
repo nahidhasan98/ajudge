@@ -70,7 +70,7 @@ func ProbDes(OJ, pNum string) (string, bool, int) {
 			if index1 != -1 || index2 != -1 {
 				if text == "Time limit" || text == "Case time limit" {
 					model.PTimeLimit = limit.Properties[k].Content
-				} else if text == "Memory limit" {
+				} else if text == "Memory limit" || text == "Mem limit" {
 					model.PMemoryLimit = limit.Properties[k].Content
 				} else if text == "Code length Limit" {
 					model.PSourceLimit = limit.Properties[k].Content
