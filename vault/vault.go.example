@@ -1,0 +1,46 @@
+package vault
+
+var (
+	DatabaseName             string = ""
+	DatabaseUsername         string = ""
+	DatabasePassword         string = ""
+	DatabaseConnectionString string = ""
+
+	GmailUsername string = ""
+	GmailPassword string = ""
+
+	DimikOJUsername string = ""
+	DimikOJPassword string = ""
+
+	TophUsername string = ""
+	TophPassword string = ""
+
+	URIUsername string = ""
+	URIPassword string = ""
+
+	VJudgeUsername string = ""
+	VJudgePassword string = ""
+
+	CaptchaKey string = ""
+
+	WebhookIDSub    string = ""
+	WebhookTokenSub string = ""
+
+	WebhookIDLogin    string = ""
+	WebhookTokenLogin string = ""
+
+	WebhookIDReg    string = ""
+	WebhookTokenReg string = ""
+
+	WebhookIDContest    string = ""
+	WebhookTokenContest string = ""
+
+	WebhookIDReset    string = ""
+	WebhookTokenReset string = ""
+
+	WebhookIDFeedback    string = ""
+	WebhookTokenFeedback string = ""
+
+	WebhookIDLogger    string = ""
+	WebhookTokenLogger string = ""
+)

@@ -17,19 +17,11 @@ type discordStruct struct {
 }
 
 func (ds discordStruct) SendMessage(data interface{}, notifier string) {
-	jobs := make(chan int, 5)
-	go sendWorker(jobs, data, notifier, ds)
-
-	jobs <- 1
-	close(jobs)
+	go sendWorker(data, notifier, ds)
 }
 
 func (ds discordStruct) EditMessage(data interface{}, notifier string) {
-	jobs := make(chan int, 5)
-	go editWorker(jobs, data, notifier, ds)
-
-	jobs <- 1
-	close(jobs)
+	go editWorker(data, notifier, ds)
 }
 
 func prepareSubmissionMessage(data model.SubmissionData, formattedTime string) string {
