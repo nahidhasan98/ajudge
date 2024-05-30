@@ -17,7 +17,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-//IsAccVerifed func
+// IsAccVerifed func
 func IsAccVerifed(r *http.Request) bool {
 	session, _ := Store.Get(r, "mysession")
 	username := session.Values["username"]
@@ -38,7 +38,7 @@ func IsAccVerifed(r *http.Request) bool {
 	return userData.IsVerified
 }
 
-//Min function
+// Min function
 func Min(a, b int) int {
 	if a < b {
 		return a
@@ -46,7 +46,7 @@ func Min(a, b int) int {
 	return b
 }
 
-//Abs function
+// Abs function
 func Abs(x int64) int64 {
 	if x < 0 {
 		return -x
@@ -69,16 +69,16 @@ func removeStyle(styleBody string) string {
 	return styleBody
 }
 
-//HashPassword function
+// HashPassword function
 func HashPassword(password string) string {
 	bytes, _ := bcrypt.GenerateFromPassword([]byte(password), 14)
 	return string(bytes)
 }
 
-//SendMail function
+// SendMail function
 func SendMail(email, username, link, resetType string) {
 	// Choose auth method and set it up
-	auth := smtp.PlainAuth("", vault.GmailUsername, vault.GmailPassword, "smtp.gmail.com")
+	auth := smtp.PlainAuth("", vault.GmailUsername, vault.GmailPassword, vault.SmtpServiceHost)
 
 	// Here we do it all: connect to our server, set up a message and send it
 	to := []string{email}
@@ -112,11 +112,11 @@ func SendMail(email, username, link, resetType string) {
 		ButtonText:   buttonText,
 	})
 
-	err := smtp.SendMail("smtp.gmail.com:587", auth, "", to, body.Bytes())
+	err := smtp.SendMail(fmt.Sprintf("%s:%s", vault.SmtpServiceHost, vault.SmtpServicePort), auth, "", to, body.Bytes())
 	errorhandling.Check(err)
 }
 
-//GenerateToken function
+// GenerateToken function
 func GenerateToken() string {
 	b := make([]byte, 16)
 	rand.Read(b)
@@ -126,7 +126,7 @@ func GenerateToken() string {
 	return hex.EncodeToString(hasher.Sum(nil))
 }
 
-//IsExistInTV function
+// IsExistInTV function
 func IsExistInTV(OJ string, arr []string, verdict string) bool {
 	var extra1, extra2, extra3, extra4, extra5, extra6, extra7 string
 

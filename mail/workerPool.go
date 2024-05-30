@@ -1,6 +1,7 @@
 package mail
 
 import (
+	"fmt"
 	"net/smtp"
 
 	"github.com/nahidhasan98/ajudge/errorhandling"
@@ -15,9 +16,9 @@ func sendWorker(jobs <-chan int, email string, mailBody []byte, m mailStruct) {
 		to := []string{email}
 
 		// Choose auth method and set it up
-		auth := smtp.PlainAuth("", vault.GmailUsername, vault.GmailPassword, "smtp.gmail.com")
+		auth := smtp.PlainAuth("", vault.GmailUsername, vault.GmailPassword, vault.SmtpServiceHost)
 
-		err := smtp.SendMail("smtp.gmail.com:587", auth, "", to, mailBody)
+		err := smtp.SendMail(fmt.Sprintf("%s:%s", vault.SmtpServiceHost, vault.SmtpServicePort), auth, "", to, mailBody)
 		errorhandling.Check(err)
 	}
 }

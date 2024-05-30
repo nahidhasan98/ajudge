@@ -9,6 +9,9 @@ var (
 	GmailUsername string = ""
 	GmailPassword string = ""
 
+	SmtpServiceHost string = "smtp.gmail.com"
+	SmtpServicePort string = "587"
+	
 	DimikOJUsername string = ""
 	DimikOJPassword string = ""
 

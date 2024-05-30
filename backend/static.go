@@ -101,7 +101,7 @@ func Contact(w http.ResponseWriter, r *http.Request) {
 		// pause mail temporarily for stop spam
 
 		// //sending mail to our email
-		// auth := smtp.PlainAuth("", vault.GmailUsername, vault.GmailPassword, "smtp.gmail.com")
+		// auth := smtp.PlainAuth("", vault.GmailUsername, vault.GmailPassword, vault.SmtpServiceHost)
 		// to := []string{"mnh.nahid35@gmail.com"}
 
 		// var msg = []byte("From: " + name + "\r\n" +
@@ -113,7 +113,7 @@ func Contact(w http.ResponseWriter, r *http.Request) {
 		// 	"Sender's Email: " + email + "\r\n" +
 		// 	"Message: " + message)
 
-		// err := smtp.SendMail("smtp.gmail.com:587", auth, "", to, msg)
+		// err := smtp.SendMail(fmt.Sprintf("%s:%s", vault.SmtpServiceHost, vault.SmtpServicePort), auth, "", to, msg)
 		// errorhandling.Check(err)
 
 		model.PopUpCause = "userFeedback"
