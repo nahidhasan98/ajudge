@@ -42,7 +42,7 @@
         {{ template "popUpScript" . }}
     {{ else if and (eq .PageName "Login") (eq .PopUpCause "registrationDone") }}
         {{ template "popUpScript" . }}
-    {{ else if and (eq .PageName "Homepage") (or (eq .PopUpCause "tokenInvalid") (eq .PopUpCause "tokenAlreadyVerified") (eq .PopUpCause "tokenExpired") (eq .PopUpCause "tokenVerifiedNow") (eq .PopUpCause "tokenRequest") (eq .PopUpCause "passwordRequest") (eq .PopUpCause "passTokenInvalid") (eq .PopUpCause "passTokenExpired") (eq .PopUpCause "passwordReset") (eq .PopUpCause "passwordResetErr") (eq .PopUpCause "verifyRequired") ) }}
+    {{ else if and (eq .PageName "Homepage") (or (eq .PopUpCause "tokenInvalid") (eq .PopUpCause "tokenAlreadyVerified") (eq .PopUpCause "tokenExpired") (eq .PopUpCause "tokenVerifiedNow") (eq .PopUpCause "tokenRequest") (eq .PopUpCause "passwordRequest") (eq .PopUpCause "passTokenInvalid") (eq .PopUpCause "passTokenExpired") (eq .PopUpCause "passwordReset") (eq .PopUpCause "passwordResetErr") (eq .PopUpCause "passUsernameErr") (eq .PopUpCause "passwordResetMismatchErr") (eq .PopUpCause "verifyRequired") ) }}
         {{ template "popUpScript" . }}
     {{ else if eq .PageName "ContestList" }}
         {{ template "popUpScript" . }}

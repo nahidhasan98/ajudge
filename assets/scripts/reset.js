@@ -41,7 +41,7 @@ $('#confirmPassword').keyup(function () {
 $(document).ready(function () {
     $('#passReset').on('submit', function () {
         if ($('#password').val() == $('#confirmPassword').val() && $('#password').val().length >= 8) {
-            return true;  //if passwoed is valid then submit will be done
+            return true;  //if password is valid then submit will be done
         }
         return false;
     });

@@ -4,7 +4,11 @@
     <form class="formGroup" method="POST" style="" id="passReset">
         <h1>Reset Password</h1>
         <div>
+        {{ if ne .Username "" }}
+            <input type="hidden" id="username" name="username" value="{{ .Username }}" required>
+        {{ else }}
             <input type="hidden" id="token" name="token" value="{{ .Token }}" required>
+        {{ end }}
         </div>
         <div>
             <label for="password">New Password :</label>

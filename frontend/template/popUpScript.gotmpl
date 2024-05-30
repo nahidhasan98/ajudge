@@ -61,6 +61,14 @@
             <a class="close-btn popup-close" href="#">x</a>
         </div>
     </div>
+    {{ else if eq .PopUpCause "passUsernameErr" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h2>Invalid User</h2>
+            <h3>Invalid request data provided.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
     {{ else if eq .PopUpCause "passTokenInvalid" }}
     <div class="popup-wrap">
         <div class="popup-box">
@@ -90,6 +98,14 @@
         <div class="popup-box">
             <h2>Password Reset Error</h2>
             <h3>Password length should be at least 8 characters. Please try again.</h3>
+            <a class="close-btn popup-close" href="#">x</a>
+        </div>
+    </div>
+    {{ else if eq .PopUpCause "passwordResetMismatchErr" }}
+    <div class="popup-wrap">
+        <div class="popup-box">
+            <h2>Password Reset Error</h2>
+            <h3>Password didn't match. Please try again.</h3>
             <a class="close-btn popup-close" href="#">x</a>
         </div>
     </div>

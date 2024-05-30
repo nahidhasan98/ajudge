@@ -15,14 +15,20 @@ import (
 )
 
 func resetCommon(w http.ResponseWriter, r *http.Request, title string) {
-	session, _ := model.Store.Get(r, "mysession")
-	model.Info["Username"] = session.Values["username"]
-	model.Info["IsLogged"] = session.Values["isLogin"]
-	model.Info["PageName"] = "Reset"
-	model.Info["PageTitle"] = title + " | AJudge"
-	model.Info["LastPage"] = model.LastPage
+	session, err := model.Store.Get(r, "mysession")
+	errorhandling.Check(err)
 
-	model.Tpl.ExecuteTemplate(w, "reset.gohtml", model.Info)
+	if title == "Reset Password" && session.Values["isLogin"] == true {
+		http.Redirect(w, r, "/passReset", http.StatusSeeOther)
+	} else {
+		model.Info["Username"] = session.Values["username"]
+		model.Info["IsLogged"] = session.Values["isLogin"]
+		model.Info["PageName"] = "Reset"
+		model.Info["PageTitle"] = title + " | AJudge"
+		model.Info["LastPage"] = model.LastPage
+
+		model.Tpl.ExecuteTemplate(w, "reset.gohtml", model.Info)
+	}
 }
 
 // Reset function for requesting password or verification token
@@ -121,28 +127,34 @@ func PassReset(w http.ResponseWriter, r *http.Request) {
 	userCollection := DB.Collection("user")
 
 	if r.Method != "POST" { //flow comes here from email link
-		path := r.URL.Path
-		token := strings.TrimPrefix(path, "/passReset/token=")
+		var token, username string = "", ""
 
-		//getting data for this user from DB
-		var userData model.UserData
-		res := userCollection.FindOne(ctx, bson.M{"passResetToken": token}).Decode(&userData)
+		if session.Values["isLogin"] == true {
+			username = session.Values["username"].(string)
+		} else {
+			path := r.URL.Path
+			token = strings.TrimPrefix(path, "/passReset/token=")
 
-		if res == mongo.ErrNoDocuments { //Row/document not found
-			model.PopUpCause = "passTokenInvalid"
-			http.Redirect(w, r, "/", http.StatusSeeOther)
-			return
-		}
-		//found a row/document
+			//getting data for this user from DB
+			var userData model.UserData
+			res := userCollection.FindOne(ctx, bson.M{"passResetToken": token}).Decode(&userData)
 
-		//checking for token expired or not
-		tokenReceived := time.Now().Unix() //current time
-		timeDiff := model.Abs(tokenReceived - userData.PassResetTokenSentAt)
+			if res == mongo.ErrNoDocuments { //Row/document not found
+				model.PopUpCause = "passTokenInvalid"
+				http.Redirect(w, r, "/", http.StatusSeeOther)
+				return
+			}
+			//found a row/document
 
-		if timeDiff > (30 * 60) { //30 minutes period
-			model.PopUpCause = "passTokenExpired"
-			http.Redirect(w, r, "/", http.StatusSeeOther)
-			return
+			//checking for token expired or not
+			tokenReceived := time.Now().Unix() //current time
+			timeDiff := model.Abs(tokenReceived - userData.PassResetTokenSentAt)
+
+			if timeDiff > (30 * 60) { //30 minutes period
+				model.PopUpCause = "passTokenExpired"
+				http.Redirect(w, r, "/", http.StatusSeeOther)
+				return
+			}
 		}
 
 		model.Info["Username"] = session.Values["username"]
@@ -151,14 +163,59 @@ func PassReset(w http.ResponseWriter, r *http.Request) {
 		model.Info["PageTitle"] = "Reset Password | AJudge"
 		model.Info["LastPage"] = model.LastPage
 		model.Info["Token"] = token
+		model.Info["Username"] = username
 
 		model.Tpl.ExecuteTemplate(w, "passReset.gohtml", model.Info)
 	} else if r.Method == "POST" {
+		username := ""
+
+		if session.Values["isLogin"] == true {
+			username = r.FormValue("username") // hidden
+
+			if username != session.Values["username"].(string) {
+				model.PopUpCause = "passUsernameErr"
+				http.Redirect(w, r, "/", http.StatusSeeOther)
+				return
+			}
+		} else {
+			token := r.FormValue("token") // hidden - send by us through email earlier
+
+			//getting data for this user from DB
+			var userData model.UserData
+			res := userCollection.FindOne(ctx, bson.M{"passResetToken": token}).Decode(&userData)
+
+			if res == mongo.ErrNoDocuments { //Row/document not found
+				model.PopUpCause = "passTokenInvalid"
+				http.Redirect(w, r, "/", http.StatusSeeOther)
+				return
+			}
+			//found a row/document
+
+			//checking for token expired or not
+			tokenReceived := time.Now().Unix() //current time
+			timeDiff := model.Abs(tokenReceived - userData.PassResetTokenSentAt)
+
+			if timeDiff > (30 * 60) { //30 minutes period
+				model.PopUpCause = "passTokenExpired"
+				http.Redirect(w, r, "/", http.StatusSeeOther)
+				return
+			}
+
+			username = userData.Username
+		}
+
 		//gettting form data
-		token := r.FormValue("token") //hidden - send by us through email earlier
 		password := html.EscapeString(r.FormValue("password"))
+		confirmPassword := html.EscapeString(r.FormValue("confirmPassword"))
 
 		// validating form data
+		if password != confirmPassword {
+			// msg: "password didn't match"
+
+			model.PopUpCause = "passwordResetMismatchErr"
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
 		if len(password) < 8 {
 			// msg: "password length should be at least 8 characters"
 
@@ -175,7 +232,7 @@ func PassReset(w http.ResponseWriter, r *http.Request) {
 				{Key: "password", Value: password},
 			}},
 		}
-		_, err := userCollection.UpdateOne(ctx, bson.M{"passResetToken": token}, updateField)
+		_, err := userCollection.UpdateOne(ctx, bson.M{"username": username}, updateField)
 		errorhandling.Check(err)
 
 		model.PopUpCause = "passwordReset"
@@ -183,7 +240,7 @@ func PassReset(w http.ResponseWriter, r *http.Request) {
 
 		// notofy to discord
 		disData := model.UserData{
-			Username: session.Values["username"].(string),
+			Username: username,
 		}
 		discord := discord.Init()
 		discord.SendMessage(disData, "resetPass")

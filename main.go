@@ -67,7 +67,7 @@ func main() {
 	r.PathPrefix("/profile").HandlerFunc(backend.Profile)
 
 	r.PathPrefix("/reset").HandlerFunc(backend.Reset)
-	r.PathPrefix("/passReset/token=").HandlerFunc(backend.PassReset)
+	r.PathPrefix("/passReset").HandlerFunc(backend.PassReset)
 
 	r.HandleFunc("/problem", backend.Problem)
 	r.PathPrefix("/problemView/").HandlerFunc(backend.ProblemView)
