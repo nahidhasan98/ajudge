@@ -17,22 +17,12 @@ type mailStruct struct {
 
 func (m mailStruct) SendMailForRegistration(email, username, link string) {
 	mailBody := prepareMailBody("verification", m.Tpl, email, username, link)
-
-	jobs := make(chan int, 5)
-	go sendWorker(jobs, email, mailBody, m)
-
-	jobs <- 1
-	close(jobs)
+	go sendWorker(email, mailBody)
 }
 
 func (m mailStruct) SendMailForPasswordReset(email, username, link string) {
 	mailBody := prepareMailBody("reset", m.Tpl, email, username, link)
-
-	jobs := make(chan int, 5)
-	go sendWorker(jobs, email, mailBody, m)
-
-	jobs <- 1
-	close(jobs)
+	go sendWorker(email, mailBody)
 }
 
 func prepareMailBody(what string, tpl *template.Template, email, username, link string) []byte {
