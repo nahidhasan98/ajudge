@@ -109,5 +109,5 @@ func main() {
 	fmt.Println("Local Server is running...")
 
 	// for localhost server
-	http.ListenAndServe(":8080", r)
+	http.ListenAndServe(":6001", r)
 }
