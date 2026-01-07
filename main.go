@@ -106,7 +106,7 @@ func main() {
 	r.NotFoundHandler = http.HandlerFunc(backend.PageNotFound)
 
 	// printing a message for displaying that local server is running
-	fmt.Println("Local Server is running...")
+	fmt.Println("Local Server is running on port 6001...")
 
 	// for localhost server
 	http.ListenAndServe(":6001", r)
