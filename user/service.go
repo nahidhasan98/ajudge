@@ -3,6 +3,7 @@ package user
 import (
 	"crypto/md5"
 	"crypto/rand"
+	"embed"
 	"encoding/hex"
 	"time"
 
@@ -18,6 +19,7 @@ type userInterfacer interface {
 }
 type user struct {
 	repoService repoInterfacer
+	frontendFS  embed.FS
 }
 
 func (u *user) AddUser(fullName, email, username, password string) (*UserModel, error) {
@@ -51,7 +53,7 @@ func (u *user) AddUser(fullName, email, username, password string) (*UserModel, 
 
 	// sending mail to user email with a verification link
 	verificationLink := "https://ajudge.net/verify-email/token=" + newToken
-	ms := mail.NewMailService()
+	ms := mail.NewMailService(u.frontendFS)
 	ms.SendMailForRegistration(email, username, verificationLink)
 
 	return userData, nil
@@ -84,8 +86,9 @@ func generateToken() string {
 	return hex.EncodeToString(hasher.Sum(nil))
 }
 
-func newUserService(repo repoInterfacer) userInterfacer {
+func newUserService(repo repoInterfacer, frontendFS embed.FS) userInterfacer {
 	return &user{
 		repoService: repo,
+		frontendFS:  frontendFS,
 	}
 }

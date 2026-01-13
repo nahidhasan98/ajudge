@@ -1,6 +1,7 @@
 package apr
 
 import (
+	"embed"
 	"encoding/json"
 	"net/http"
 	"text/template"
@@ -16,9 +17,9 @@ type handler struct {
 }
 
 // makeHTTPHandlers function defines endpoints
-func makeHTTPHandlers(router *mux.Router, aprService aprInterfacer) {
+func makeHTTPHandlers(router *mux.Router, aprService aprInterfacer, frontendFS embed.FS) {
 	h := &handler{
-		Tpl:        template.Must(template.ParseGlob("frontend/html/*")),
+		Tpl:        template.Must(template.ParseFS(frontendFS, "frontend/html/*")),
 		AprService: aprService,
 	}
 

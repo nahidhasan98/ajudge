@@ -1,6 +1,7 @@
 package model
 
 import (
+	"embed"
 	"html/template"
 	"net/http"
 	"net/http/cookiejar"
@@ -9,11 +10,12 @@ import (
 	"github.com/gorilla/sessions"
 )
 
-//Tpl variable
+// Tpl variable
 var Tpl *template.Template
 
-func init() {
-	Tpl = template.Must(template.ParseGlob("frontend/*/*"))
+// InitTemplates initializes the templates with embedded filesystem
+func InitTemplates(frontendFS embed.FS) {
+	Tpl = template.Must(template.ParseFS(frontendFS, "frontend/*/*"))
 }
 
 var (
@@ -63,14 +65,14 @@ var (
 	LanguagePack = make(map[string]string)
 )
 
-//ProblemList variable for holding problem Name,number etc.(collected from search result)
+// ProblemList variable for holding problem Name,number etc.(collected from search result)
 type ProblemList struct {
 	OJ    string `bson:"OJ"`
 	PNum  string `bson:"pNum"`
 	PName string `bson:"pName"`
 }
 
-//OJSet variable for clarifying total number of OJ
+// OJSet variable for clarifying total number of OJ
 var OJSet = map[string]bool{
 	"51Nod":         true,
 	"ACdream":       true,
@@ -117,7 +119,7 @@ var OJSet = map[string]bool{
 	"黑暗爆炸":          true,
 }
 
-//TerminalVerdict variable
+// TerminalVerdict variable
 var TerminalVerdict = map[string][]string{
 	"51Nod":         {"Accepted", "Wrong Answer", "Time Limit Exceed", "Memory Limit Exceed", "Runtime Error", "Compile Error"},
 	"ACdream":       {"Accepted", "Presentation Error", "Wrong Answer", "Time Limit Exceeded", "Memory Limit Exceeded", "Output Limit Exceeded", "Runtime Error", "Compilation Error"},
@@ -164,16 +166,16 @@ var TerminalVerdict = map[string][]string{
 	"黑暗爆炸":          {"Accepted", "Wrong Answer", "Dangerous Syscalls", "Time Limit Exceeded", "Checker Time Limit Exceeded", "Memory Limit Exceeded", "Runtime Error", "Compile Error"},
 }
 
-//Addition var for adding 2 int (used in go tmpl)
+// Addition var for adding 2 int (used in go tmpl)
 type Addition struct {
 }
 
-//Add func is a method of Addition struct/object
+// Add func is a method of Addition struct/object
 func (add Addition) Add(a, b int) int {
 	return a + b
 }
 
-//ProblemSet variable for holding problemset of a contest
+// ProblemSet variable for holding problemset of a contest
 type ProblemSet struct {
 	SerialIndex string `bson:"serialIndex"`
 	OJ          string `bson:"OJ"`
@@ -182,7 +184,7 @@ type ProblemSet struct {
 	CustomName  string `bson:"customName"`
 }
 
-//Clarification variable for holding clarification of a contest
+// Clarification variable for holding clarification of a contest
 type Clarification struct {
 	SerialIndex   string `bson:"serialIndex"`
 	RequesterName string `bson:"requesterName"`
@@ -194,7 +196,7 @@ type Clarification struct {
 	IsIgnored     bool   `bson:"isIgnored"`
 }
 
-//ContestData variable for holding data of a single contest
+// ContestData variable for holding data of a single contest
 type ContestData struct {
 	ContestID      int             `bson:"contestID"`
 	Title          string          `bson:"title"`
@@ -208,14 +210,14 @@ type ContestData struct {
 	Clarifications []Clarification `bson:"clarifications"`
 }
 
-//LastUsedID variable for holding the last ID used for user registration, problem submission & contest creation
+// LastUsedID variable for holding the last ID used for user registration, problem submission & contest creation
 type LastUsedID struct {
 	LastUserID       int `bson:"lastUserID"`
 	LastSubmissionID int `bson:"lastSubmissionID"`
 	LastContestID    int `bson:"lastContestID"`
 }
 
-//SubmissionData variable for holding a single submission details
+// SubmissionData variable for holding a single submission details
 type SubmissionData struct {
 	SubID           int    `bson:"subID"`
 	Username        string `bson:"username"`
@@ -234,7 +236,7 @@ type SubmissionData struct {
 	SerialIndex     string `bson:"serialIndex"`
 }
 
-//UserData variable for holding a single user details
+// UserData variable for holding a single user details
 type UserData struct {
 	UserID               int    `bson:"userID"`
 	FullName             string `bson:"fullName"`
@@ -250,7 +252,7 @@ type UserData struct {
 	TotalSolved          int    `bson:"totalSolved"`
 }
 
-//FeedbackData variable for holding a feedback details
+// FeedbackData variable for holding a feedback details
 type FeedbackData struct {
 	Name    string `bson:"name"`
 	Email   string `bson:"email"`

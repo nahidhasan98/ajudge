@@ -1,7 +1,9 @@
 package main
 
 import (
+	"embed"
 	"fmt"
+	"io/fs"
 	"net/http"
 	"time"
 
@@ -16,6 +18,12 @@ import (
 	"github.com/nahidhasan98/ajudge/vault"
 	discordtexthook "github.com/nahidhasan98/discord-text-hook"
 )
+
+//go:embed assets
+var assetsFS embed.FS
+
+//go:embed frontend
+var frontendFS embed.FS
 
 func logMe(r *http.Request) {
 	session, _ := model.Store.Get(r, "mysession")
@@ -42,6 +50,9 @@ func loggingMiddlewareTemp(next http.Handler) http.Handler {
 }
 
 func main() {
+	// Initialize templates with embedded filesystem
+	model.InitTemplates(frontendFS)
+
 	// using Gorilla mux router
 	r := mux.NewRouter()
 
@@ -49,8 +60,8 @@ func main() {
 	r.Use(loggingMiddlewareTemp)
 
 	auth.Init(r)
-	user.Init(r)
-	apr.Init(r)
+	user.Init(r, frontendFS)
+	apr.Init(r, frontendFS)
 	rank.Init(r)
 
 	// for serving perspective pages
@@ -100,7 +111,8 @@ func main() {
 	r.HandleFunc("/test", backend.Test)
 
 	// for serving images, javascripts & css files
-	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
+	assetsSubFS, _ := fs.Sub(assetsFS, "assets")
+	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.FS(assetsSubFS))))
 
 	// A Custom Page Not Found route
 	r.NotFoundHandler = http.HandlerFunc(backend.PageNotFound)

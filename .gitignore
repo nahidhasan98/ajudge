@@ -9,6 +9,7 @@
 
 # binary file (linux)
 ajudge
+bin/ajudge
 
 # log files
 /log/*

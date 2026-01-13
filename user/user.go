@@ -1,10 +1,14 @@
 package user
 
-import "github.com/gorilla/mux"
+import (
+	"embed"
 
-func Init(router *mux.Router) userInterfacer {
+	"github.com/gorilla/mux"
+)
+
+func Init(router *mux.Router, frontendFS embed.FS) userInterfacer {
 	repo := newRepository()
-	userService := newUserService(repo)
+	userService := newUserService(repo, frontendFS)
 	makeHTTPHandlers(router, userService)
 
 	return userService

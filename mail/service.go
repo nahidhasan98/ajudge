@@ -2,6 +2,7 @@ package mail
 
 import (
 	"bytes"
+	"embed"
 	"fmt"
 	"text/template"
 )
@@ -62,8 +63,8 @@ func prepareMailBody(what string, tpl *template.Template, email, username, link 
 	return body.Bytes()
 }
 
-func NewMailService() mailInterfacer {
+func NewMailService(frontendFS embed.FS) mailInterfacer {
 	return &mailStruct{
-		Tpl: template.Must(template.ParseGlob("frontend/html/mail.gohtml")),
+		Tpl: template.Must(template.ParseFS(frontendFS, "frontend/html/mail.gohtml")),
 	}
 }
